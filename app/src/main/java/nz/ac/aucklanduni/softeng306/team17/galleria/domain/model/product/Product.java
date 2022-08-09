@@ -5,8 +5,9 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.DomainModel;
 
-public abstract class Product {
+public abstract class Product implements DomainModel {
 
     /**
      * Unique identifier for the product.
