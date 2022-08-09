@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 
 import android.view.Menu;
