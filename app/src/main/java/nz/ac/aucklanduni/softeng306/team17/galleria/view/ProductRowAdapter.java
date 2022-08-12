@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -34,7 +32,9 @@ public class ProductRowAdapter extends RecyclerView.Adapter<ProductRowAdapter.Pr
         productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
         productViewHolder.productName.setText(productInfoDto.getName());
         productViewHolder.productDescription.setText((productInfoDto.getTagline()));
-        productViewHolder.productPrice.setText(productInfoDto.getPriceString());
+
+        String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
+        productViewHolder.productPrice.setText(priceString);
     }
 
     @NonNull
@@ -68,8 +68,8 @@ public class ProductRowAdapter extends RecyclerView.Adapter<ProductRowAdapter.Pr
         @Override
         public void onClick(View v) {
             // What to do when the view item is clicked
-            ProductInfoDto clickedProduct = mProducts.get(getAdapterPosition());
-            Toast.makeText(mContext, clickedProduct.getName() + " is clicked in position " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            ProductInfoDto clickedProduct = mProducts.get(getAbsoluteAdapterPosition());
+            Toast.makeText(mContext, clickedProduct.getName() + " is clicked in position " + getAbsoluteAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
 
     }

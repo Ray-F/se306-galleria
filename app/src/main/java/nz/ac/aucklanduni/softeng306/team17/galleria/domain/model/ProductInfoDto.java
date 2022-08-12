@@ -43,11 +43,11 @@ public class ProductInfoDto {
         this.tagline = tagline;
     }
 
-    public CurrencyCode getCurrenyCode() {
+    public CurrencyCode getCurrencyCode() {
         return currencyCode;
     }
 
-    public void setCurrenyCode(CurrencyCode currencyCode) {
+    public void setCurrencyCode(CurrencyCode currencyCode) {
         this.currencyCode = currencyCode;
     }
 
@@ -57,10 +57,6 @@ public class ProductInfoDto {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getPriceString() {
-        return Float.toString(this.price) + this.currencyCode.toString();
     }
 
     public int getHeroImage() {
