@@ -3,7 +3,7 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model;
 /**
  * An end user in our system.
  */
-public class User {
+public class User implements DomainModel {
 
     /**
      * Unique ID of the user in our system.
