@@ -10,7 +10,13 @@ public class ProductInfoDto {
     private int heroImage;
 
 
-    public ProductInfoDto() {
+    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, int heroImage) {
+        this.id = id;
+        this.name = name;
+        this.tagline = tagline;
+        this.currencyCode = currencyCode;
+        this.price = price;
+        this.heroImage = heroImage;
     }
 
     public String getId() {
