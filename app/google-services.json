@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "741269418008",
+    "project_id": "softeng306-g17",
+    "storage_bucket": "softeng306-g17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741269418008:android:f644641e90ab337dd8936d",
+        "android_client_info": {
+          "package_name": "nz.ac.aucklanduni.softeng306.team17.galleria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741269418008-1e1ckced9sjcvlt5sb2v976f64hiet3r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrFkhEUx-9q8lLy8qSbtrV0xGW0oIeyiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741269418008-1e1ckced9sjcvlt5sb2v976f64hiet3r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
