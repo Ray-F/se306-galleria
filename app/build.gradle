@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    
+
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:24.0.0'
     // Import the Firebase BoM

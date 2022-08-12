@@ -31,7 +31,7 @@ public class ProductRowAdapter extends RecyclerView.Adapter<ProductRowAdapter.Pr
     public void onBindViewHolder(@NonNull ProductRowAdapter.ProductViewHolder holder, int position) {
         final ProductViewHolder productViewHolder = (ProductViewHolder) holder;
         ProductInfoDto productInfoDto = mProducts.get(position);
-        productViewHolder.productImage.setImageResource(R.drawable.testRaccoon);
+        productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
         productViewHolder.productName.setText(productInfoDto.getName());
         productViewHolder.productDescription.setText((productInfoDto.getTagline()));
         productViewHolder.productPrice.setText(productInfoDto.getPriceString());

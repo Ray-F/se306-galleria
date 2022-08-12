@@ -26,9 +26,9 @@ public class DataProvider {
             Random random = new Random();
             int image;
             if (random.nextBoolean()) {
-                image = R.drawable.testMatcha;
+                image = R.drawable.test_matcha;
             } else {
-                image = R.drawable.testRaccoon;
+                image = R.drawable.test_raccoon;
             }
 
             ProductInfoDto fakeProduct = new ProductInfoDto(Integer.toString(i), productNames[i], tagline, currency, price, image);
