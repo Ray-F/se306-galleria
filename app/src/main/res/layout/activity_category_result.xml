@@ -31,12 +31,22 @@
             android:layout_width="match_parent"
             android:background="@color/mediumShadeGreen"
             >
+
+            <ImageView
+                android:id="@+id/SortIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/filter_icon"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="15dp"></ImageView>
+
             <TextView
                 style="@style/GreenPalette"
-                android:layout_width="60dp"
+                android:id="@+id/SortFilterText"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Sort"
+                android:text="Sort By: "
                 android:textSize="20sp"></TextView>
 
         </LinearLayout>

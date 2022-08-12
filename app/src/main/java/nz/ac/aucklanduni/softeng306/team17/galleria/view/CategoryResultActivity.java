@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -18,11 +20,27 @@ public class CategoryResultActivity extends AppCompatActivity {
     ArrayList<ProductInfoDto> products;
     ProductRowAdapter adapter;
     RecyclerView rvProducts;
+    TextView filterText;
+    ImageView sortFilterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_result);
+
+        // Set default sort filter setting
+        filterText = (TextView) findViewById(R.id.SortFilterText);
+        filterText.setText("Sort By: New");
+        sortFilterButton = (ImageView) findViewById(R.id.SortIcon);
+
+
+        sortFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Functionality goes here later;
+                filterText.setText("Sort By: Price");
+            }
+        });
 
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
 
@@ -35,6 +53,8 @@ public class CategoryResultActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvProducts.setLayoutManager(layoutManager);
     }
+
+
 
 
 
