@@ -28,19 +28,19 @@ public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
-        final ProductViewHolder productViewHolder = (ProductViewHolder) holder;
         ProductInfoDto productInfoDto = mProducts.get(position);
 
         if (mIsListViewEnabled) {
+            ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
             String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
             productViewHolder.productPrice.setText(priceString);
         } else {
-            productGridViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
-            productGridViewHolder.productName.setText(productInfoDto.getName());
+            ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
+            productGridViewHolder.productImageGrid.setImageResource(productInfoDto.getHeroImage());
+            productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
     }
 
@@ -60,14 +60,18 @@ public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public void setLayoutMode(boolean layoutMode) {
-        mIsListViewEnabled = layoutMode;
+    public void toggleDisplayLayoutMode() {
+        mIsListViewEnabled = !mIsListViewEnabled;
         notifyDataSetChanged();
+    }
+
+    public Boolean getmIsListViewEnabled() {
+        return mIsListViewEnabled;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mIsListViewEnabled ? R.layout.product_grid : R.layout.product_row;
+        return mIsListViewEnabled ? R.layout.product_row : R.layout.product_grid;
     }
 
     @Override
@@ -99,13 +103,13 @@ public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class ProductGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView productImage;
-        TextView productName;
+        ImageView productImageGrid;
+        TextView productNameGrid;
 
         public ProductGridViewHolder(View inputView) {
             super(inputView);
-            productImage = inputView.findViewById(R.id.ProductImageGrid);
-            productName = inputView.findViewById(R.id.ProductNameGrid);
+            productImageGrid = inputView.findViewById(R.id.ProductImageGrid);
+            productNameGrid = inputView.findViewById(R.id.ProductNameGrid);
         }
 
         @Override
