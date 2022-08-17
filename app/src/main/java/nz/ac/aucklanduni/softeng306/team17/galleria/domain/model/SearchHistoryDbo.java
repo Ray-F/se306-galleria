@@ -1,8 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model;
 
-import java.util.list;
 
-public class SearchHistoryDbo() {
+public class SearchHistoryDbo {
     private String id;
     private String name;
     private String searchTerm;
@@ -13,27 +12,27 @@ public class SearchHistoryDbo() {
         this.searchTerm = searchTerm;
     }
 
-    public getId() { 
+    public String getId() {
         return id;
     }
 
-    public setId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public getName() {
+    public String getName() {
         return name;
     }
 
-    public setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public getSearchTerm() {
+    public String getSearchTerm() {
         return searchTerm;
     }
 
-    public setSearchTerm(String searchTerm) { 
+    public void setSearchTerm(String searchTerm) {
         this.searchTerm = searchTerm;
     }
 }
