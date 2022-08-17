@@ -3,12 +3,7 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +14,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductRepository;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductRowAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductAdapter;
 
 public class DataProvider {
 
@@ -50,7 +45,7 @@ public class DataProvider {
         return products;
     }
 
-    public static List<ProductInfoDto> generateDataLive(QueryCompleteListener<List<ProductInfoDto>> onQueryCompleteListener, ProductRowAdapter adapter) {
+    public static List<ProductInfoDto> generateDataLive(QueryCompleteListener<List<ProductInfoDto>> onQueryCompleteListener, ProductAdapter adapter) {
         ProductRepository productRepository = new ProductRepository();
         ArrayList<ProductInfoDto> products = new ArrayList<ProductInfoDto>();
         productRepository.getProducts()

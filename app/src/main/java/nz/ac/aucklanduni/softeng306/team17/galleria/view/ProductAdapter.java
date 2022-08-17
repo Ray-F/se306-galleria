@@ -16,17 +16,17 @@ import java.util.List;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
-public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List <ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
-    public ProductRowAdapter() {
+    public ProductAdapter() {
 
     }
 
-    public ProductRowAdapter(List<ProductInfoDto> products) {
+    public ProductAdapter(List<ProductInfoDto> products) {
         this.mProducts = products;
     }
 

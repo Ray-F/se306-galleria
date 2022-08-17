@@ -21,7 +21,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 public class CategoryResultActivity extends AppCompatActivity {
 
     List<ProductInfoDto> products;
-    ProductRowAdapter adapter;
+    ProductAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
     ImageView sortFilterButton;
@@ -42,10 +42,10 @@ public class CategoryResultActivity extends AppCompatActivity {
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
 
         //Initialize Data
-        adapter = new ProductRowAdapter();
+        adapter = new ProductAdapter();
         products = DataProvider.generateDataLive(new QueryCompleteListener<List<ProductInfoDto>>() {
             @Override
-            public void onComplete(List<ProductInfoDto> complete, ProductRowAdapter adapter) {
+            public void onComplete(List<ProductInfoDto> complete, ProductAdapter adapter) {
                 adapter.notifyDataSetChanged();
                 return;
             }
