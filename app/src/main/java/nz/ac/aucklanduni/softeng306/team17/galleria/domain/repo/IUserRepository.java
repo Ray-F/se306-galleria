@@ -9,4 +9,6 @@ public interface IUserRepository extends IRepository<User> {
 
     User getByEmail(String email);
 
+    public List<Product> getProductsByUser(String userId) {
+    }
 }
