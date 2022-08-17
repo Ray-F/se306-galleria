@@ -17,13 +17,14 @@ public class ProductUseCase {
     private final AbstractProductRepository productRepo; 
     private final IUserRepository userRepo;
 
-    public ProductUseCase() {
-
+    public ProductUseCase(AbstractProductRepository productRepo, IUserRepository userRepo) {
+        this.productRepo = productRepo;
+        this.userRepo = userRepo;
     }
 }
 /**
  * Returns the product by the id provided.
  */
-public List<Product> getProductById(String id) {
-    return new ArrayList<>(productRepo.getProductById(id));
+public String getProductById(String id) {
+    return productRepo.getProductById(id);
 }
