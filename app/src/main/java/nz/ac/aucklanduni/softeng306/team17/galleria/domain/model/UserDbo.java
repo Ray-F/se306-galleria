@@ -1,8 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model;
 
-import java.util.list;
-
-public class UserDbo() {
+public class UserDbo {
     private String id;
     private String name;
     private String email;
@@ -13,27 +11,27 @@ public class UserDbo() {
         this.email = email;
     }
 
-    public getId() { 
+    public String getId() {
         return id;
     }
 
-    public setId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public getName() {
+    public String getName() {
         return name;
     }
 
-    public setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public setEmail(String email) { 
+    public void setEmail(String email) {
         this.email = email;
     }
 }

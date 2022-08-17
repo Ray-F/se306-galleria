@@ -1,8 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model;
 
-import java.util.list;
-
-public class ImageDbo() {
+public class ImageDbo {
     private String object;
     private String caption;
     private String credit;
@@ -13,27 +11,27 @@ public class ImageDbo() {
         this.credit = credit;
     }
 
-    public getObject() { 
+    public String getObject() {
         return object;
     }
 
-    public setObject(String object) {
+    public void setObject(String object) {
         this.object = object;
     }
 
-    public getCaption() {
+    public String getCaption() {
         return caption;
     }
 
-    public setCaption(String caption) {
+    public void setCaption(String caption) {
         this.caption = caption;
     }
 
-    public getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public setCredit(String credit) { 
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 }
