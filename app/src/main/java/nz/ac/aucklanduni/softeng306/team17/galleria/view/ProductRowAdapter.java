@@ -22,7 +22,15 @@ public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     List <ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
+    public ProductRowAdapter() {
+
+    }
+
     public ProductRowAdapter(List<ProductInfoDto> products) {
+        this.mProducts = products;
+    }
+
+    public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
     }
 

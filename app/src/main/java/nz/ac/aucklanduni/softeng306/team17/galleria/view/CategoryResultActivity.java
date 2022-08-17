@@ -11,15 +11,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.data.DataProvider;
+import nz.ac.aucklanduni.softeng306.team17.galleria.data.QueryCompleteListener;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
 public class CategoryResultActivity extends AppCompatActivity {
 
-    ArrayList<ProductInfoDto> products;
+    List<ProductInfoDto> products;
     ProductRowAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
@@ -41,9 +42,16 @@ public class CategoryResultActivity extends AppCompatActivity {
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
 
         //Initialize Data
-        products = DataProvider.generateData();
+        adapter = new ProductRowAdapter();
+        products = DataProvider.generateDataLive(new QueryCompleteListener<List<ProductInfoDto>>() {
+            @Override
+            public void onComplete(List<ProductInfoDto> complete, ProductRowAdapter adapter) {
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }, adapter);
 
-        adapter = new ProductRowAdapter(products);
+        adapter.setProducts(products);
         rvProducts.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
