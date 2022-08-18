@@ -20,7 +20,7 @@ public abstract class AbstractProductRepository extends ICachedRepository<Produc
     /**
      * List the top "limit" elements sorted by their rating (high to low).
      */
-    public abstract List<Product> listSortByRating(int limit);
+    public abstract List<Product>listSortByRating(int limit);
 
     /**
      * List all products that belong to a category.
