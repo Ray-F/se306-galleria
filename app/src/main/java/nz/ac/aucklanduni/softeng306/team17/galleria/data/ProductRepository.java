@@ -95,7 +95,7 @@ public class ProductRepository implements IProductRepository {
         dbo.id = docRef.getId();
         Product createdProduct = dbo.toModel();
 
-        docRef.set(dbo).getResult();
+        docRef.set(dbo);
 
         return createdProduct;
     }

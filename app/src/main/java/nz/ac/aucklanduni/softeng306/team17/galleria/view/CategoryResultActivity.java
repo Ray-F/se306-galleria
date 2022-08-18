@@ -38,11 +38,13 @@ public class CategoryResultActivity extends AppCompatActivity {
         adapter = new ProductAdapter();
 
         // savedInstanceState.getParcelable("category")
-        Category category = Category.ALBUM;
+        Category category = Category.PHOTOGRAPHIC;
 
         viewModel.getProducts(category)
                 .observe(this, data -> {
+                    System.out.println("When does this change!");
                     adapter.setProducts(data);
+                    adapter.notifyDataSetChanged();
                 });
 
         // Set default sort filter setting

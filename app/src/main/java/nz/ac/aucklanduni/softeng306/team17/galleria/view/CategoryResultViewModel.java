@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
-import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 
@@ -30,7 +27,7 @@ public class CategoryResultViewModel extends ViewModel {
             System.out.print(productsFromRepo);
             products.setValue(productsFromRepo.stream().map(it -> {
                 return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                          it.getCurrency(), it.getPrice(), R.drawable.test_raccoon);
+                                          it.getCurrency(), it.getPrice(), it.getHeroImage());
             }).collect(Collectors.toList()));
         });
 

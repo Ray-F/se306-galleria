@@ -26,10 +26,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mProducts = new ArrayList<>();
     }
 
-    public ProductAdapter(List<ProductInfoDto> products) {
-        this.mProducts = products;
-    }
-
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
     }
@@ -40,14 +36,14 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if (mIsListViewEnabled) {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
-            productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
+            productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
             String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
             productViewHolder.productPrice.setText(priceString);
         } else {
             ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
-            productGridViewHolder.productImageGrid.setImageResource(productInfoDto.getHeroImage());
+            productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
     }

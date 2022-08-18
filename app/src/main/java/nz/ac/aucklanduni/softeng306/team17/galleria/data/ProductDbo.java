@@ -1,9 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
-import android.util.Base64;
-
-import java.io.File;
-import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +29,7 @@ public class ProductDbo {
     public String backgroundColor;
     public float rating;
     public int views;
-    public int stockLevel;
+    public int stock;
     public int totalReviews;
 
     public Category category;
@@ -42,7 +39,7 @@ public class ProductDbo {
     public String albumCreator;
 
     // For Firestore mapping
-//    public ProductDbo() {};
+    public ProductDbo() {};
 
     private ProductDbo(String id, String name, String tagline, String description, String heroImage, List<String> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String photographicCamera, String paintingArtist, String aiGenerationPhrase, String albumCreator) {
         this.id = id;
@@ -56,7 +53,7 @@ public class ProductDbo {
         this.backgroundColor = backgroundColor;
         this.rating = rating;
         this.views = views;
-        this.stockLevel = stockLevel;
+        this.stock = stockLevel;
         this.totalReviews = totalReviews;
         this.category = category;
         this.photographicCamera = photographicCamera;
@@ -66,28 +63,28 @@ public class ProductDbo {
     }
 
     public Product toModel() {
-        byte[] heroImage = Base64.decode(this.heroImage, Base64.DEFAULT);
+        byte[] heroImage = Base64.getDecoder().decode(this.heroImage);
         List<byte[]> otherImages = this.otherImages.stream()
-                .map((it) -> Base64.decode(it, Base64.DEFAULT))
+                .map((it) -> Base64.getDecoder().decode(it))
                 .collect(Collectors.toList());
 
         switch (category) {
             case AI:
                 return new AIArt(id, name, tagline, description, heroImage, otherImages, price,
-                                 currency, backgroundColor, rating, views, stockLevel, totalReviews,
+                                 currency, backgroundColor, rating, views, stock, totalReviews,
                                  category, aiGenerationPhrase);
             case PAINTING:
                 return new PaintingArt(id, name, tagline, description, heroImage, otherImages, price,
-                                       currency, backgroundColor, rating, views, stockLevel, totalReviews,
+                                       currency, backgroundColor, rating, views, stock, totalReviews,
                                        category, paintingArtist);
             case ALBUM:
 
                 return new AlbumArt(id, name, tagline, description, heroImage, otherImages, price,
-                                    currency, backgroundColor, rating, views, stockLevel, totalReviews,
+                                    currency, backgroundColor, rating, views, stock, totalReviews,
                                     category, albumCreator);
             case PHOTOGRAPHIC:
                 return new PhotographicArt(id, name, tagline, description, heroImage, otherImages, price,
-                                           currency, backgroundColor, rating, views, stockLevel, totalReviews,
+                                           currency, backgroundColor, rating, views, stock, totalReviews,
                                            category, photographicCamera);
             default:
                 throw new IllegalArgumentException("Category " + category + " not yet implemented!");
@@ -117,8 +114,8 @@ public class ProductDbo {
         }
 
         return new ProductDbo(product.getId(), product.getName(), product.getTagline(), product.getDesc(),
-                              Base64.encodeToString(product.getHeroImage(), Base64.DEFAULT),
-                              product.getOtherImages().stream().map((it) -> Base64.encodeToString(it, Base64.DEFAULT)).collect(Collectors.toList()),
+                              Base64.getEncoder().encodeToString(product.getHeroImage()),
+                              product.getOtherImages().stream().map((it) -> Base64.getEncoder().encodeToString(it)).collect(Collectors.toList()),
                               product.getPrice(), product.getCurrency(), product.getBackgroundColor(),
                               product.getRating(), product.getViews(), product.getStockLevel(), product.getTotalReviews(), product.getCategory(),
                               photographicCamera, paintingArtist, aiGenerationPhrase, albumCreator);

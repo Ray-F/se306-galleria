@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
 import io.reactivex.rxjava3.core.Single;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
@@ -44,7 +42,6 @@ public class UserRepository implements IUserRepository {
         return Single.create(emitter -> emitter.onSuccess(new ArrayList<>()));
     }
 
-    @Inject
     @Override
     public Single<List<User>> listAll() {
         return Single.create(emitter -> {
