@@ -1,4 +1,6 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 
 public class ProductInfoDto {
 

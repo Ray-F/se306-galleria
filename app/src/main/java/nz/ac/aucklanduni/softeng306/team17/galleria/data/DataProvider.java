@@ -1,20 +1,20 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
 
-import android.util.Log;
-
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductInfoDto;
 
 public class DataProvider {
 
@@ -46,33 +46,31 @@ public class DataProvider {
     }
 
     public static List<ProductInfoDto> generateDataLive(QueryCompleteListener<List<ProductInfoDto>> onQueryCompleteListener, ProductAdapter adapter) {
-        ProductRepository productRepository = new ProductRepository();
-        ArrayList<ProductInfoDto> products = new ArrayList<ProductInfoDto>();
-        productRepository.getProducts()
-                .get()
-                .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+        ProductRepository productRepository = new ProductRepository(FirebaseFirestore.getInstance());
 
-                                Map<String, Object> data = document.getData();
-                                String id = data.get("id").toString();
-                                String productName = data.get("name").toString();
-                                String tagline = data.get("tagline").toString();
-                                CurrencyCode currency = CurrencyCode.USD;
-                                float price = Float.parseFloat(data.get("price").toString());
-                                int image = R.drawable.test_raccoon;
+//        new Thread(() -> {
+//
+//            onQueryCompleteListener.onComplete(
+//                    productRepository.listAll().stream().map((it -> {
+//                        int image = R.drawable.test_raccoon;
+//                        return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(), it.getCurrency(), it.getPrice(), image);
+//                    })).collect(Collectors.toList()),
+//                    adapter
+//            );
+//        }).start();
 
-                                products.add(new ProductInfoDto(id, productName, tagline, currency, price, image));
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                        onQueryCompleteListener.onComplete(products, adapter);
-                });
+//        TaskCompletionSource<List<ProductInfoDto>> t = new TaskCompletionSource<>();
+//        t.setResult(productRepository.listAll().stream().map((it -> {
+//            int image = R.drawable.test_raccoon;
+//            return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(), it.getCurrency(), it.getPrice(), image);
+//        })).collect(Collectors.toList()));
+//
+//        t.getTask().addOnCompleteListener((task) -> {
+//            List<ProductInfoDto> products = task.getResult();
+//            onQueryCompleteListener.onComplete(products, adapter);
+//        });
 
-        return products;
-
+        return new ArrayList<>();
     }
 
 }

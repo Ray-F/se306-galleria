@@ -10,7 +10,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.util.TrieNode;
 /**
  * The domain model to improve searching efficiency on all database terms.
  */
-public class SearchAutocompleteTerms implements DomainModel {
+public class SearchAutocompleteTerms {
 
     /**
      * The underlying data structure behind getting autocomplete terms.

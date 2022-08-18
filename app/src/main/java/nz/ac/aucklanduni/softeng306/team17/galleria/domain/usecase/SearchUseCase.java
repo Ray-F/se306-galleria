@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.SearchAutocompleteTerms;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.AbstractProductRepository;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IProductRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.ISearchRepository;
 
 /**
@@ -19,9 +19,10 @@ public class SearchUseCase {
 
     private final ISearchRepository searchRepo;
     private final SearchAutocompleteTerms searchTerms;
-    private final AbstractProductRepository productRepo;
+    private final IProductRepository productRepo;
 
-    public SearchUseCase(ISearchRepository searchRepo, AbstractProductRepository productRepo) {
+
+    public SearchUseCase(ISearchRepository searchRepo, IProductRepository productRepo) {
         // Get past searches and add these to the model
         searchTerms = searchRepo.get();
 

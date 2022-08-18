@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
 public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

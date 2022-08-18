@@ -16,8 +16,7 @@ public class AIArt extends Product {
      */
     private String generationPhrase;
 
-
-    public AIArt(String id, String name, String tagline, String desc, File heroImage, List<File> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String generationPhrase) {
+    public AIArt(String id, String name, String tagline, String desc, byte[] heroImage, List<byte[]> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String generationPhrase) {
         super(id, name, tagline, desc, heroImage, otherImages, price, currency, backgroundColor, rating, views, stockLevel, totalReviews, category);
         this.generationPhrase = generationPhrase;
     }

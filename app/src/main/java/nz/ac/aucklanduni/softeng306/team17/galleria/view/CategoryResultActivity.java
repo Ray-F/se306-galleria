@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.data.DataProvider;
+import nz.ac.aucklanduni.softeng306.team17.galleria.data.ProductRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.data.QueryCompleteListener;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
 public class CategoryResultActivity extends AppCompatActivity {
 
