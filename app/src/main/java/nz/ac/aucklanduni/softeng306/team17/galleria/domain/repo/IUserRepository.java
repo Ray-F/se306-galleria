@@ -12,5 +12,5 @@ public interface IUserRepository extends IRepository<User> {
 
     Single<User> getByEmail(String email);
 
-    public Single<List<String>> getProductsByUser(String userId);
+    Single<List<String>> getProductsByUser(String userId);
 }

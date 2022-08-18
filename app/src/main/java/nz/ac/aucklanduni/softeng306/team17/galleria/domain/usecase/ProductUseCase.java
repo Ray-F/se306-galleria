@@ -25,7 +25,7 @@ public class ProductUseCase {
     /**
      * @return the products by id.
      */
-    public Product getProductById(String id) {
+    public Single<Product> getProductById(String id) {
         return productRepo.get(id);
     }
 

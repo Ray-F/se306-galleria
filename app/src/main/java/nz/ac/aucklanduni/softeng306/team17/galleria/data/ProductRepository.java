@@ -62,14 +62,19 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public Product get(String id) {
-        DocumentSnapshot doc = productsCollection.document(id).get().getResult();
+    public Single<Product> get(String id) {
+        return Single.create(emitter -> {
+            productsCollection.document(id).get()
+                    .addOnSuccessListener((doc) -> {
+                        if (doc.exists()) {
+                            Product product = Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
+                            emitter.onSuccess(product);
+                        }
 
-        if (doc.exists()) {
-            return Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
-        } else {
-            return null;
-        }
+                        emitter.onSuccess(null);
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
     }
 
     @Override

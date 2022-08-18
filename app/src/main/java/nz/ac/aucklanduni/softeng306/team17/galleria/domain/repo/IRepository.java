@@ -13,7 +13,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product
  */
 interface IRepository<T extends DomainModel> {
 
-    T get(String id);
+    Single<T> get(String id);
 
     Single<List<T>> listAll();
 

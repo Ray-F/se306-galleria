@@ -4,7 +4,7 @@
     package="nz.ac.aucklanduni.softeng306.team17.galleria">
 
     <application
-        android:name="nz.ac.aucklanduni.softeng306.team17.GalleriaApplication"
+        android:name=".GalleriaApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

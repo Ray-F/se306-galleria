@@ -26,14 +26,19 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User get(String id) {
-        DocumentSnapshot doc = usersCollection.document(id).get().getResult();
+    public Single<User> get(String id) {
+        return Single.create(emitter -> {
+            usersCollection.document(id).get()
+                    .addOnSuccessListener((doc) -> {
+                        if (doc.exists()) {
+                            User user = Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
+                            emitter.onSuccess(user);
+                        }
 
-        // Return new user if it exists
-        if (doc.exists()) return Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
-
-        // Return null if user does not exist
-        return null;
+                        emitter.onSuccess(null);
+                    })
+                    .addOnFailureListener(System.out::println);
+        });
     }
 
     // TODO: Complete this method with the associated changes to DBO for saved users
@@ -65,10 +70,7 @@ public class UserRepository implements IUserRepository {
         dbo.id = docRef.getId();
         User createdUser = dbo.toModel();
 
-
-        docRef.set(dbo).addOnCompleteListener(res -> {
-            System.out.println("Finished saving " + item.getId() + " to the DB.");
-        });
+        docRef.set(dbo);
 
         return createdUser;
     }
