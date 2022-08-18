@@ -13,6 +13,7 @@ abstract class ICachedRepository<T extends DomainModel> implements IRepository<T
     /**
      * Returns the cached value associated with key.
      */
+    @Override
     public T get(String id) {
         T cached = cache.getOrDefault(id, null);
 
