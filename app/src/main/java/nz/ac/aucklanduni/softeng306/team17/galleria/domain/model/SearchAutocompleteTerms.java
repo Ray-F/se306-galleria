@@ -18,10 +18,8 @@ public class SearchAutocompleteTerms {
     private final TrieNode root;
 
 
-    public SearchAutocompleteTerms(Collection<String> words) {
+    public SearchAutocompleteTerms() {
         this.root = new TrieNode();
-
-        words.forEach(this.root::insert);
     }
 
     /**

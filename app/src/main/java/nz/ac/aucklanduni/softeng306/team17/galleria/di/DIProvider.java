@@ -9,8 +9,12 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IProductReposito
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.ISearchRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.CategoryResultViewModel;
 
+/**
+ * Dependency injection container for providing prebuilt classes.
+ */
 public class DIProvider {
 
     private final FirebaseFirestore firebaseClient = FirebaseFirestore.getInstance();
@@ -20,8 +24,9 @@ public class DIProvider {
     private ISearchRepository searchRepo = new SearchHistoryRepository(firebaseClient);
 
     private ProductUseCase productUseCase = new ProductUseCase(productRepo, userRepo);
+    private SearchUseCase searchUseCase = new SearchUseCase(searchRepo, productRepo);
 
-
+    /** Define {@link androidx.lifecycle.ViewModel}'s below here. */
     public CategoryResultViewModel categoryResultViewModel = new CategoryResultViewModel(productUseCase);
 
 }
