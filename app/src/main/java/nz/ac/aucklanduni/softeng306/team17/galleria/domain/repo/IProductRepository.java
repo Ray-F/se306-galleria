@@ -18,16 +18,15 @@ public interface IProductRepository extends IRepository<Product> {
      *
      * E.g. searching "ep" should return a product with name "Pepsi".
      */
-    List<Product> listSortByNameMatch(String nameMatch);
+    public List<Product> listSortByNameMatch(String nameMatch);
 
     /**
      * List the top "limit" elements sorted by their rating (high to low).
      */
-    Single<List<Product>> listSortByRating(int limit);
+    public List<Product>listSortByRating(int limit);
 
     /**
      * List all products that belong to a category.
      */
-    List<Product> listByCategory(Category category);
-
+    public List<Product> listByCategory(Category category);
 }
