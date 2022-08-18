@@ -21,7 +21,7 @@ public class ProductUseCase {
     }
 
     public List<Product> listAllProducts() {
-        return productRepo.listAll();
+         return productRepo.listAll();
     }
 
     public List<Product> listProductsByCategory(Category category) {
