@@ -41,6 +41,9 @@ public class ProductDbo {
     public String aiGenerationPhrase;
     public String albumCreator;
 
+    // For Firestore mapping
+//    public ProductDbo() {};
+
     private ProductDbo(String id, String name, String tagline, String description, String heroImage, List<String> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String photographicCamera, String paintingArtist, String aiGenerationPhrase, String albumCreator) {
         this.id = id;
         this.name = name;

@@ -2,7 +2,9 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.DomainModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 
 /**
  * Interface repository to define the data entrypoint for infrastructure.
@@ -13,7 +15,7 @@ interface IRepository<T extends DomainModel> {
 
     T get(String id);
 
-    List<T> listAll();
+    Single<List<T>> listAll();
 
     T create(T item);
 

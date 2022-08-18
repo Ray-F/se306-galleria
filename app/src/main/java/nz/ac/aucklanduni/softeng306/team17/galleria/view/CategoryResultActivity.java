@@ -11,19 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import nz.ac.aucklanduni.softeng306.team17.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.data.DataProvider;
-import nz.ac.aucklanduni.softeng306.team17.galleria.data.ProductRepository;
-import nz.ac.aucklanduni.softeng306.team17.galleria.data.QueryCompleteListener;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultActivity extends AppCompatActivity {
 
-    List<ProductInfoDto> products;
     ProductAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
@@ -31,10 +24,26 @@ public class CategoryResultActivity extends AppCompatActivity {
     ImageView viewTypeButton;
     Context localContext = this;
 
+    CategoryResultViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_result);
+
+        // Bind ViewModel
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
+
+
+        adapter = new ProductAdapter();
+
+        // savedInstanceState.getParcelable("category")
+        Category category = Category.ALBUM;
+
+        viewModel.getProducts(category)
+                .observe(this, data -> {
+                    adapter.setProducts(data);
+                });
 
         // Set default sort filter setting
         filterText = (TextView) findViewById(R.id.SortFilterText);
@@ -43,18 +52,6 @@ public class CategoryResultActivity extends AppCompatActivity {
         viewTypeButton = (ImageView) findViewById(R.id.ViewLayoutIcon);
 
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
-
-        //Initialize Data
-        adapter = new ProductAdapter();
-        products = DataProvider.generateDataLive(new QueryCompleteListener<List<ProductInfoDto>>() {
-            @Override
-            public void onComplete(List<ProductInfoDto> complete, ProductAdapter adapter) {
-                adapter.notifyDataSetChanged();
-                return;
-            }
-        }, adapter);
-
-        adapter.setProducts(products);
         rvProducts.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

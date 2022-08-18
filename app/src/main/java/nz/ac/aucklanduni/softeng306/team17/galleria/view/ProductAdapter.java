@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -18,11 +19,11 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
-    List <ProductInfoDto> mProducts;
+    List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
     public ProductAdapter() {
-
+        mProducts = new ArrayList<>();
     }
 
     public ProductAdapter(List<ProductInfoDto> products) {

@@ -1,28 +1,39 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
+import javax.inject.Inject;
+
+import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 
 public class CategoryResultViewModel extends ViewModel {
-    
-    public CategoryResultViewModel()
 
-    private LiveData<List<Product>> products;
+    private final ProductUseCase productUseCase;
 
-    public LiveData<List<Product>> getProducts() {
-        return
+    private MutableLiveData<List<ProductInfoDto>> products;
+
+    public CategoryResultViewModel(ProductUseCase productUseCase) {
+        this.productUseCase = productUseCase;
+
+        products = new MutableLiveData<>();
     }
 
-    public UserModel() {
-        // trigger user load.
-    }
+    public LiveData<List<ProductInfoDto>> getProducts(Category category) {
+        productUseCase.listProductsByCategory(category).subscribe(productsFromRepo -> {
+            System.out.print(productsFromRepo);
+            products.setValue(productsFromRepo.stream().map(it -> {
+                return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
+                                          it.getCurrency(), it.getPrice(), R.drawable.test_raccoon);
+            }).collect(Collectors.toList()));
+        });
 
-    void doAction() {
-        // depending on the action, do necessary business logic calls and update the
-        // userLiveData.
+        return products;
     }
 }

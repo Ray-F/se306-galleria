@@ -39,8 +39,12 @@ dependencies {
     // Add Firestore
     implementation 'com.google.firebase:firebase-firestore'
 
-    // Add RxJava for observable
+    // Add RxJava for observable/async data
     implementation "io.reactivex.rxjava3:rxjava:3.1.5"
+
+    // Add DI framework Dagger
+    implementation 'com.google.dagger:dagger:2.31.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.31.2'
 
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
@@ -52,3 +56,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

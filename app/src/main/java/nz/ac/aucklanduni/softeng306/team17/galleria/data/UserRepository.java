@@ -5,20 +5,26 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
+import io.reactivex.rxjava3.core.Single;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 
 public class UserRepository implements IUserRepository {
 
     private final CollectionReference usersCollection;
+    private final CollectionReference userSavedProductsCollection;
 
     public UserRepository(FirebaseFirestore firestoreClient) {
         super();
         this.usersCollection = firestoreClient.collection("Users");
+        this.userSavedProductsCollection = firestoreClient.collection("SavedProducts");
     }
 
     @Override
@@ -32,13 +38,25 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+    // TODO: Complete this method with the associated changes to DBO for saved users
     @Override
-    public List<User> listAll() {
-        List<DocumentSnapshot> docs = usersCollection.get().getResult().getDocuments();
+    public Single<List<String>> getProductsByUser(String userId) {
+        return Single.create(emitter -> emitter.onSuccess(new ArrayList<>()));
+    }
 
-        return docs.stream()
-                .map((it) -> Objects.requireNonNull(it.toObject(UserDbo.class)).toModel())
-                .collect(Collectors.toList());
+    @Inject
+    @Override
+    public Single<List<User>> listAll() {
+        return Single.create(emitter -> {
+            usersCollection.get()
+                    .addOnSuccessListener((res) -> {
+                        List<User> users = res.getDocuments().stream()
+                                .map((it) -> Objects.requireNonNull(it.toObject(UserDbo.class)).toModel())
+                                .collect(Collectors.toList());
+                        emitter.onSuccess(users);
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
     }
 
     @Override
@@ -50,20 +68,27 @@ public class UserRepository implements IUserRepository {
         dbo.id = docRef.getId();
         User createdUser = dbo.toModel();
 
-        docRef.set(dbo).getResult();
+
+        docRef.set(dbo).addOnCompleteListener(res -> {
+            System.out.println("Finished saving " + item.getId() + " to the DB.");
+        });
 
         return createdUser;
     }
 
     @Override
-    public User getByEmail(String email) {
-        List<DocumentSnapshot> docs = usersCollection.whereEqualTo(UserDbo.EMAIL_KEY, email)
-                .get().getResult().getDocuments();
-
-        if (docs.size() > 0) {
-            return Objects.requireNonNull(docs.get(0).toObject(UserDbo.class)).toModel();
-        }
-
-        return null;
+    public Single<User> getByEmail(String email) {
+        return Single.create(emitter -> {
+            usersCollection.whereEqualTo(UserDbo.EMAIL_KEY, email).get()
+                    .addOnSuccessListener(res -> {
+                        if (!res.getDocuments().isEmpty()) {
+                            User user = Objects.requireNonNull(res.getDocuments().get(0).toObject(UserDbo.class)).toModel();
+                            emitter.onSuccess(user);
+                        } else {
+                            emitter.onSuccess(null);
+                        }
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
     }
 }
