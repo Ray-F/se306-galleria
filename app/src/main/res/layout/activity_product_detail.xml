@@ -28,11 +28,43 @@
             tools:srcCompat="@tools:sample/avatars"
             android:background="@color/white"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageCircle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/first_image_button"
+                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+
+            <ImageButton
+                android:id="@+id/imageCircle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/second_image_button"
+                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+
+            <ImageButton
+                android:id="@+id/imageCircle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/third_image_button"
+                tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/ProductName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Stargazing"
             android:textColor="#000000"
@@ -40,7 +72,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/theReivewOfTheProduct"
+            android:id="@+id/theReviewOfTheProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -55,7 +87,7 @@
             android:layout_margin="16dp"
             android:text="Nepal has the most amazing starry skies I have ever seen. ⛰️✨ On a good night the sky is so clear that you can see the milky way bending over the horizon."
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/theReivewOfTheProduct" />
+            app:layout_constraintTop_toBottomOf="@id/theReviewOfTheProduct" />
 
     </com.google.android.material.appbar.AppBarLayout>
 </ScrollView>
