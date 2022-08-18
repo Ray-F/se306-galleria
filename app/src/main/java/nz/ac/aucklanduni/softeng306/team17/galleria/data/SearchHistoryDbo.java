@@ -5,5 +5,6 @@ public class SearchHistoryDbo {
     public String searchTerm;
     public String userId;
 
+    // Empty constructor required for Firestore mapping
     public SearchHistoryDbo() {}
 }

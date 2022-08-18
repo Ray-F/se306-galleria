@@ -10,6 +10,9 @@ public class UserDbo {
     public String name;
     public String email;
 
+    // Empty constructor required for Firestore mapping
+    public UserDbo() {}
+
     public UserDbo(String id, String name, String email) {
         this.id = id;
         this.name = name;
