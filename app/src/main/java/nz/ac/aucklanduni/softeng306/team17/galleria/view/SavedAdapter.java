@@ -11,18 +11,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
 public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
-    List<ProductInfoDto> mProducts;
+    List<ProductInfoDto> mProducts = new ArrayList<ProductInfoDto>();
 
     public SavedAdapter(List<ProductInfoDto> products) {
         this.mProducts = products;
+    }
+
+    public SavedAdapter() {
+
     }
 
     @Override
@@ -30,7 +34,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ProductInfoDto productInfoDto = mProducts.get(position);
 
             SavedAdapter.SavedProductViewHolder productViewHolder = (SavedAdapter.SavedProductViewHolder) holder;
-            productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
+            productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.savedProductName.setText(productInfoDto.getName());
             productViewHolder.savedProductDescription.setText((productInfoDto.getTagline()));
     }
@@ -43,6 +47,10 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View productView = LayoutInflater.from(this.mContext).inflate(R.layout.saved_product, parent, false);
         SavedAdapter.SavedProductViewHolder productViewHolder = new SavedAdapter.SavedProductViewHolder(productView);
         return productViewHolder;
+    }
+
+    public void setProducts(List<ProductInfoDto> products) {
+        this.mProducts = products;
     }
 
     @Override

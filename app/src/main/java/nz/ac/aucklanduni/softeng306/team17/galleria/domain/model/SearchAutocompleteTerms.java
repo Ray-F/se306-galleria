@@ -10,7 +10,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.util.TrieNode;
 /**
  * The domain model to improve searching efficiency on all database terms.
  */
-public class SearchAutocompleteTerms implements DomainModel {
+public class SearchAutocompleteTerms {
 
     /**
      * The underlying data structure behind getting autocomplete terms.
@@ -18,10 +18,8 @@ public class SearchAutocompleteTerms implements DomainModel {
     private final TrieNode root;
 
 
-    public SearchAutocompleteTerms(Collection<String> words) {
+    public SearchAutocompleteTerms() {
         this.root = new TrieNode();
-
-        words.forEach(this.root::insert);
     }
 
     /**
