@@ -11,6 +11,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.CategoryResultViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.SavedProductsViewModel;
 
 /**
  * Dependency injection container for providing prebuilt classes.
@@ -28,5 +29,6 @@ public class DIProvider {
 
     /** Define {@link androidx.lifecycle.ViewModel}'s below here. */
     public CategoryResultViewModel categoryResultViewModel = new CategoryResultViewModel(productUseCase);
+    public SavedProductsViewModel savedProductsViewModel = new SavedProductsViewModel(productUseCase);
 
 }

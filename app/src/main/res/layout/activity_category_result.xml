@@ -65,7 +65,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Note: A RecyclerView can also be used -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProductRecyclerView"
             android:layout_width="match_parent"
