@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/heart_icon"
+            android:onClick="unsaveProduct"
             ></ImageView>
     </FrameLayout>
 
@@ -49,7 +50,7 @@
             android:textStyle="bold"
             android:text="TITLE TEXT"></TextView>
         <TextView
-            android:id="@+id/ProductDescription"
+            android:id="@+id/SavedProductDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ProductName"

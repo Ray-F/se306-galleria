@@ -23,7 +23,7 @@ public class SavedProductsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_products);
 
-        rvSaved = (RecyclerView) findViewById(R.id.ProductRecyclerView);
+        rvSaved = (RecyclerView) findViewById(R.id.SavedRecyclerView);
 
         //Initialize Data
         products = DataProvider.generateData();

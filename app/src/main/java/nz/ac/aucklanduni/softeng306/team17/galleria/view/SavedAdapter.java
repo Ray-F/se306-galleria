@@ -31,8 +31,8 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             SavedAdapter.SavedProductViewHolder productViewHolder = (SavedAdapter.SavedProductViewHolder) holder;
             productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
-            productViewHolder.productName.setText(productInfoDto.getName());
-            productViewHolder.productDescription.setText((productInfoDto.getTagline()));
+            productViewHolder.savedProductName.setText(productInfoDto.getName());
+            productViewHolder.savedProductDescription.setText((productInfoDto.getTagline()));
     }
 
     @NonNull
@@ -52,14 +52,24 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     class SavedProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView productImage;
-        TextView productName;
-        TextView productDescription;
+        TextView savedProductName;
+        TextView savedProductDescription;
+        ImageView unsaveIcon;
 
         public SavedProductViewHolder(View inputView) {
             super(inputView);
             productImage = inputView.findViewById(R.id.ProductImage);
-            productName = inputView.findViewById(R.id.ProductName);
-            productDescription = inputView.findViewById(R.id.ProductDescription);
+            savedProductName = inputView.findViewById(R.id.SavedProductName);
+            savedProductDescription = inputView.findViewById(R.id.SavedProductDescription);
+            unsaveIcon = inputView.findViewById(R.id.UnsaveHeart);
+
+            unsaveIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // functionality goes here in future;
+                    savedProductName.setText("I CLICKED HERE WITH ICON");
+                }
+            });
         }
 
         @Override

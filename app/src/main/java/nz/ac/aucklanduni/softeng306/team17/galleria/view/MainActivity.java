@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
+        Intent categoryIntent = new Intent(this, SavedProductsActivity.class);
         startActivity(categoryIntent);
     }
 }
