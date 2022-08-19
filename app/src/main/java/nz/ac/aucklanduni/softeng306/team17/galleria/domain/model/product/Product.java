@@ -2,6 +2,7 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
@@ -32,7 +33,7 @@ public abstract class Product implements DomainModel {
     /**
      * The hero image to be used as a featured image or on lists.
      */
-    private File heroImage;
+    private byte[] heroImage;
 
     /**
      * The background colour of the product when featuring in product details (must be light coloured).
@@ -42,7 +43,7 @@ public abstract class Product implements DomainModel {
     /**
      * Other images to be visible on product details.
      */
-    private List<File> otherImages;
+    private List<byte[]> otherImages;
 
     /**
      * Price of the product, in {@link CurrencyCode}.
@@ -84,8 +85,8 @@ public abstract class Product implements DomainModel {
                    String name,
                    String tagline,
                    String desc,
-                   File heroImage,
-                   List<File> otherImages,
+                   byte[] heroImage,
+                   List<byte[]> otherImages,
                    float price,
                    CurrencyCode currency,
                    String backgroundColor,
@@ -143,19 +144,19 @@ public abstract class Product implements DomainModel {
         this.desc = desc;
     }
 
-    public File getHeroImage() {
+    public byte[] getHeroImage() {
         return heroImage;
     }
 
-    public void setHeroImage(File heroImage) {
+    public void setHeroImage(byte[] heroImage) {
         this.heroImage = heroImage;
     }
 
-    public List<File> getOtherImages() {
+    public List<byte[]> getOtherImages() {
         return otherImages;
     }
 
-    public void setOtherImages(List<File> otherImages) {
+    public void setOtherImages(List<byte[]> otherImages) {
         this.otherImages = otherImages;
     }
 
@@ -221,5 +222,12 @@ public abstract class Product implements DomainModel {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    /**
+     * Checks if the name of this product contains a match for the search term.
+     */
+    public boolean isNameMatch(String searchTerm) {
+        return this.getName().toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT));
     }
 }

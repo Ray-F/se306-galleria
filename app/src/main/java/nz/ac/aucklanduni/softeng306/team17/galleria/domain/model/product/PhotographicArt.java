@@ -16,8 +16,7 @@ public class PhotographicArt extends Product {
      */
     private String cameraUsed;
 
-
-    public PhotographicArt(String id, String name, String tagline, String desc, File heroImage, List<File> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String cameraUsed) {
+    public PhotographicArt(String id, String name, String tagline, String desc, byte[] heroImage, List<byte[]> otherImages, float price, CurrencyCode currency, String backgroundColor, float rating, int views, int stockLevel, int totalReviews, Category category, String cameraUsed) {
         super(id, name, tagline, desc, heroImage, otherImages, price, currency, backgroundColor, rating, views, stockLevel, totalReviews, category);
         this.cameraUsed = cameraUsed;
     }

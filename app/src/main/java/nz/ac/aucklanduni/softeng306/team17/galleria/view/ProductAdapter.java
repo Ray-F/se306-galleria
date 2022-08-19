@@ -11,18 +11,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
-public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
-    List <ProductInfoDto> mProducts;
+    List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
-    public ProductRowAdapter(List<ProductInfoDto> products) {
+    public ProductAdapter() {
+        mProducts = new ArrayList<>();
+    }
+
+    public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
     }
 
@@ -32,14 +36,14 @@ public class ProductRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (mIsListViewEnabled) {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
-            productViewHolder.productImage.setImageResource(productInfoDto.getHeroImage());
+            productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
             String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
             productViewHolder.productPrice.setText(priceString);
         } else {
             ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
-            productGridViewHolder.productImageGrid.setImageResource(productInfoDto.getHeroImage());
+            productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
     }
