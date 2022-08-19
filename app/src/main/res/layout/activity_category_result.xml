@@ -26,19 +26,11 @@
             android:background="@color/darkestShadeGreen"
             />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_height="50dp"
             android:layout_width="match_parent"
             android:background="@color/mediumShadeGreen"
             >
-
-            <ImageView
-                android:id="@+id/SortIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/filter_icon"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="15dp"></ImageView>
 
             <TextView
                 style="@style/GreenPalette"
@@ -47,13 +39,32 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="Sort By: "
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"></TextView>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/SortIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/filter_icon"
+                android:layout_toRightOf="@+id/SortFilterText"
+                android:layout_marginLeft="15dp"></ImageView>
+
+            <ImageView
+                android:id="@+id/ViewLayoutIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/grid_view_icon"></ImageView>
+
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Note: A RecyclerView can also be used -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProductRecyclerView"
             android:layout_width="match_parent"
