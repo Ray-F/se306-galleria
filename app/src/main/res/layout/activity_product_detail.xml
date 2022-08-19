@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/productText"
+                    android:textStyle="bold"
                     android:textColor="#000000"
                     android:textSize="24sp" />
 
@@ -90,7 +91,7 @@
                     android:text="@string/priceOfProduct"
                     android:textAlignment="viewEnd"
                     android:textStyle="bold"
-                    android:textSize="25sp"
+                    android:textSize="24sp"
                     android:textColor="#000000"
                     tools:text="432 NZD"/>
 
@@ -117,6 +118,32 @@
                 app:layout_constraintTop_toBottomOf="@id/theReviewOfTheProduct"
                 tools:text="Nepal has the most amazing starry skies I have ever seen. ⛰️✨ On a good night the sky is so clear that you can see the milky way bending over the horizon." />
             />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.25"
+                android:text="Details"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="bottom|left"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.25"
+                android:text="In Stock"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"
+                android:gravity="bottom|left"
+                android:textSize="18sp"
+            />
+
 
         </com.google.android.material.appbar.AppBarLayout>
     </ScrollView>

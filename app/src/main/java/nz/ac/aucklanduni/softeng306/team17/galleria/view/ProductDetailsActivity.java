@@ -20,6 +20,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.ProductInfoDto;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
