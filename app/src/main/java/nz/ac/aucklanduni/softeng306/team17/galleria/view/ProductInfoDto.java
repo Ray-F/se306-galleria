@@ -3,25 +3,26 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.util.Locale;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 
 public class ProductInfoDto {
 
-    private String id;
-    private String name;
-    private String tagline;
-    private CurrencyCode currencyCode;
-    private float price;
-    private Bitmap heroImage;
+    private final String id;
+    private final String name;
+    private final String tagline;
+    private final String priceAsString;
+    private final Bitmap heroImage;
+    private boolean isSaved;
 
-
-    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage) {
+    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved) {
         this.id = id;
         this.name = name;
         this.tagline = tagline;
-        this.currencyCode = currencyCode;
-        this.price = price;
+        this.priceAsString = String.format(Locale.UK, "%.0f", price) + " " + currencyCode;
+        this.isSaved = isSaved;
 
         this.heroImage = BitmapFactory.decodeByteArray(heroImage, 0, heroImage.length);
     }
@@ -30,48 +31,23 @@ public class ProductInfoDto {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getTagline() {
         return tagline;
     }
 
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public CurrencyCode getCurrencyCode() {
-        return currencyCode;
-    }
-
-    public void setCurrencyCode(CurrencyCode currencyCode) {
-        this.currencyCode = currencyCode;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
+    public String getDisplayPrice() {
+        return priceAsString;
     }
 
     public Bitmap getHeroImage() {
         return heroImage;
     }
 
-    public void setHeroImage(Bitmap heroImage) {
-        this.heroImage = heroImage;
-    }
+    public boolean getIsSaved() { return this.isSaved; }
+    public void setIsSaved(boolean isSaved) { this.isSaved = isSaved; }
 
 }

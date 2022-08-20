@@ -12,6 +12,7 @@
     <color name="darkestShadeGreen">#42604E</color>
     <color name="mediumShadeGreen">#5C8B6F</color>
     <color name="lightShadeGreen">#8FCCA7</color>
+    <color name="productDetailsBarColor">#40535F</color>
 
 <!--Blue Palette-->
     <color name="darkestShadeBlue">#40535F</color>

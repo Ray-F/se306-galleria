@@ -16,13 +16,13 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
-public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
-    public ProductAdapter() {
+    public CategoryResultAdapter() {
         mProducts = new ArrayList<>();
     }
 
@@ -39,8 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
-            String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
-            productViewHolder.productPrice.setText(priceString);
+            productViewHolder.productPrice.setText(productInfoDto.getDisplayPrice());
         } else {
             ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
             productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());

@@ -17,7 +17,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultActivity extends AppCompatActivity {
 
-    ProductAdapter adapter;
+    CategoryResultAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
     ImageView sortFilterButton;
@@ -35,7 +35,7 @@ public class CategoryResultActivity extends AppCompatActivity {
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
 
-        adapter = new ProductAdapter();
+        adapter = new CategoryResultAdapter();
 
         // savedInstanceState.getParcelable("category")
         Category category = Category.PHOTOGRAPHIC;

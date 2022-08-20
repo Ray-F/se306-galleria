@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Galleria"
         tools:targetApi="31">
         <activity
-            android:name=".view.SavedProductsActivity"
+            android:name=".view.ProductDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".view.CategoryResultActivity"
