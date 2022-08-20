@@ -28,14 +28,6 @@
                 app:navigationIcon="@drawable/back_button"
                 app:title="Product Details" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="300dp"-->
-<!--                android:background="@color/white"-->
-<!--                android:contentDescription="productImage"-->
-<!--                tools:srcCompat="@tools:sample/avatars" />-->
-
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerMain"
                 android:layout_width="wrap_content"
@@ -50,38 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:layout_weight="0.25"/>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal">-->
-
-<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:id="@+id/imageCircle1"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:contentDescription="@string/first_image_button"&ndash;&gt;-->
-<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:id="@+id/imageCircle2"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:contentDescription="@string/second_image_button"&ndash;&gt;-->
-<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:id="@+id/imageCircle3"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:contentDescription="@string/third_image_button"&ndash;&gt;-->
-<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
