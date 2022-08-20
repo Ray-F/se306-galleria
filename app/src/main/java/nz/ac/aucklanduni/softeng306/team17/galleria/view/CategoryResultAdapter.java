@@ -16,13 +16,13 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
-public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
 
-    public ProductAdapter() {
+    public CategoryResultAdapter() {
         mProducts = new ArrayList<>();
     }
 
