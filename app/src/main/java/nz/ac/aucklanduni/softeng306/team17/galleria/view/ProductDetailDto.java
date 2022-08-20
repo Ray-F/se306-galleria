@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
@@ -13,13 +15,13 @@ public class ProductDetailDto extends ProductInfoDto {
     private List<Bitmap> allImages;
     private String description;
     private String backgroundColor;
-    private String rating;
-    private String views;
+    private float rating;
+    private int views;
     private boolean isInStock;
-    private String totalReviews;
+    private int totalReviews;
 
-    public ProductDetailDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, List<byte[]> otherImages, String description, String backgroundColor, String rating, String views, boolean isInStock, String totalReviews) {
-        super(id, name, tagline, currencyCode, price, heroImage);
+    public ProductDetailDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, List<byte[]> otherImages, String description, String backgroundColor, float rating, int views, boolean isInStock, int totalReviews) {
+        super(id, name, tagline, currencyCode, price, heroImage, isSaved);
         this.allImages = otherImages.stream()
                 .map((it) ->  BitmapFactory.decodeByteArray(it, 0, it.length))
                 .collect(Collectors.toList());
@@ -37,26 +39,21 @@ public class ProductDetailDto extends ProductInfoDto {
     }
 
     public String getDescription() {
-        return description;
+        return description.replace("\\n", Objects.requireNonNull(System.getProperty("line.separator")));
     }
 
     public String getBackgroundColor() {
         return backgroundColor;
     }
 
-    public String getRating() {
-        return rating;
-    }
-
-    public String getViews() {
-        return views;
-    }
-
     public boolean isInStock() {
         return isInStock;
     }
 
-    public String getTotalReviews() {
-        return totalReviews;
+    /**
+     * Format is string like '★ 4.2 (12 reviews)'.
+     */
+    public String getReviewString() {
+        return String.format(Locale.ENGLISH, "★ %.1f (%d review%s)", this.rating, this.totalReviews, this.totalReviews != 0 ? "s" : "");
     }
 }

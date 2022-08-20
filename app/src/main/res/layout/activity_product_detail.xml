@@ -32,7 +32,7 @@
                 android:id="@+id/viewPagerMain"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-                android:background="@drawable/test_raccoon"/>
+                />
 
 
             <LinearLayout
@@ -63,19 +63,30 @@
 
                 <TextView
                     android:id="@+id/detailsItemPrice"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
                     android:text="@string/priceOfProduct"
                     android:textAlignment="viewEnd"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
                     android:textColor="#000000"
-                    tools:text="432 NZD"
-                    android:layout_weight="1"/>
-
-
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="432 NZD" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/productDetailsArtist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1.25"
+                android:gravity="bottom|left"
+                android:text="@string/info"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic" />
 
 
             <TextView
@@ -88,6 +99,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/ProductName"
                 tools:text="★ 4.2 (12 reviews)" />
 
+
+
             <TextView
                 android:id="@+id/productDetailDescription"
                 android:layout_width="wrap_content"
@@ -98,19 +111,6 @@
                 app:layout_constraintTop_toBottomOf="@id/theReviewOfTheProduct"
                 tools:text="Nepal has the most amazing starry skies I have ever seen. ⛰️✨ On a good night the sky is so clear that you can see the milky way bending over the horizon." />
             />
-
-            <TextView
-                android:id="@+id/productDetailsArtist"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.25"
-                android:text="@string/info"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="bottom|left"
-                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/productDetailsStock"
@@ -142,12 +142,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="100dp"
                 android:drawableLeft="@drawable/tick_symbol"
                 android:text="  Delivery: Order now and it ships tomorrow!"
-                android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -159,11 +158,10 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         android:text="@string/saveListing"
-        android:alpha="0.75"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:backgroundTint="@color/black"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

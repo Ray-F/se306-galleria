@@ -26,7 +26,8 @@ public class SavedProductsViewModel extends ViewModel {
         productUseCase.listProductsByCategory(Category.PHOTOGRAPHIC).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage())
+                                       // TODO: Somehow get whether this product is saved by user or not
+                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false)
             )).collect(Collectors.toList()));
         });
 

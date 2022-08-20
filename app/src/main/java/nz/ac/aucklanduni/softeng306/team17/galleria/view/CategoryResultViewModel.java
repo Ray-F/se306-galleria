@@ -26,7 +26,8 @@ public class CategoryResultViewModel extends ViewModel {
         productUseCase.listProductsByCategory(category).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage())
+                                       // TODO: Make isSaved return actual information
+                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false)
             )).collect(Collectors.toList()));
         });
 
