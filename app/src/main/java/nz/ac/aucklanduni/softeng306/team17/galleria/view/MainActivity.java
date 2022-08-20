@@ -3,36 +3,30 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.widget.Toolbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import com.google.android.material.appbar.AppBarLayout;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SearchBarActivity {
 
     private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
+        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
 
-        Intent categoryIntent = new Intent(this, SavedProductsActivity.class);
+        loadToolbar(toolbar);
+
+        Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
         startActivity(categoryIntent);
     }
 }

@@ -11,19 +11,9 @@
         android:layout_height="match_parent"
         android:id="@+id/header_section">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Photographic"
-            app:menu="@menu/header_bar"
-            app:navigationIcon="@drawable/back_button"
-            style="@style/GreenPalette"
-            android:background="@color/darkestShadeGreen"
+        <include
+            android:id="@+id/topBarLayout"
+            layout="@layout/header_toolbar_layout"
             />
 
         <RelativeLayout
@@ -62,8 +52,6 @@
                 android:src="@drawable/grid_view_icon"></ImageView>
 
         </RelativeLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProductRecyclerView"

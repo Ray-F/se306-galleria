@@ -1,6 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,11 +12,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
-public class CategoryResultActivity extends AppCompatActivity {
+public class CategoryResultActivity extends SearchBarActivity {
 
     ProductAdapter adapter;
     RecyclerView rvProducts;
@@ -30,6 +33,9 @@ public class CategoryResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_result);
+
+        Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+        loadToolbar(toolbar);
 
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;

@@ -1,10 +1,13 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 
