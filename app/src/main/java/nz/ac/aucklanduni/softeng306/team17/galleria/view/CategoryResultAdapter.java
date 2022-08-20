@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -48,14 +46,10 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Clicked on a single product DONT CARE TYPE!!!!");
-                Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
-                productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
-                mContext.startActivity(productIntent);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productInfoDto.getId());
+            mContext.startActivity(productIntent);
         });
 
     }
