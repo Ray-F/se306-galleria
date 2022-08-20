@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class MainActivity extends SearchBarActivity {
 
@@ -23,8 +24,9 @@ public class MainActivity extends SearchBarActivity {
 
         loadToolbar(toolbar);
 
-        Intent categoryIntent = new Intent(this, SavedProductsActivity.class);
+        Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
 //        categoryIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
+        categoryIntent.putExtra("CATEGORY", Category.PHOTOGRAPHIC);
         startActivity(categoryIntent);
     }
 }
