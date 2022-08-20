@@ -15,11 +15,13 @@ public class ProductDetailsViewModel extends ViewModel {
     private final ProductUseCase productUseCase;
 
     private final MutableLiveData<List<ProductInfoDto>> products;
+    private final MutableLiveData<ProductInfoDto> singleProduct;
 
     public ProductDetailsViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
 
         products = new MutableLiveData<>();
+        singleProduct = new MutableLiveData<>();
     }
 
     public LiveData<List<ProductInfoDto>> getProducts(String uuid) {
@@ -31,5 +33,14 @@ public class ProductDetailsViewModel extends ViewModel {
         });
 
         return products;
+    }
+
+    public LiveData<ProductInfoDto> getSingleProduct(String productID) {
+        productUseCase.getProductById(productID).subscribe(product -> {
+            singleProduct.setValue(new ProductInfoDto(product.getId(), product.getName(), product.getTagline(),
+                    product.getCurrency(), product.getPrice(), product.getHeroImage()));
+        });
+
+        return singleProduct;
     }
 }

@@ -38,14 +38,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
-
         imageViewPage = findViewById(R.id.viewPagerMain);
         buttonsSlide = findViewById(R.id.threeDots);
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);
 
         imageViewPage.setAdapter(imageViewPageAdapter);
+
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
         totalDots = imageViewPageAdapter.getCount();
 
