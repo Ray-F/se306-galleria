@@ -76,7 +76,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Sign in"
-
+                    android:backgroundTint="@color/darkestShadeBlue"
                     />
 
                 <TextView

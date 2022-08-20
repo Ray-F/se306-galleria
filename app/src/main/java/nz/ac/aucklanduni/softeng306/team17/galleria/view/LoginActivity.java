@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         });
     }
 
