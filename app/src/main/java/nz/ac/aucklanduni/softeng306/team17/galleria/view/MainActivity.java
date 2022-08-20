@@ -24,7 +24,7 @@ public class MainActivity extends SearchBarActivity {
 
         loadToolbar(toolbar);
 
-        Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
+        Intent categoryIntent = new Intent(this, SavedProductsActivity.class);
 //        categoryIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
         categoryIntent.putExtra("CATEGORY", Category.PHOTOGRAPHIC);
         startActivity(categoryIntent);

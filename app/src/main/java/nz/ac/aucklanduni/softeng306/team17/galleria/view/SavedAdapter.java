@@ -1,10 +1,12 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,18 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.savedProductName.setText(productInfoDto.getName());
             productViewHolder.savedProductDescription.setText((productInfoDto.getTagline()));
+
+            ((SavedProductViewHolder) holder).textArea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("Clicked on a single product from SAVED VIEW");
+                    Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
+
+                    productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
+
+                    mContext.startActivity(productIntent);
+                }
+            });
     }
 
     @NonNull
@@ -62,6 +76,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ImageView productImage;
         TextView savedProductName;
         TextView savedProductDescription;
+        LinearLayout textArea;
         ImageView unsaveIcon;
 
         public SavedProductViewHolder(View inputView) {
@@ -70,6 +85,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             savedProductName = inputView.findViewById(R.id.SavedProductName);
             savedProductDescription = inputView.findViewById(R.id.SavedProductDescription);
             unsaveIcon = inputView.findViewById(R.id.UnsaveHeart);
+            textArea = inputView.findViewById(R.id.savedTextArea);
 
             unsaveIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,6 +94,15 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     savedProductName.setText("I CLICKED HERE WITH ICON");
                 }
             });
+
+            textArea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Dummy implementation here not needed
+                }
+            });
+
+
         }
 
         @Override

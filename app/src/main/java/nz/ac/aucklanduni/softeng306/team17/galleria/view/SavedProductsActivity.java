@@ -27,7 +27,6 @@ public class SavedProductsActivity extends SearchBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_products);
 
-
         appBarLayout = findViewById(R.id.topBarLayout);
         Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);
         loadToolbar(toolbar);
@@ -41,7 +40,7 @@ public class SavedProductsActivity extends SearchBarActivity {
         viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
 
         // Default user
-        String uuid = "Raymond Fang";
+        String uuid = "Raymond Zhafeng";
 
         viewModel.getProducts(uuid)
                 .observe(this, data -> {
