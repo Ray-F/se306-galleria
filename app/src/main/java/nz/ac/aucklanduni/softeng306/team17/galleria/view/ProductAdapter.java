@@ -39,8 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
-            String priceString = String.format("%.2f", (productInfoDto.getPrice())) + " " + productInfoDto.getCurrencyCode().toString();
-            productViewHolder.productPrice.setText(priceString);
+            productViewHolder.productPrice.setText(productInfoDto.getDisplayPrice());
         } else {
             ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
             productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());

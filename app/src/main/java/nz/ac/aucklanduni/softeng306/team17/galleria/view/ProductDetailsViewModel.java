@@ -14,31 +14,22 @@ public class ProductDetailsViewModel extends ViewModel {
 
     private final ProductUseCase productUseCase;
 
-    private final MutableLiveData<List<ProductInfoDto>> products;
-    private final MutableLiveData<ProductInfoDto> singleProduct;
+    private final MutableLiveData<ProductDetailDto> singleProduct;
 
     public ProductDetailsViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
 
-        products = new MutableLiveData<>();
         singleProduct = new MutableLiveData<>();
     }
 
-    public LiveData<List<ProductInfoDto>> getProducts(String uuid) {
-        productUseCase.listProductsByCategory(Category.PHOTOGRAPHIC).subscribe(productsFromRepo -> {
-            products.setValue(productsFromRepo.stream().map(it -> (
-                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                            it.getCurrency(), it.getPrice(), it.getHeroImage())
-            )).collect(Collectors.toList()));
-        });
-
-        return products;
-    }
-
-    public LiveData<ProductInfoDto> getSingleProduct(String productID) {
+    public LiveData<ProductDetailDto> getProduct(String productID) {
         productUseCase.getProductById(productID).subscribe(product -> {
-            singleProduct.setValue(new ProductInfoDto(product.getId(), product.getName(), product.getTagline(),
-                    product.getCurrency(), product.getPrice(), product.getHeroImage()));
+            singleProduct.setValue(new ProductDetailDto(
+                    product.getId(), product.getName(), product.getTagline(),
+                    product.getCurrency(), product.getPrice(), product.getHeroImage(), product.getOtherImages(),
+                    product.getDesc(), product.getBackgroundColor(), Float.toString(product.getRating()),
+                    Integer.toString(product.getViews()), product.getStockLevel() > 0, Integer.toString(product.getTotalReviews())
+            ));
         });
 
         return singleProduct;

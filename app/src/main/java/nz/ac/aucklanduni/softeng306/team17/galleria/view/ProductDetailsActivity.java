@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
@@ -35,8 +33,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     TextView productDetailsName;
     TextView productDetailsPrice;
     TextView productReviewInfo;
+    TextView productDetailsTagline;
     TextView productDetailDescription;
-    TextView productDetailsArtist;
     TextView productDetailsStock;
     Button saveProductButton;
 
@@ -44,7 +42,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     int totalDots;
     ImageView[] dotView;
 
-    List<Bitmap> imagesArray;
+    List<Bitmap> imagesArray = new ArrayList<>();
 
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
@@ -62,15 +60,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Format should be string like '★ 4.2 (12 reviews)', compute within viewmodel
         productReviewInfo = findViewById(R.id.theReviewOfTheProduct);
         productDetailDescription = findViewById(R.id.productDetailDescription);
-        productDetailsArtist = findViewById(R.id.productDetailsArtist);
+        productDetailsTagline = findViewById(R.id.productDetailsArtist);
         saveProductButton = findViewById(R.id.saveProductButton);
 
         // 'In stock' or 'Out of stock'
         productDetailsStock = findViewById(R.id.productDetailsStock);
 
         buttonsSlide = findViewById(R.id.threeDots);
-
-        imagesArray = new ArrayList<Bitmap>();
 
         // We need a default bitmap and imagesArray must have at least one value at position 0 to load. Set it blank so unnoticed while true data loads.
         Bitmap defaultBitmap = BitmapFactory.decodeResource(this.getResources(),
@@ -84,19 +80,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
         // Will have to have a method of passing a value for this from other screen's (on click)
-        viewModel.getSingleProduct("QcVejefcac104q3pOWUu").observe(
+        viewModel.getProduct("QcVejefcac104q3pOWUu").observe(
                 this, data -> {
                     System.out.println("Single product returned successfully");
 
-                    imagesArray = new ArrayList<Bitmap>();
-                    imagesArray.add(data.getHeroImage());
+                    imagesArray = new ArrayList<>();
+                    imagesArray.addAll(data.getAllImages());
                     imageViewPageAdapter.setImages(imagesArray);
 
                     productDetailsName.setText(data.getName());
-                    productDetailsPrice.setText(Float.toString(data.getPrice()) + " " + data.getCurrencyCode().toString());
-                    productDetailDescription.setText(data.getTagline());
-                    productDetailsArtist.setText("Default Artist Name");
-                    // set stock level based on if inventory == 0 or not. No Dto field available to support this.
+                    productDetailsPrice.setText(data.getDisplayPrice());
+                    productDetailDescription.setText(data.getDescription());
+                    productDetailsTagline.setText(data.getTagline());
+                    productDetailsStock.setText(data.isInStock() ? "In Stock" : "Out of Stock");
 
                     imageViewPageAdapter.notifyDataSetChanged();
                 }
