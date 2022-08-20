@@ -1,6 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 
-
-
+import java.util.List;
 import java.util.Objects;
 
 public class ViewPagerAdapter extends PagerAdapter {
@@ -22,18 +22,28 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private LayoutInflater mLayoutInflater;
 
-    private int[] images;
+    private List<Bitmap> images;
 
-    public ViewPagerAdapter(Context context, int[] images) {
+    public ViewPagerAdapter(Context context, List<Bitmap> images) {
         this.context = context;
         this.images = images;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void setImages(List<Bitmap> bitmaps) {
+        this.images = bitmaps;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        // Overriding this method forces adapter to reload views when dataset changed. Requires further testing.
+        return POSITION_NONE;
+    }
+
     @Override
     public int getCount() {
         // return the number of images
-        return images.length;
+        return images.size();
     }
 
     @Override
@@ -49,7 +59,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageViewMain);
 
-        imageView.setImageResource(images[position]);
+        imageView.setImageBitmap(images.get(position));
 
         Objects.requireNonNull(container).addView(itemView);
 

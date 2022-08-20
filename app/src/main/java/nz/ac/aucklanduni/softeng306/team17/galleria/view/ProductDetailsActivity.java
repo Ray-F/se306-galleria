@@ -1,5 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -34,7 +39,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     int totalDots;
     ImageView[] dotView;
 
-    int[] imagesArray;
+    List<Bitmap> imagesArray;
 
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
@@ -59,12 +64,37 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         buttonsSlide = findViewById(R.id.threeDots);
 
-        imagesArray = new int[4];
+        imagesArray = new ArrayList<Bitmap>();
+
+        // We need a default bitmap and imagesArray must have at least one value at position 0 to load.
+        Bitmap defaultBitmap = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.heart_icon);
+        imagesArray.add(defaultBitmap);
+
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);
 
         imageViewPage.setAdapter(imageViewPageAdapter);
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
+
+        // Will have to have a method of passing a value for this from other screen's (on click)
+        viewModel.getSingleProduct("QcVejefcac104q3pOWUu").observe(
+                this, data -> {
+                    System.out.println("Single product returned successfully");
+
+                    imagesArray = new ArrayList<Bitmap>();
+                    imagesArray.add(data.getHeroImage());
+                    imageViewPageAdapter.setImages(imagesArray);
+
+                    productDetailsName.setText(data.getName());
+                    productDetailsPrice.setText(Float.toString(data.getPrice()) + " " + data.getCurrencyCode().toString());
+                    productDetailDescription.setText(data.getTagline());
+                    productDetailsArtist.setText("Default Artist Name");
+                    // set stock level based on if inventory == 0 or not.
+
+                    imageViewPageAdapter.notifyDataSetChanged();
+                }
+        );
 
         totalDots = imageViewPageAdapter.getCount();
 
@@ -79,19 +109,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             buttonsSlide.addView(dotView[i], parameters);
         }
-
-        // Will have to have a method of passing a value for this from other screen's (on click)
-        viewModel.getSingleProduct("QcVejefcac104q3pOWUu").observe(
-                this, data -> {
-                    System.out.println("Single product returned successfully");
-                    // Not sure how to set images for the image component
-                    productDetailsName.setText(data.getName());
-                    productDetailsPrice.setText(Float.toString(data.getPrice()) + " " + data.getCurrencyCode().toString());
-                    productDetailDescription.setText(data.getTagline());
-                    productDetailsArtist.setText("Default Artist Name");
-                    // set stock level based on if inventory == 0 or not.
-                }
-        );
 
         dotView[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_for_viewpager));
 
