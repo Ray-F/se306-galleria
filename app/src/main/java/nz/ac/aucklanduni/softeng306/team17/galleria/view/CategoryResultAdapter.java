@@ -53,7 +53,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onClick(View view) {
                 System.out.println("Clicked on a single product DONT CARE TYPE!!!!");
                 Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
-                productIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
+                productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
                 mContext.startActivity(productIntent);
             }
         });
@@ -100,6 +100,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView productName;
         TextView productDescription;
         TextView productPrice;
+        String productId;
 
         public ProductViewHolder(View inputView) {
             super(inputView);
@@ -119,6 +120,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     class ProductGridViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView productImageGrid;
         TextView productNameGrid;
+        String productId;
 
         public ProductGridViewHolder(View inputView) {
             super(inputView);
