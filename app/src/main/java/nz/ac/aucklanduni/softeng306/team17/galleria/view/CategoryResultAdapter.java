@@ -46,10 +46,16 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
 
-        holder.itemView.setOnClickListener(view -> {
-            Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
-            productIntent.putExtra("productId", productInfoDto.getId());
-            mContext.startActivity(productIntent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Clicked on a single product DONT CARE TYPE!!!!");
+                Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
+
+                productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
+
+                mContext.startActivity(productIntent);
+            }
         });
 
     }
