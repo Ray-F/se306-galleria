@@ -1,6 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -45,6 +47,17 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Clicked on a single product DONT CARE TYPE!!!!");
+                Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
+                productIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
+                mContext.startActivity(productIntent);
+            }
+        });
+
     }
 
     @NonNull
@@ -98,9 +111,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         @Override
         public void onClick(View v) {
-            // What to do when the view item is clicked
-            ProductInfoDto clickedProduct = mProducts.get(getAbsoluteAdapterPosition());
-            Toast.makeText(mContext, clickedProduct.getName() + " is clicked in position " + getAbsoluteAdapterPosition(), Toast.LENGTH_SHORT).show();
+            // DUMMY IMPLEMENTATION NOT NEEDED HERE
         }
 
     }
@@ -117,9 +128,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         @Override
         public void onClick(View v) {
-            // What to do when the view item is clicked
-            ProductInfoDto clickedProduct = mProducts.get(getAbsoluteAdapterPosition());
-            Toast.makeText(mContext, clickedProduct.getName() + " is clicked in position " + getAbsoluteAdapterPosition(), Toast.LENGTH_SHORT).show();
+            // DUMMY IMPLEMENTATION NOT NEEDED HERE
         }
 
     }
