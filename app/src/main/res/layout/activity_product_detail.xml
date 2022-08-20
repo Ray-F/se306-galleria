@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            tools:ignore="ExtraText">
+            tools:ignore="ExtraText"
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:background="@drawable/test_raccoon"/>
+
 
             <LinearLayout
                 android:id="@+id/threeDots"
@@ -179,6 +181,7 @@
                 android:layout_marginStart="16dp"
                 android:drawableLeft="@drawable/tick_symbol"
                 android:text="  Delivery: Order now and it ships tomorrow!"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 />
