@@ -66,9 +66,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         imagesArray = new ArrayList<Bitmap>();
 
-        // We need a default bitmap and imagesArray must have at least one value at position 0 to load.
+        // We need a default bitmap and imagesArray must have at least one value at position 0 to load. Set it blank so unnoticed while true data loads.
         Bitmap defaultBitmap = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.heart_icon);
+                R.drawable.blank_icon);
         imagesArray.add(defaultBitmap);
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);
@@ -90,7 +90,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     productDetailsPrice.setText(Float.toString(data.getPrice()) + " " + data.getCurrencyCode().toString());
                     productDetailDescription.setText(data.getTagline());
                     productDetailsArtist.setText("Default Artist Name");
-                    // set stock level based on if inventory == 0 or not.
+                    // set stock level based on if inventory == 0 or not. No Dto field available to support this.
 
                     imageViewPageAdapter.notifyDataSetChanged();
                 }
