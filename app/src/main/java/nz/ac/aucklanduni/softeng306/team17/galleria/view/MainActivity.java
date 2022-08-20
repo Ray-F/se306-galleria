@@ -23,8 +23,8 @@ public class MainActivity extends SearchBarActivity {
 
         loadToolbar(toolbar);
 
-        Intent categoryIntent = new Intent(this, ProductDetailsActivity.class);
-        categoryIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
+        Intent categoryIntent = new Intent(this, SavedProductsActivity.class);
+//        categoryIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
         startActivity(categoryIntent);
     }
 }

@@ -11,8 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +25,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 
-public class ProductDetailsActivity extends AppCompatActivity {
+public class ProductDetailsActivity extends SearchBarActivity {
 
     // Links to XML elements
     ViewPager imageViewPage;
@@ -46,6 +49,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         linkElements();
+
+        Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+
+        loadToolbar(toolbar);
 
         // Get passed in product Id from intent
         String productId = getIntent().getExtras().getString("productId");
@@ -99,7 +106,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.black : R.color.purple_500)));
+                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.productDetailsBarColor : R.color.purple_500)));
                     saveProductButton.setText(data ? "ALREADY SAVED (UNSAVE?)" : "SAVE LISTING");
                 }
         );

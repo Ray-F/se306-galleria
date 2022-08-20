@@ -14,19 +14,25 @@ import java.util.ArrayList;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
-public class SavedProductsActivity extends AppCompatActivity {
+public class SavedProductsActivity extends SearchBarActivity {
 
     ArrayList<ProductInfoDto> products;
     SavedAdapter adapter;
     RecyclerView rvSaved;
     SavedProductsViewModel viewModel;
+    AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_products);
 
-        rvSaved = (RecyclerView) findViewById(R.id.SavedRecyclerView);
+
+        appBarLayout = findViewById(R.id.topBarLayout);
+        Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);
+        loadToolbar(toolbar);
+
+        rvSaved = findViewById(R.id.SavedRecyclerView);
 
         adapter = new SavedAdapter();
         rvSaved.setAdapter(adapter);
@@ -39,7 +45,6 @@ public class SavedProductsActivity extends AppCompatActivity {
 
         viewModel.getProducts(uuid)
                 .observe(this, data -> {
-                    System.out.println("When does this change!");
                     adapter.setProducts(data);
                     adapter.notifyDataSetChanged();
                 });
