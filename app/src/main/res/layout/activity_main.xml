@@ -33,8 +33,9 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:layout_gravity="center"
                 android:id="@+id/positionOfImages"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -42,7 +43,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
@@ -53,13 +53,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:src="@drawable/AIGenerated" />
+                        android:src="@drawable/photographic" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="AI Generated"
+                        android:text="Photographic"
                         android:textColor="@color/black"
                         android:textSize="12dp"
+                        android:textAlignment="center"
                         />
                 </LinearLayout>
 
@@ -77,21 +78,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:src="@drawable/AIGenerated" />
+                        android:src="@drawable/paintings" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="AI Generated"
                         android:textColor="@color/black"
                         android:textSize="12dp"
+                        android:text="Paintings"
+                        android:textAlignment="center"
                         />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
+
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="10dp"
+
                     android:orientation="vertical">
 
 
@@ -101,13 +105,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:src="@drawable/AIGenerated" />
+                        android:src="@drawable/aigenerated" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="AI Generated"
                         android:textColor="@color/black"
                         android:textSize="12dp"
+                        android:textAlignment="center"
                         />
                 </LinearLayout>
 
@@ -124,14 +129,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:src="@drawable/AIGenerated" />
+                        android:src="@drawable/albums" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="AI Generated"
+                        android:text="Albums"
                         android:textColor="@color/black"
                         android:textSize="12dp"
+                        android:textAlignment="center"
                         />
                 </LinearLayout>
             </LinearLayout>
