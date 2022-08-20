@@ -65,14 +65,13 @@ public class SearchUseCase {
         this.searchRepo.create(lowercase, userId);
         this.searchTerms.addSearchTerm(lowercase);
 
-        return Single.create(emitter -> {
-            Stream<Product> products = this.productRepo.listSortByNameMatch(searchTerm).blockingGet().stream();
-
+        return this.productRepo.listSortByNameMatch(searchTerm).map((products) -> {
+            Stream<Product> productStream = products.stream();
             if (limit > 0) {
-                products = products.limit(limit);
+                productStream = productStream.limit(limit);
             }
 
-            emitter.onSuccess(products.collect(Collectors.toList()));
+            return productStream.collect(Collectors.toList());
         });
     }
 }
