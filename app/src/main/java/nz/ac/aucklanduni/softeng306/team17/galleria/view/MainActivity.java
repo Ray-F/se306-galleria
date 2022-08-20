@@ -1,6 +1,5 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -11,7 +10,6 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class MainActivity extends SearchBarActivity {
 
     private ActivityMainBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,4 +27,5 @@ public class MainActivity extends SearchBarActivity {
         categoryIntent.putExtra("CATEGORY", Category.PHOTOGRAPHIC);
         startActivity(categoryIntent);
     }
+
 }
