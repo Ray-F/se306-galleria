@@ -23,6 +23,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
      */
 
     ViewPager imageViewPage;
+    TextView productDetailsName;
+    TextView productDetailsPrice;
+    TextView productReviewInfo;
+    TextView productDetailDescription;
+    TextView productDetailsArtist;
+    TextView productDetailsStock;
+
     LinearLayout buttonsSlide;
     int totalDots;
     ImageView[] dotView;
@@ -39,6 +46,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
 
         imageViewPage = findViewById(R.id.viewPagerMain);
+        productDetailsName = findViewById(R.id.productDetailName);
+        productDetailsPrice = findViewById(R.id.detailsItemPrice);
+
+        // Format should be string like '★ 4.2 (12 reviews)', compute within viewmodel
+        productReviewInfo = findViewById(R.id.theReviewOfTheProduct);
+        productDetailDescription = findViewById(R.id.productDetailDescription);
+        productDetailsArtist = findViewById(R.id.productDetailsArtist);
+
+        // 'In stock' or 'Out of stock'
+        productDetailsStock = findViewById(R.id.productDetailsStock);
+
         buttonsSlide = findViewById(R.id.threeDots);
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);

@@ -38,7 +38,8 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerMain"
                 android:layout_width="wrap_content"
-                android:layout_height="300dp" />
+                android:layout_height="300dp"
+                android:background="@drawable/test_raccoon"/>
 
             <LinearLayout
                 android:id="@+id/threeDots"
@@ -87,7 +88,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/ProductName"
+                    android:id="@+id/productDetailName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -123,6 +124,7 @@
                 tools:text="★ 4.2 (12 reviews)" />
 
             <TextView
+                android:id="@+id/productDetailDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -133,6 +135,7 @@
             />
 
             <TextView
+                android:id="@+id/productDetailsArtist"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.25"
@@ -145,6 +148,7 @@
                 android:textSize="18sp"/>
 
             <TextView
+                android:id="@+id/productDetailsStock"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.25"
