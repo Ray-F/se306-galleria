@@ -75,4 +75,11 @@ public class ProductUseCase {
             emitter.onSuccess(filteredProducts);
         });
     }
+
+    /**
+     * Saves a product to a user's saved products.
+     */
+    public void saveProductToUser(Product product) {
+        // TODO: Complete this use case
+    }
 }

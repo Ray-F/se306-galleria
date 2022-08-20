@@ -5,9 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.appbar.AppBarLayout;
-
-import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 
 public class MainActivity extends SearchBarActivity {
@@ -26,7 +23,8 @@ public class MainActivity extends SearchBarActivity {
 
         loadToolbar(toolbar);
 
-        Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
+        Intent categoryIntent = new Intent(this, ProductDetailsActivity.class);
+        categoryIntent.putExtra("productId", "QcVejefcac104q3pOWUu");
         startActivity(categoryIntent);
     }
 }
