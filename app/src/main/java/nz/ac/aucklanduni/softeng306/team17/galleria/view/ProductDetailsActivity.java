@@ -4,6 +4,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,13 +55,16 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         loadToolbar(toolbar);
 
+        imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>());
+        imageViewPage.setAdapter(imageViewPageAdapter);
+
+        clearViewModelData();
+
         // Get passed in product Id from intent
         String productId = getIntent().getExtras().getString("productId");
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
-        imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>());
-        imageViewPage.setAdapter(imageViewPageAdapter);
 
 
         viewModel.setProductId(productId);
@@ -110,6 +114,22 @@ public class ProductDetailsActivity extends SearchBarActivity {
                     saveProductButton.setText(data ? "ALREADY SAVED (UNSAVE?)" : "SAVE LISTING");
                 }
         );
+    }
+
+    private void clearViewModelData() {
+                System.out.println("Single product returned successfully");
+
+                List<Bitmap> imagesInCarousel = new ArrayList<Bitmap>();
+
+                imageViewPageAdapter.setImages(imagesInCarousel);
+
+                productReviewInfo.setText("");
+                productDetailsName.setText("");
+                productDetailsPrice.setText("");
+                productDetailDescription.setText("");
+                productDetailsTagline.setText("");
+                productDetailsStock.setText("");
+
     }
 
     private void createDots(int nImages) {
