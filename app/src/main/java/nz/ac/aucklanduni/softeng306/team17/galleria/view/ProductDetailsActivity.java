@@ -26,7 +26,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     LinearLayout buttonsSlide;
     int totalDots;
     ImageView[] dotView;
-    TextView text;
 
     int[] imagesArray;
 
@@ -41,8 +40,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
-        imageViewPage = (ViewPager) findViewById(R.id.viewPagerMain);
-        buttonsSlide = (LinearLayout) findViewById(R.id.threeDots);
+        imageViewPage = findViewById(R.id.viewPagerMain);
+        buttonsSlide = findViewById(R.id.threeDots);
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);
 
@@ -67,7 +66,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         imageViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Must have method
+                /* Automatic import from OnPageChangeListener must have this method */
             }
 
             @Override
@@ -80,8 +79,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                //Must have method
+                /* Automatic import from OnPageChangeListener must have this method */
             }
+
         });
     }
 }
