@@ -89,17 +89,17 @@ public class CategoryResultActivity extends SearchBarActivity {
     public void setCategoryData(Category category) {
         // Add implementation for category specific database calls.
         if (category.equals(Category.PHOTOGRAPHIC)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGreen));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGreen));
         } else if (category.equals(Category.AI)) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGreen));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
         } else if (category.equals(Category.ALBUM)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGray));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGray));
         } else if (category.equals(Category.PAINTING)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeOrange));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeOrange));
         } else {
             toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
             secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
