@@ -19,4 +19,14 @@
     <color name="mediumShadeBlue">#567B92</color>
     <color name="lightShadeBlue">#7DA4BD</color>
 
+<!--Gray Palette-->
+    <color name="darkestShadeGray">#35363AF</color>
+    <color name="mediumShadeGray">#707070</color>
+    <color name="lightShadeGray">#A8A6A6</color>
+
+<!--Orange Palette-->
+    <color name="darkestShadeOrange">#856A42</color>
+    <color name="mediumShadeOrange">#BC965C</color>
+    <color name="lightShadeOrange">#EAC183</color>
+
 </resources>
