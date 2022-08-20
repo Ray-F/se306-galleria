@@ -27,45 +27,58 @@
                 app:navigationIcon="@drawable/back_button"
                 app:title="Product Details" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"
-                android:contentDescription="productImage"
-                tools:srcCompat="@tools:sample/avatars" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="300dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:contentDescription="productImage"-->
+<!--                tools:srcCompat="@tools:sample/avatars" />-->
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPagerMain"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp" />
 
             <LinearLayout
+                android:id="@+id/threeDots"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="10dp"
+                android:layout_weight="0.25"/>
 
-                <ImageButton
-                    android:id="@+id/imageCircle1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/first_image_button"
-                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
 
-                <ImageButton
-                    android:id="@+id/imageCircle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/second_image_button"
-                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
+<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/imageCircle1"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:contentDescription="@string/first_image_button"&ndash;&gt;-->
+<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
 
-                <ImageButton
-                    android:id="@+id/imageCircle3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/third_image_button"
-                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
-            </LinearLayout>
+<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/imageCircle2"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:contentDescription="@string/second_image_button"&ndash;&gt;-->
+<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <ImageButton&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/imageCircle3"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:backgroundTint="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:contentDescription="@string/third_image_button"&ndash;&gt;-->
+<!--&lt;!&ndash;                    tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />&ndash;&gt;-->
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,13 +136,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.25"
-                android:text="Details"
+                android:text="@string/info"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:gravity="bottom|left"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -143,6 +156,28 @@
                 android:gravity="bottom|left"
                 android:textSize="18sp"
             />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/tick_symbol"
+                android:layout_marginStart="16dp"
+                android:layout_margin="16dp"
+                android:text="  Click &amp; Collect Available "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:includeFontPadding="false"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:drawableLeft="@drawable/tick_symbol"
+                android:text="  Delivery: Order now and it ships tomorrow!"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
 
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -159,6 +194,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
