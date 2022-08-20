@@ -4,17 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-<!--    <item-->
-<!--        android:id="@+id/backButton"-->
-<!--        android:icon="@drawable/back_button"-->
-<!--        app:actionViewClass="androidx.appcompat.widget.AppCompatImageView"-->
-<!--        app:showAsAction="always"-->
-<!--        android:title="BACK" />-->
-
     <item
         android:id="@+id/searchBar"
         android:icon="@drawable/search_button"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:actionLayout="@layout/custom_search_view"
         app:showAsAction="always"
         android:title="SEARCH" />
 
