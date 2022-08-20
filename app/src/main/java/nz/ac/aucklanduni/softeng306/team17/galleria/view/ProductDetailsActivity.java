@@ -59,6 +59,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         buttonsSlide = findViewById(R.id.threeDots);
 
+        imagesArray = new int[4];
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, imagesArray);
 
         imageViewPage.setAdapter(imageViewPageAdapter);
@@ -78,6 +79,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             buttonsSlide.addView(dotView[i], parameters);
         }
+
+        // Will have to have a method of passing a value for this from other screen's (on click)
+        viewModel.getSingleProduct("QcVejefcac104q3pOWUu").observe(
+                this, data -> {
+                    System.out.println("Single product returned successfully");
+                    // Not sure how to set images for the image component
+                    productDetailsName.setText(data.getName());
+                    productDetailsPrice.setText(Float.toString(data.getPrice()) + " " + data.getCurrencyCode().toString());
+                    productDetailDescription.setText(data.getTagline());
+                    productDetailsArtist.setText("Default Artist Name");
+                    // set stock level based on if inventory == 0 or not.
+                }
+        );
 
         dotView[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_for_viewpager));
 
