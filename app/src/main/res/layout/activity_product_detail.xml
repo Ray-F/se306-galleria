@@ -191,7 +191,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/saveListingButton"
+        android:id="@+id/saveProductButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"

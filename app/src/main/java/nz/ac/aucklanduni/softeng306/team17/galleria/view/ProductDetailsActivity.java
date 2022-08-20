@@ -6,8 +6,12 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +38,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     TextView productDetailDescription;
     TextView productDetailsArtist;
     TextView productDetailsStock;
+    Button saveProductButton;
 
     LinearLayout buttonsSlide;
     int totalDots;
@@ -58,6 +63,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productReviewInfo = findViewById(R.id.theReviewOfTheProduct);
         productDetailDescription = findViewById(R.id.productDetailDescription);
         productDetailsArtist = findViewById(R.id.productDetailsArtist);
+        saveProductButton = findViewById(R.id.saveProductButton);
 
         // 'In stock' or 'Out of stock'
         productDetailsStock = findViewById(R.id.productDetailsStock);
@@ -131,6 +137,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 /* Automatic import from OnPageChangeListener must have this method */
             }
 
+        });
+
+        saveProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Functionality goes here to add this product string to saved products list in database for a user?
+                productDetailsName.setText("JUST SAVED THIS PRODUCT TEST");
+            }
         });
     }
 }
