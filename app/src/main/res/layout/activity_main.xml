@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/GreenPalette"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,5 +16,161 @@
             layout="@layout/header_toolbar_layout"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="55dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="Categories"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/positionOfImages"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/product1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/AIGenerated" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AI Generated"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/product2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/AIGenerated" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AI Generated"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/product3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/AIGenerated" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AI Generated"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/product4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/AIGenerated" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AI Generated"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="Most Viewed"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_marginTop="10dp"
+                android:id="@+id/viewPagerMain"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="Featured"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ProductRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</LinearLayout>
+</ScrollView>
