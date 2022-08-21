@@ -40,11 +40,9 @@ public class CategoryResultActivity extends SearchBarActivity {
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
-
         adapter = new CategoryResultAdapter();
 
-        // savedInstanceState.getParcelable("category")
-        Category category = Category.PHOTOGRAPHIC;
+        Category category = (Category) getIntent().getExtras().get("category");
 
         viewModel.getProducts(category)
                 .observe(this, data -> {

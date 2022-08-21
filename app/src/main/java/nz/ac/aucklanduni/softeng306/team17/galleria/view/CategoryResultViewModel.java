@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class CategoryResultViewModel extends ViewModel {
     }
 
     public LiveData<List<ProductInfoDto>> getProducts(Category category) {
+        this.products.setValue(new ArrayList<>());
         productUseCase.listProductsByCategory(category).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
