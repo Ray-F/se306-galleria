@@ -55,7 +55,6 @@ public class CategoryResultActivity extends SearchBarActivity {
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
-
         adapter = new CategoryResultAdapter();
 
         viewModel.getProducts(category)

@@ -29,4 +29,6 @@
     <color name="mediumShadeOrange">#BC965C</color>
     <color name="lightShadeOrange">#EAC183</color>
 
+<!--Misc Colours-->
+    <color name="darkGrey">#72777A</color>
 </resources>
