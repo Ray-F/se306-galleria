@@ -21,6 +21,9 @@ public class CategoryResultViewModel extends ViewModel {
 
     private final MutableLiveData<List<ProductInfoDto>> products;
 
+    // Default view should be list
+    private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
+
     public CategoryResultViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
 
@@ -58,5 +61,17 @@ public class CategoryResultViewModel extends ViewModel {
         });
 
         return products;
+    }
+
+    public void toggleLayoutMode() {
+        if (this.layoutMode.getValue() == ListViewLayoutMode.LIST) {
+            this.layoutMode.setValue(ListViewLayoutMode.GRID);
+        } else {
+            this.layoutMode.setValue(ListViewLayoutMode.LIST);
+        }
+    }
+
+    public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
+        return layoutMode;
     }
 }

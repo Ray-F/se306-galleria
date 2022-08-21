@@ -1,7 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,12 +23,11 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
-    CategoryResultAdapter adapter;
+    SimpleListInfoAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
     ImageView sortFilterButton;
     ImageView viewTypeButton;
-    Context localContext = this;
     RelativeLayout secondaryTopBar;
     Toolbar toolbar;
 
@@ -60,58 +58,93 @@ public class CategoryResultActivity extends SearchBarActivity {
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
-        adapter = new CategoryResultAdapter();
-        adapter.setCategory(category);
-        adapter.setNavigationHistory(navigationHistory);
+        adapter = new SimpleListInfoAdapter();
 
         viewModel.getProducts(category)
                 .observe(this, data -> {
                     adapter.setProducts(data);
-                    adapter.notifyDataSetChanged();
                 });
 
+        viewModel.getLayoutMode()
+                .observe(this, data -> {
+                    adapter.setLayoutMode(data);
+
+                    RecyclerView.LayoutManager layoutManager;
+                    int imageResource;
+
+                    switch (data) {
+                        case GRID:
+                            layoutManager = new GridLayoutManager(this, 2);
+                            imageResource = R.drawable.list_view_icon;
+                            break;
+                        case LIST:
+                        default:
+                            layoutManager = new LinearLayoutManager(this);
+                            imageResource = R.drawable.grid_view_icon;
+                    }
+
+                    rvProducts.setLayoutManager(layoutManager);
+                    viewTypeButton.setImageResource(imageResource);
+                });
 
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
         rvProducts.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rvProducts.setLayoutManager(layoutManager);
+        // TODO: see if we can replace this
+        rvProducts.setLayoutManager(new LinearLayoutManager(this));
+        viewTypeButton.setOnClickListener(it -> viewModel.toggleLayoutMode());
 
         sortFilterButton.setOnClickListener(v -> {
             // Functionality goes here later;
             filterText.setText("Sort By: Price");
         });
 
-        viewTypeButton.setOnClickListener(v -> {
-            adapter.toggleDisplayLayoutMode();
-            rvProducts.setLayoutManager(adapter.getmIsListViewEnabled() ?  new LinearLayoutManager(localContext) : new GridLayoutManager(localContext, 2));
-            rvProducts.setAdapter(adapter);
-            viewTypeButton.setImageResource(adapter.getmIsListViewEnabled() ? R.drawable.grid_view_icon : R.drawable.list_view_icon);
+
+        adapter.setOnItemClickListener((productId) -> {
+            Intent returnIntent = getIntent();
+            navigationHistory.add(returnIntent);
+
+            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productId);
+            productIntent.putExtra("NAVIGATION", navigationHistory);
+
+            startActivity(productIntent);
         });
-
-
     }
 
     public void setCategoryStyle(Category category) {
-        // Add implementation for category specific database calls.
-        if (category.equals(Category.PHOTOGRAPHIC)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGreen));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGreen));
-        } else if (category.equals(Category.AI)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGray));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGray));
-        } else if (category.equals(Category.ALBUM)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeOrange));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeOrange));
-        } else if (category.equals(Category.PAINTING)) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
-        } else {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
-            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+        int colourResId;
+        int secondaryColourResId;
+        String title;
+
+        switch (category) {
+            case PHOTOGRAPHIC:
+                colourResId = R.color.darkestShadeGreen;
+                secondaryColourResId = R.color.mediumShadeGreen;
+                title = "PHOTOGRAPHIC ART";
+                break;
+            case ALBUM:
+                colourResId = R.color.darkestShadeGray;
+                secondaryColourResId = R.color.mediumShadeGray;
+                title = "ALBUM COVER ART";
+                break;
+            case AI:
+                colourResId = R.color.darkestShadeOrange;
+                secondaryColourResId = R.color.mediumShadeOrange;
+                title = "AI GENERATED ART";
+                break;
+            case PAINTING:
+                colourResId = R.color.darkestShadeBlue;
+                secondaryColourResId = R.color.mediumShadeBlue;
+                title = "PAINTINGS";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + category);
         }
+
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
+        secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryColourResId));
+        toolbar.setTitle(title);
     }
-
-
 
 }

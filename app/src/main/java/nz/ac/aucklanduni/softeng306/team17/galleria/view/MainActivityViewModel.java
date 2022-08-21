@@ -27,7 +27,6 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void fetchFeaturedProducts() {
-        this.products.setValue(new ArrayList<>());
         productUseCase.listTopRatedProducts(5).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
@@ -38,7 +37,6 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void fetchMostViewedProducts() {
-        this.mostViewedProductImages.setValue(new ArrayList<>());
         productUseCase.listAllProducts().subscribe(productsFromRepo -> {
             mostViewedProductImages.setValue(productsFromRepo.stream()
                     .limit(3)

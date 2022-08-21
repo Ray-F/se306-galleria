@@ -17,23 +17,24 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_gravity="center"
-        android:src="@drawable/test_raccoon"
-        ></ImageView>
+        android:src="@drawable/test_raccoon" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_weight="5"
         android:layout_gravity="center"
+        android:orientation="vertical"
         >
+
         <TextView
-            style="@style/ProductRow"
             android:id="@+id/ProductName"
+            style="@style/ProductRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:text="TITLE TEXT"></TextView>
+            android:text="TITLE TEXT"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ProductDescription"
@@ -41,18 +42,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ProductName"
             android:layout_marginTop="5dp"
-            android:text="Some description text about this product for the user"></TextView>
+            android:text="Some description text about this product for the user" />
+
         <TextView
             android:id="@+id/RowSpecialText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ProductDescription"
             android:layout_marginTop="5dp"
-            android:text="Special Text Goes Here And it might be long"
-            >
-        </TextView>
+            android:text="Special Text Goes Here And it might be long" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/ProductPrice"
