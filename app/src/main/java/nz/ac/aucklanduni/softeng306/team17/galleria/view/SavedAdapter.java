@@ -66,7 +66,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // ADD FUNCTIONALITY HERE FOR LIVE DATABASE CONNECTION TO REMOVE SAVED IN BACKEND
-                                mProducts.remove(position);
+                                mProducts.remove(holder.getAbsoluteAdapterPosition());
                                 System.out.println("SAVED PRODUCT REMOVED");
                                 notifyDataSetChanged();
                             }
