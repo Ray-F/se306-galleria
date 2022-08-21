@@ -83,7 +83,7 @@ public class SearchResultActivity extends SearchBarActivity {
             }
 
             binding.ProductRecyclerView.setLayoutManager(layoutManager);
-            binding.ViewLayoutIcon.setImageResource(imageResource);
+            binding.ViewLayoutIcon.setIconResource(imageResource);
         });
 
         initModifierListeners();
@@ -91,7 +91,7 @@ public class SearchResultActivity extends SearchBarActivity {
 
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
-            System.out.println("Sorting butotn clicked!");
+            System.out.println("Sorting button clicked!");
         });
 
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());

@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="20pt"
             android:text="TITLE TEXT"
             android:textStyle="bold" />
 
@@ -41,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ProductName"
+            android:textSize="16pt"
             android:layout_marginTop="5dp"
             android:text="Some description text about this product for the user" />
 
@@ -48,6 +50,7 @@
             android:id="@+id/RowSpecialText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="16pt"
             android:layout_below="@id/ProductDescription"
             android:layout_marginTop="5dp"
             android:text="Special Text Goes Here And it might be long" />

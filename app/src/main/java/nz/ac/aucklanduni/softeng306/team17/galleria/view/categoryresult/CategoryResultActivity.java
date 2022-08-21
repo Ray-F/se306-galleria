@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,8 @@ public class CategoryResultActivity extends SearchBarActivity {
     SimpleListInfoAdapter adapter;
     RecyclerView rvProducts;
     TextView filterText;
-    ImageView sortFilterButton;
-    ImageView viewTypeButton;
+    MaterialButton sortFilterButton;
+    MaterialButton viewTypeButton;
     RelativeLayout secondaryTopBar;
     Toolbar toolbar;
 
@@ -53,8 +54,8 @@ public class CategoryResultActivity extends SearchBarActivity {
         secondaryTopBar = findViewById(R.id.secondaryTopBar);
         filterText = (TextView) findViewById(R.id.SortFilterText);
         filterText.setText("Sort By: New");
-        sortFilterButton = (ImageView) findViewById(R.id.SortIcon);
-        viewTypeButton = (ImageView) findViewById(R.id.ViewLayoutIcon);
+        sortFilterButton = (MaterialButton) findViewById(R.id.SortIcon);
+        viewTypeButton = (MaterialButton) findViewById(R.id.ViewLayoutIcon);
 
         setCategoryStyle(category);
 
@@ -87,7 +88,7 @@ public class CategoryResultActivity extends SearchBarActivity {
                     }
 
                     rvProducts.setLayoutManager(layoutManager);
-                    viewTypeButton.setImageResource(imageResource);
+                    viewTypeButton.setIconResource(imageResource);
                 });
 
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);

@@ -72,7 +72,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ((SavedProductViewHolder) holder).unsaveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.GalleriaAlert);
                 builder.setCancelable(true);
                 builder.setTitle("CONFIRM ACTION");
                 builder.setMessage("Are you sure you want to unsave this artwork?");
