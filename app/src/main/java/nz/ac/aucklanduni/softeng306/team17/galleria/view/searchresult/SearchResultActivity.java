@@ -72,11 +72,11 @@ public class SearchResultActivity extends SearchBarActivity {
             int imageResource;
 
             switch (mode) {
-                case ListViewLayoutMode.GRID:
+                case GRID:
                     layoutManager = new GridLayoutManager(this, 2);
                     imageResource = R.drawable.list_view_icon;
                     break;
-                case ListViewLayoutMode.LIST:
+                case LIST:
                 default:
                     layoutManager = new LinearLayoutManager(this);
                     imageResource = R.drawable.grid_view_icon;

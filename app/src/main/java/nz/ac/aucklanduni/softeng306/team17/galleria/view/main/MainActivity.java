@@ -4,6 +4,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -35,6 +38,11 @@ public class MainActivity extends SearchBarActivity {
     MainActivityViewModel viewModel;
     ImageView[] dotView;
     private Toolbar toolbar;
+
+    Timer timer;
+    int currentPage = 0;
+    final long DELAY_MS = 500;
+    final long PERIOD_MS = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +103,27 @@ public class MainActivity extends SearchBarActivity {
         initCategoryListeners();
 
         customizeToolbar();
+
+        initScrollTimer();
+    }
+
+    private void initScrollTimer() {
+        /*After setting the adapter use the timer */
+        final Handler handler = new Handler();
+        final Runnable Update = () -> {
+            if (currentPage == 3) {
+                currentPage = 0;
+            }
+            binding.mainViewPagerMain.setCurrentItem(currentPage++, true);
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 
     private void initCategoryListeners() {

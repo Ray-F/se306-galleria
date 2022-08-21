@@ -136,7 +136,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     /**
      * Listener for item button click.
      */
-    static interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onClick(String productId);
     }
 

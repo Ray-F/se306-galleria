@@ -39,7 +39,7 @@ public class MainActivityViewModel extends ViewModel {
     public void fetchMostViewedProducts() {
         productUseCase.listAllProducts().subscribe(productsFromRepo -> {
             mostViewedProductImages.setValue(productsFromRepo.stream()
-                    .limit(3)
+                    .limit(5)
                     .map(ProductInfoDto::convertByteToBitMap)
                     .collect(Collectors.toList())
             );
