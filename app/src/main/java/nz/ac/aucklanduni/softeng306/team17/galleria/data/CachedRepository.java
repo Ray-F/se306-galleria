@@ -8,7 +8,13 @@ public abstract class CachedRepository<T> {
     private Map<String, T> cache = new HashMap<>();
 
     protected T getFromCacheOrNull(String key) {
-        return cache.getOrDefault(key, null);
+        T cachedItem = cache.getOrDefault(key, null);
+
+        if (cachedItem != null) {
+            System.out.printf("Retrieving \"%s\" (type: %s) from cache.", key, cachedItem.getClass());
+        }
+
+        return cachedItem;
     }
 
 

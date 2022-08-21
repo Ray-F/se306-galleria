@@ -2,7 +2,6 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -53,7 +52,9 @@ public class ProductRepository extends CachedRepository<Product> implements IPro
                                 .map((it) -> Objects.requireNonNull(it.toObject(ProductDbo.class)).toModel())
                                 .collect(Collectors.toList());
 
-                        System.out.println(products);
+                        // Add list view to cache as well
+                        products.forEach(product -> addToCache(product.getId(), product));
+
                         emitter.onSuccess(products);
                     })
                     .addOnFailureListener(System.out::println);
@@ -92,6 +93,10 @@ public class ProductRepository extends CachedRepository<Product> implements IPro
                         List<Product> products = res.getDocuments().stream()
                                 .map((it) -> Objects.requireNonNull(it.toObject(ProductDbo.class)).toModel())
                                 .collect(Collectors.toList());
+
+                        // Add list view to cache as well
+                        products.forEach(product -> addToCache(product.getId(), product));
+
                         emitter.onSuccess(products);
                     })
                     .addOnFailureListener(emitter::onError);
