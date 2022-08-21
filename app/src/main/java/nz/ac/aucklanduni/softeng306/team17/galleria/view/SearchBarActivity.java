@@ -155,14 +155,14 @@ public class SearchBarActivity extends AppCompatActivity {
     }
 
     protected void switchBackToSavedButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon().equals(R.drawable.back_button)) {
+        if (toolbar.getNavigationIcon().equals(R.drawable.ic_baseline_arrow_back_ios_24)) {
             toolbar.setNavigationIcon(R.drawable.white_heart);
         }
     }
 
     protected void switchSavedToBackButton(Toolbar toolbar) {
         if (toolbar.getNavigationIcon().equals(R.drawable.white_heart)) {
-            toolbar.setNavigationIcon(R.drawable.back_button);
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_24);
         }
     }
 }
