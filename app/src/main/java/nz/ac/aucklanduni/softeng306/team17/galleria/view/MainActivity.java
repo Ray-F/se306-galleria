@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -28,10 +29,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 public class MainActivity extends SearchBarActivity {
 
     ActivityMainBinding binding;
-    ViewPager imageViewPage;
     CategoryResultAdapter adapter;
-    RecyclerView rvMainFeaturedProducts;
-    LinearLayout buttonsSlide;
     ViewPagerAdapter mViewPageAdapter;
     MainActivityViewModel viewModel;
     ImageView[] dotView;
@@ -46,20 +44,32 @@ public class MainActivity extends SearchBarActivity {
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);
 
-//        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
-//        mViewPageAdapter = new ViewPagerAdapter(MainActivity.this, new ArrayList<>());
-//        imageViewPage.setAdapter(mViewPageAdapter);
+        adapter = new CategoryResultAdapter();
+        binding.MainRecyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.MainRecyclerView.setLayoutManager(layoutManager);
 
-//        rvMainFeaturedProducts = findViewById(R.id.MainRecyclerView);
-//        rvMainFeaturedProducts.setAdapter(adapter);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        rvMainFeaturedProducts.setLayoutManager(layoutManager);
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
 
-        ImageView imgView = (ImageView)findViewById(R.id.mostPopular);
-        imgView.setBackgroundResource(R.drawable.mostviewed);
+        viewModel.fetchFeaturedProducts();
+        viewModel.getProducts().observe(this, data -> {
+            adapter.setProducts(data);
+            adapter.notifyDataSetChanged();
+        });
+
+        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
+                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
+        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
+
+        viewModel.fetchMostViewedProducts();
+        viewModel.getMostViewedProductImages().observe(this, data -> {
+            mViewPageAdapter.setImages(data);
+            mViewPageAdapter.notifyDataSetChanged();
+        });
+
+//        ImageView imgView = (ImageView)findViewById(R.id.mostPopular);
+//        imgView.setBackgroundResource(R.drawable.mostviewed);
         initCategoryListeners();
-//        loadViewModelData();
-//        initListeners();
     }
 
     private void initCategoryListeners() {
@@ -80,17 +90,6 @@ public class MainActivity extends SearchBarActivity {
         });
     }
 
-    private void loadViewModelData() {
-        viewModel.getProduct().observe(
-                this, data -> {
-                    System.out.println("Single product returned successfully");
-                    List<Bitmap> imagesInCarousel = data.getAllImages();
-                    mViewPageAdapter.setImages(imagesInCarousel);
-                    createDots(imagesInCarousel.size());
-                }
-        );
-    }
-
     private void createDots(int nImages) {
         dotView = new ImageView[nImages];
 
@@ -98,26 +97,15 @@ public class MainActivity extends SearchBarActivity {
         LinearLayout.LayoutParams parameters = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         parameters.setMargins(4, 0, 4, 0);
 
-        buttonsSlide.removeAllViews();
+        binding.threeDots.removeAllViews();
         for (int i = 0; i < nImages; i++) {
             dotView[i] = new ImageView(this);
-            buttonsSlide.addView(dotView[i], parameters);
+            binding.threeDots.addView(dotView[i], parameters);
         }
     }
 
     private void resetDotsWithActiveNumber(int currentPosition) {
         Arrays.stream(dotView).forEach(it -> it.setImageResource(R.drawable.dot_for_viewpager));
         dotView[currentPosition].setImageResource(R.drawable.dot_for_viewpager_selected);
-    }
-
-    private void initListeners() {
-
-        // Add image scroll listener
-        imageViewPage.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                resetDotsWithActiveNumber(position);
-            }
-        });
     }
 }

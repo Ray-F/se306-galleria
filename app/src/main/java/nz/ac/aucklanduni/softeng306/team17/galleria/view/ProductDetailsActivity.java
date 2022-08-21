@@ -59,7 +59,8 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
-        imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>());
+        imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>(),
+                R.layout.product_details_slideview, R.id.imageViewMain);
         imageViewPage.setAdapter(imageViewPageAdapter);
 
 

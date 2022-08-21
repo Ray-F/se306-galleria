@@ -151,17 +151,12 @@
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
-            <!--            <androidx.viewpager.widget.ViewPager-->
-            <!--                android:id="@+id/mainViewPagerMain"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="300dp"-->
-            <!--                android:layout_marginTop="10dp" />-->
-
-            <ImageView
-                android:id="@+id/mostPopular"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/mainViewPagerMain"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="10dp" />
+                android:layout_height="350dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="0dp" />
 
             <LinearLayout
                 android:id="@+id/threeDots"
@@ -175,7 +170,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
                 android:text="Featured"
                 android:textColor="@color/black"
                 android:textSize="24dp"
