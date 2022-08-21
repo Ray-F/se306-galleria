@@ -15,6 +15,10 @@ public class SearchResultViewModel extends ViewModel {
 
     private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>();
 
+
+    // Default view should be list
+    private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
+
     public SearchResultViewModel(SearchUseCase searchUseCase) {
         this.searchUseCase = searchUseCase;
     }
@@ -28,8 +32,21 @@ public class SearchResultViewModel extends ViewModel {
             products.setValue(repoProducts.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                        // TODO: Somehow get whether this product is saved by user or not
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false)
+                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "")
                     )).collect(Collectors.toList()));
         });
     }
+
+    public void toggleLayoutMode() {
+        if (this.layoutMode.getValue() == ListViewLayoutMode.LIST) {
+            this.layoutMode.setValue(ListViewLayoutMode.GRID);
+        } else {
+            this.layoutMode.setValue(ListViewLayoutMode.LIST);
+        }
+    }
+
+    public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
+        return layoutMode;
+    }
+
 }

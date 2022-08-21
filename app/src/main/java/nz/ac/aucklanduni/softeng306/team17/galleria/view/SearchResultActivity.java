@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
+import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityCategoryResultBinding;
 
 public class SearchResultActivity extends SearchBarActivity {
@@ -21,7 +24,7 @@ public class SearchResultActivity extends SearchBarActivity {
 
     private SearchResultViewModel viewModel;
 
-    private CategoryResultAdapter listViewAdapter;
+    private SimpleListInfoAdapter listViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +46,50 @@ public class SearchResultActivity extends SearchBarActivity {
         viewModel.enterSearch(searchTerm);
 
         binding.ProductRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        listViewAdapter = new CategoryResultAdapter();
-        listViewAdapter.setNavigationHistory(navigationHistory);
+        listViewAdapter = new SimpleListInfoAdapter();
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
+
+        listViewAdapter.setOnItemClickListener((productId) -> {
+            Intent returnIntent = new Intent(this, SearchResultActivity.class);
+            returnIntent.putExtra("searchTerm", searchTerm);
+            navigationHistory.add(returnIntent);
+
+            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productId);
+            productIntent.putExtra("NAVIGATION", navigationHistory);
+
+            startActivity(productIntent);
+        });
+
+        viewModel.getLayoutMode().observe(this, mode -> {
+            listViewAdapter.setLayoutMode(mode);
+            RecyclerView.LayoutManager layoutManager;
+            int imageResource;
+
+            switch (mode) {
+                case GRID:
+                    layoutManager = new GridLayoutManager(this, 2);
+                    imageResource = R.drawable.list_view_icon;
+                    break;
+                case LIST:
+                default:
+                    layoutManager = new LinearLayoutManager(this);
+                    imageResource = R.drawable.grid_view_icon;
+            }
+
+            binding.ProductRecyclerView.setLayoutManager(layoutManager);
+            binding.ViewLayoutIcon.setImageResource(imageResource);
+        });
 
         initModifierListeners();
     }
 
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
-            System.out.println("Clicked!");
+            System.out.println("Sorting butotn clicked!");
         });
 
-        binding.ViewLayoutIcon.setOnClickListener(view -> {
-            System.out.println("Toggle view change button, clicked!");
-        });
+        binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
     private void customizeToolbar(Toolbar toolbar) {

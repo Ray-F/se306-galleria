@@ -24,6 +24,8 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
+
+    private SearchBarActivity instance;
     public ArrayList<Intent> navigationHistory;
     
     private SearchView searchView;
@@ -32,6 +34,7 @@ public class SearchBarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         super.onCreate(savedInstanceState);
 
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
@@ -94,11 +97,14 @@ public class SearchBarActivity extends AppCompatActivity {
                 String term = cursor.getString(index);
                 cursor.close();
 
-                // Construct intent to go to Search Result Activity
-//                Intent intent = new Intent(context, ProductDetailsActivity.class);
-//                intent.putExtra("productName", term);
-//                startActivity(intent);
+                Intent returnIntent = getIntent();
+                navigationHistory.add(returnIntent);
 
+                // Construct intent to go to Search Result Activity
+                Intent intent = new Intent(instance, SearchResultActivity.class);
+                intent.putExtra("searchTerm", term);
+                intent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(intent);
                 return false;
             }
         });
@@ -108,11 +114,15 @@ public class SearchBarActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                System.out.println("Submit ");
+                Intent returnIntent = getIntent();
+                navigationHistory.add(returnIntent);
 
                 // Redirect user to SearchResultActivity with query.
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("searchString", s);
+                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putExtra("searchTerm", s);
+                intent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(intent);
+
                 return true;
             }
 

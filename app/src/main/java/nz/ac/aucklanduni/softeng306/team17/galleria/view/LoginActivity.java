@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,8 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
-            Intent intent = new Intent(this, SearchResultActivity.class);
-            intent.putExtra("searchTerm", "matcha");
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("NAVIGATION", new ArrayList<>());
             startActivity(intent);
         });

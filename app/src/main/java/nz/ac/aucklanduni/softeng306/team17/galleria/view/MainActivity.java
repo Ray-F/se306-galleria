@@ -25,7 +25,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class MainActivity extends SearchBarActivity {
 
     ActivityMainBinding binding;
-    CategoryResultAdapter adapter;
+    SimpleListInfoAdapter adapter;
     ViewPagerAdapter mViewPageAdapter;
     MainActivityViewModel viewModel;
     ImageView[] dotView;
@@ -50,18 +50,25 @@ public class MainActivity extends SearchBarActivity {
         removeBackButton(toolbar);
         loadToolbar(toolbar);
 
-        adapter = new CategoryResultAdapter();
+        adapter = new SimpleListInfoAdapter();
         binding.MainRecyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        binding.MainRecyclerView.setLayoutManager(layoutManager);
+        binding.MainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter.setOnItemClickListener((productId) -> {
+            Intent returnIntent = new Intent(this, MainActivity.class);
+            navigationHistory.add(returnIntent);
+
+            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productId);
+            productIntent.putExtra("NAVIGATION", navigationHistory);
+
+            startActivity(productIntent);
+        });
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
 
         viewModel.fetchFeaturedProducts();
-        viewModel.getProducts().observe(this, data -> {
-            adapter.setProducts(data);
-            adapter.notifyDataSetChanged();
-        });
+        viewModel.getProducts().observe(this, adapter::setProducts);
 
         mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
                 R.layout.main_activity_slideview, R.id.mainViewPagerMain);
@@ -81,6 +88,8 @@ public class MainActivity extends SearchBarActivity {
         });
 
         initCategoryListeners();
+
+        customizeToolbar();
     }
 
     private void initCategoryListeners() {
@@ -102,6 +111,10 @@ public class MainActivity extends SearchBarActivity {
                 startActivity(categoryIntent);
             });
         });
+    }
+
+    private void customizeToolbar() {
+
     }
 
     private void createDots(int nImages) {
