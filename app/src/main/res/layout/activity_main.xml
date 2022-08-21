@@ -164,9 +164,12 @@
                 android:layout_height="10dp"
                 android:layout_weight="0.25"
                 android:gravity="center_vertical|center_horizontal"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:layout_marginTop="-45dp"
+                android:layout_marginBottom="45dp" />
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"

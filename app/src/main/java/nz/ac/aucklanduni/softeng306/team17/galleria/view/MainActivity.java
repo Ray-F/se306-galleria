@@ -3,27 +3,23 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
+import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 
 public class MainActivity extends SearchBarActivity {
@@ -60,15 +56,20 @@ public class MainActivity extends SearchBarActivity {
         mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
                 R.layout.main_activity_slideview, R.id.mainViewPagerMain);
         binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
+        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                resetDotsWithActiveNumber(position);
+            }
+        });
 
         viewModel.fetchMostViewedProducts();
         viewModel.getMostViewedProductImages().observe(this, data -> {
             mViewPageAdapter.setImages(data);
             mViewPageAdapter.notifyDataSetChanged();
+            createDots(data.size());
         });
 
-//        ImageView imgView = (ImageView)findViewById(R.id.mostPopular);
-//        imgView.setBackgroundResource(R.drawable.mostviewed);
         initCategoryListeners();
     }
 
@@ -92,7 +93,6 @@ public class MainActivity extends SearchBarActivity {
 
     private void createDots(int nImages) {
         dotView = new ImageView[nImages];
-
         // Set layout parameters for the dots
         LinearLayout.LayoutParams parameters = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         parameters.setMargins(4, 0, 4, 0);
@@ -102,6 +102,11 @@ public class MainActivity extends SearchBarActivity {
             dotView[i] = new ImageView(this);
             binding.threeDots.addView(dotView[i], parameters);
         }
+
+        if (nImages > 0) {
+            resetDotsWithActiveNumber(0);
+        }
+
     }
 
     private void resetDotsWithActiveNumber(int currentPosition) {
