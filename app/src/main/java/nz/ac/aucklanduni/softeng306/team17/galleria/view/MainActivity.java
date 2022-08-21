@@ -20,7 +20,7 @@ public class MainActivity extends SearchBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // Link XML elements with code
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
@@ -39,13 +39,14 @@ public class MainActivity extends SearchBarActivity {
     }
 
     private void initCategoryListeners() {
+        // Map each image to its related category
         Map<ImageView, Category> categoryIconMap = new HashMap<>();
         categoryIconMap.put(binding.aiGeneratedIcon, Category.AI);
         categoryIconMap.put(binding.albumsIcon, Category.ALBUM);
         categoryIconMap.put(binding.photographicIcon, Category.PHOTOGRAPHIC);
         categoryIconMap.put(binding.paintingsIcon, Category.PAINTING);
 
-
+        // For each image, when it is clicked on, open the relevant category result view
         categoryIconMap.forEach((icon, category) -> {
             icon.setOnClickListener((view) -> {
                 navigationHistory.add(new Intent(this, MainActivity.class));

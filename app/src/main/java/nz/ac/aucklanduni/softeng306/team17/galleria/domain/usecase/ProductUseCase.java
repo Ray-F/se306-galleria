@@ -64,16 +64,9 @@ public class ProductUseCase {
         Single<List<String>> productIdsProm = userRepo.getProductsByUser(userId);
         Single<List<Product>> allProductsProm = productRepo.listAll();
 
-        return Single.create(emitter -> {
-            List<String> productIds = productIdsProm.blockingGet();
-            List<Product> allProducts = allProductsProm.blockingGet();
-
-            List<Product> filteredProducts = allProducts.stream()
-                    .filter(it -> productIds.contains(it.getId()))
-                    .collect(Collectors.toList());
-
-            emitter.onSuccess(filteredProducts);
-        });
+        return Single.zip(productIdsProm, allProductsProm, (productIds, allProducts) -> allProducts.stream()
+                .filter(it -> productIds.contains(it.getId()))
+                .collect(Collectors.toList()));
     }
 
     /**

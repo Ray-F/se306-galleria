@@ -20,13 +20,14 @@ public class SearchHistoryRepository implements ISearchRepository {
     private final CollectionReference searches;
 
     public SearchHistoryRepository(FirebaseFirestore firestoreClient) {
-        this.searches = firestoreClient.collection("Searches");
+        this.searches = firestoreClient.collection("SearchHistory");
     }
 
     @Override
     public SearchAutocompleteTerms get() {
         SearchAutocompleteTerms searchAutocompleteTerms = new SearchAutocompleteTerms();
         getAllSearchTerms().subscribe(terms -> {
+            System.out.println("ALL TERMS" + terms);
             terms.forEach(searchAutocompleteTerms::addSearchTerm);
         });
         return searchAutocompleteTerms;
@@ -34,19 +35,15 @@ public class SearchHistoryRepository implements ISearchRepository {
 
     @Override
     public Single<List<String>> getPopular(int limit) {
-        return Single.create(emitter -> {
-            List<String> allTerms = getAllSearchTerms().blockingGet();
-
+        return getAllSearchTerms().map(allTerms -> {
             Map<String, Long> searchTermCounter = allTerms.stream()
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-            List<String> topTerms = searchTermCounter.entrySet().stream()
+            return searchTermCounter.entrySet().stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .limit(limit)
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toList());
-
-            emitter.onSuccess(topTerms);
         });
     }
 
