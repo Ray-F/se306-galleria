@@ -126,28 +126,11 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             unsaveIcon = inputView.findViewById(R.id.UnsaveHeart);
             textArea = inputView.findViewById(R.id.savedTextArea);
 
-            unsaveIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Dummy implementation here not needed
-                }
-            });
-
-            textArea.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Dummy implementation here not needed
-                }
-            });
-
-
         }
 
         @Override
         public void onClick(View v) {
-            // What to do when the view item is clicked
-            ProductInfoDto clickedProduct = mProducts.get(getAbsoluteAdapterPosition());
-            Toast.makeText(mContext, clickedProduct.getName() + " is clicked in position " + getAbsoluteAdapterPosition(), Toast.LENGTH_SHORT).show();
+            // Ignore click
         }
 
     }
