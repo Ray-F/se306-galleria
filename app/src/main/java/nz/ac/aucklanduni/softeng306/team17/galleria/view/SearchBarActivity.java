@@ -127,10 +127,18 @@ public class SearchBarActivity extends AppCompatActivity {
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> {
-            System.out.println("IM CLICKING THE DUMB BACK BUTTON");
-            Intent previousIntent = resolveReturn();
-            previousIntent.putExtra("NAVIGATION", navigationHistory);
-            startActivity(previousIntent);
+            if (toolbar.getNavigationIcon().equals(R.drawable.back_button)) {
+                System.out.println("IM CLICKING THE DUMB BACK BUTTON");
+                Intent previousIntent = resolveReturn();
+                previousIntent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(previousIntent);
+            } else {
+                Intent savedIntent = new Intent(this, SavedProductsActivity.class);
+                Intent returnIntent = new Intent(this, MainActivity.class);
+                navigationHistory.add(returnIntent);
+                savedIntent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(savedIntent);
+            }
         });
     }
 
@@ -146,14 +154,14 @@ public class SearchBarActivity extends AppCompatActivity {
         }
     }
 
-    protected void removeBackButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon() != null) {
-            toolbar.setNavigationIcon(null);
+    protected void switchBackToSavedButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon().equals(R.drawable.back_button)) {
+            toolbar.setNavigationIcon(R.drawable.white_heart);
         }
     }
 
-    protected void addBackButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon() == null) {
+    protected void switchSavedToBackButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon().equals(R.drawable.white_heart)) {
             toolbar.setNavigationIcon(R.drawable.back_button);
         }
     }

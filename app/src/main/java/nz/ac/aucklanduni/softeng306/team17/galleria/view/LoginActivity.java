@@ -23,8 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
-            Intent intent = new Intent(this, SavedProductsActivity.class);
-            intent.putExtra("NAVIGATION", new ArrayList<Intent>());
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
     }

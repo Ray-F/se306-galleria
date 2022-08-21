@@ -47,7 +47,7 @@ public class MainActivity extends SearchBarActivity {
         setContentView(binding.getRoot());
 
         toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        removeBackButton(toolbar);
+        switchBackToSavedButton(toolbar);
         loadToolbar(toolbar);
 
         adapter = new CategoryResultAdapter();
