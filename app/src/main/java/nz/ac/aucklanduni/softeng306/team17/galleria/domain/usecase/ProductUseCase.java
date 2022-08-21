@@ -1,4 +1,5 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,8 @@ public class ProductUseCase {
      * @return products that have been saved by the user.
      */
     public Single<List<Product>> listSavedProductsByUser(String userId) {
-        Single<List<String>> productIdsProm = userRepo.getProductsByUser(userId);
+        // TODO: Replace this with actual saved products from the user
+        Single<List<String>> productIdsProm = Single.just(new ArrayList<>());
         Single<List<Product>> allProductsProm = productRepo.listAll();
 
         return Single.zip(productIdsProm, allProductsProm, (productIds, allProducts) -> allProducts.stream()
