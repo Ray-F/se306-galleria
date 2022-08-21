@@ -14,15 +14,13 @@ import io.reactivex.rxjava3.core.Single;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 
-public class UserRepository implements IUserRepository {
+public class UserRepository extends CachedRepository<User> implements IUserRepository {
 
     private final CollectionReference usersCollection;
-    private final CollectionReference userSavedProductsCollection;
 
     public UserRepository(FirebaseFirestore firestoreClient) {
         super();
         this.usersCollection = firestoreClient.collection("Users");
-        this.userSavedProductsCollection = firestoreClient.collection("SavedProducts");
     }
 
     @Override
@@ -39,12 +37,6 @@ public class UserRepository implements IUserRepository {
                     })
                     .addOnFailureListener(System.out::println);
         });
-    }
-
-    // TODO: Complete this method with the associated changes to DBO for saved users
-    @Override
-    public Single<List<String>> getProductsByUser(String userId) {
-        return Single.create(emitter -> emitter.onSuccess(new ArrayList<>()));
     }
 
     @Override
