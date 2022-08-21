@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ProductImageGrid"
         android:layout_width="170dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:scaleType="centerCrop"
         ></ImageView>
 

@@ -20,7 +20,17 @@ import com.google.android.material.appbar.AppBarLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import nl.dionsegijn.konfetti.core.Angle;
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
@@ -155,6 +165,20 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         // Add saved product click button listener
         saveProductButton.setOnClickListener(view -> {
+            if (saveProductButton.getText().toString().toLowerCase(Locale.ROOT).equals("save product")) {
+                EmitterConfig emitterConfig = new Emitter(2L, TimeUnit.SECONDS).perSecond(200);
+                Party party = new PartyFactory(emitterConfig)
+                        .angle(Angle.TOP)
+                        .spread(90)
+                        .setSpeedBetween(15f, 20f)
+                        .timeToLive(1000L)
+                        .sizes(new Size(12, 5f, 0.2f))
+                        .position(0.0, 0, 1.0, 1)
+                        .build();
+
+                ((KonfettiView) findViewById(R.id.konfettiView)).start(party);
+            }
+
             viewModel.toggleSaveProduct();
         });
     }

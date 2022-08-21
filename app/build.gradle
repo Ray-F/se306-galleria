@@ -24,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
     }
     buildFeatures {
         viewBinding true
@@ -41,6 +41,10 @@ dependencies {
 
     // Add RxJava for observable/async data
     implementation "io.reactivex.rxjava3:rxjava:3.1.5"
+
+    // For confetti
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.2'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
 
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'

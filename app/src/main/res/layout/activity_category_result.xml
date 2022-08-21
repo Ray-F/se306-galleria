@@ -55,7 +55,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProductRecyclerView"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
