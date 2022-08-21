@@ -78,8 +78,6 @@ public class SearchBarActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 searchBarViewModel.changeSearchQuery(s);
-                System.out.println("Change: " + s);
-
                 return false;
             }
         });
@@ -107,8 +105,6 @@ public class SearchBarActivity extends AppCompatActivity {
         });
 
         searchBarViewModel.getAutofill().observe(context, data -> {
-            System.out.println("Observed: " + data);
-
             final MatrixCursor c = new MatrixCursor(new String[] {BaseColumns._ID, "productName" });
             for (int i = 0; i < data.size(); i++) {
                 c.addRow(new Object[] { i, data.get(i)});
