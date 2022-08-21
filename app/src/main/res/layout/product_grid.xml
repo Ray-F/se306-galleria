@@ -10,6 +10,7 @@
         android:id="@+id/ProductImageGrid"
         android:layout_width="180dp"
         android:layout_height="180dp"
+        android:scaleType="centerCrop"
         ></ImageView>
 
     <TextView
