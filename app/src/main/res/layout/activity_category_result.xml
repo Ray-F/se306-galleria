@@ -17,6 +17,7 @@
             />
 
         <RelativeLayout
+            android:id="@+id/secondaryTopBar"
             android:layout_height="50dp"
             android:layout_width="match_parent"
             android:background="@color/mediumShadeGreen"
