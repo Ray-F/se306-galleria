@@ -45,6 +45,7 @@ public class CategoryResultActivity extends SearchBarActivity {
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+        addBackButton(toolbar);
         loadToolbar(toolbar);
 
         // Set default sort filter setting

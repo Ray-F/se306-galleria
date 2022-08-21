@@ -16,6 +16,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class MainActivity extends SearchBarActivity {
 
     private ActivityMainBinding binding;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class MainActivity extends SearchBarActivity {
 
         setContentView(binding.getRoot());
 
-        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-
+        toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
+        removeBackButton(toolbar);
         loadToolbar(toolbar);
 
         initCategoryListeners();

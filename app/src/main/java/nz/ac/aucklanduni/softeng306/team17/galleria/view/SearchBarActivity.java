@@ -76,4 +76,16 @@ public class SearchBarActivity extends AppCompatActivity {
             return navigationHistory.remove(navigationHistory.size()-1);
         }
     }
+
+    protected void removeBackButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.setNavigationIcon(null);
+        }
+    }
+
+    protected void addBackButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon() == null) {
+            toolbar.setNavigationIcon(R.drawable.back_button);
+        }
+    }
 }
