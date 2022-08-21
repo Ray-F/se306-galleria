@@ -20,6 +20,8 @@ public class MainActivity extends SearchBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         // Link XML elements with code
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
