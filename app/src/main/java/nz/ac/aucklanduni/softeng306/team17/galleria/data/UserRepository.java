@@ -12,9 +12,10 @@ import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.core.Single;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 
-public class UserRepository implements IUserRepository {
+public class UserRepository extends CachedRepository<User> implements IUserRepository {
 
     private final CollectionReference usersCollection;
 
@@ -26,14 +27,22 @@ public class UserRepository implements IUserRepository {
     @Override
     public Single<User> get(String id) {
         return Single.create(emitter -> {
+            User cached = getFromCacheOrNull(id);
+
+            if (cached != null) {
+                emitter.onSuccess(cached);
+                return;
+            }
+
             usersCollection.document(id).get()
                     .addOnSuccessListener((doc) -> {
                         if (doc.exists()) {
                             User user = Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
+                            addToCache(user.getId(), user);
                             emitter.onSuccess(user);
+                        } else {
+                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", id)));
                         }
-
-                        emitter.onSuccess(null);
                     })
                     .addOnFailureListener(System.out::println);
         });
@@ -79,6 +88,7 @@ public class UserRepository implements IUserRepository {
         DocumentReference docRef = usersCollection.document();
         dbo.id = docRef.getId();
         User createdUser = dbo.toModel();
+        addToCache(createdUser.getId(), createdUser);
 
         docRef.set(dbo);
 
