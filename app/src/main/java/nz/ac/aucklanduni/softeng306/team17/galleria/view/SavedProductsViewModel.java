@@ -22,17 +22,6 @@ public class SavedProductsViewModel extends ViewModel {
         products = new MutableLiveData<>();
     }
 
-//    public LiveData<List<ProductInfoDto>> getProducts(String uuid) {
-//        productUseCase.listProductsByCategory(Category.PHOTOGRAPHIC).subscribe(productsFromRepo -> {
-//            products.setValue(productsFromRepo.stream().map(it -> (
-//                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-//                                       // TODO: Somehow get whether this product is saved by user or not
-//                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "")
-//            )).collect(Collectors.toList()));
-//        });
-//
-//        return products;
-//    }
 
     public LiveData<List<ProductInfoDto>> getProducts(String uuid) {
         productUseCase.listSavedProductsByUser(uuid).subscribe(filteredProducts -> {

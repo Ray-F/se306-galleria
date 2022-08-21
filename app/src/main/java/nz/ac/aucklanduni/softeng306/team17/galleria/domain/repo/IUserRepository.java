@@ -11,6 +11,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
 public interface IUserRepository extends IRepository<User> {
 
     Single<User> getByEmail(String email);
+    void updateSavedProductsByUser(String uuid, List<String> newSavedProducts);
     Single<List<String>> getSavedProductsByUser(String uuid);
 
 }

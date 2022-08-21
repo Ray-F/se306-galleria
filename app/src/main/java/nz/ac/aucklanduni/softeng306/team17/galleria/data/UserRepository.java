@@ -1,5 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -107,5 +108,16 @@ public class UserRepository extends CachedRepository<User> implements IUserRepos
                     })
                     .addOnFailureListener(emitter::onError);
         });
+    }
+
+    @Override
+    public void updateSavedProductsByUser(String uuid, List<String> newSavedProducts) {
+        usersCollection.document(uuid).update("saved", newSavedProducts)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        System.out.println("SUCCESSFULLY UPDATED SAVED PRODUCTS FOR " + uuid);
+                    }
+                });
     }
 }

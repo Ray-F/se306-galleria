@@ -73,9 +73,22 @@ public class ProductUseCase {
     /**
      * Saves a product to a user's saved products.
      */
-    public void saveProductToUser(Product product, String uuid) {
-        // TODO: Complete this use case
+    public void saveProductToUser(String uuid, Product newProduct) {
+        String newId = newProduct.getId();
+        userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
+            data.add(newId);
+            userRepo.updateSavedProductsByUser(uuid, data);
+        });
+    }
 
-
+    /**
+     * Removes a product to a user's saved products.
+     */
+    public void unsaveProductToUser(String uuid, Product newProduct) {
+        String newId = newProduct.getId();
+        userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
+            data.remove(newId);
+            userRepo.updateSavedProductsByUser(uuid, data);
+        });
     }
 }
