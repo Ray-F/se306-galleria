@@ -60,8 +60,8 @@ public class ProductUseCase {
     /**
      * @return products that have been saved by the user.
      */
-    public Single<List<Product>> listSavedProductsByUser(String userId) {
-        Single<List<String>> productIdsProm = userRepo.getProductsByUser(userId);
+    public Single<List<Product>> listSavedProductsByUser(String uuid) {
+        Single<List<String>> productIdsProm = userRepo.getProductsByUser(uuid);
         Single<List<Product>> allProductsProm = productRepo.listAll();
 
         return Single.zip(productIdsProm, allProductsProm, (productIds, allProducts) -> allProducts.stream()
@@ -72,7 +72,9 @@ public class ProductUseCase {
     /**
      * Saves a product to a user's saved products.
      */
-    public void saveProductToUser(Product product) {
+    public void saveProductToUser(Product product, String uuid) {
         // TODO: Complete this use case
+
+
     }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
@@ -64,6 +65,6 @@ public class ProductDetailsViewModel extends ViewModel {
 
     public void toggleSaveProduct() {
         productIsSaved.setValue(!productIsSaved.getValue());
-        productUseCase.saveProductToUser(product);
+        productUseCase.saveProductToUser(product, GalleriaApplication.DEV_USER);
     }
 }
