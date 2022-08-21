@@ -25,23 +25,23 @@ public class UserRepository extends CachedRepository<User> implements IUserRepos
     }
 
     @Override
-    public Single<User> get(String id) {
+    public Single<User> get(String uuid) {
         return Single.create(emitter -> {
-            User cached = getFromCacheOrNull(id);
+            User cached = getFromCacheOrNull(uuid);
 
             if (cached != null) {
                 emitter.onSuccess(cached);
                 return;
             }
 
-            usersCollection.document(id).get()
+            usersCollection.document(uuid).get()
                     .addOnSuccessListener((doc) -> {
                         if (doc.exists()) {
                             User user = Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
                             addToCache(user.getId(), user);
                             emitter.onSuccess(user);
                         } else {
-                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", id)));
+                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", uuid)));
                         }
                     })
                     .addOnFailureListener(System.out::println);
@@ -49,21 +49,20 @@ public class UserRepository extends CachedRepository<User> implements IUserRepos
     }
 
     @Override
-    public Single<List<String>> getProductsByUser(String uuid) {
+    public Single<List<String>> getSavedProductsByUser(String uuid) {
         // TODO: Complete this method with the associated changes to DBO for saved users
-
 
         return Single.create(emitter -> {
             usersCollection.document(uuid).get().addOnSuccessListener((doc) -> {
                 if (doc.exists()) {
-                    List<String> savedProducts = doc.get("saved")
+                    UserDbo userDbo = Objects.requireNonNull(doc.toObject(UserDbo.class));
+                    List<String> savedIds = userDbo.savedProducts;
+                    emitter.onSuccess(savedIds);
                 }
 
-                emitter.onSuccess(null);
+                emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", uuid)));
             }).addOnFailureListener(emitter::onError);
         });
-
-        // emitter.onSuccess(new ArrayList<>();
     }
 
     @Override
