@@ -18,6 +18,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.di.DIProvider;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AlbumArt;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PaintingArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 
 public class GalleriaApplication extends Application {
@@ -41,10 +42,13 @@ public class GalleriaApplication extends Application {
         // TODO: Usage Add image into r/drawable and reference their ID's where needed
         //  (after long description and inside Stream.of() for other images.
         //  Put the product inside the addProducts method below
-        Product product1 = new AlbumArt("", "Test Example",
-                                        "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+        Product product1 = new AlbumArt("", "Astroworld",
+                                        "Astroworld", "Astroworld is the third studio album by American rapper Travis Scott. " +
+                "It was released on August 3, 2018, through Cactus Jack Records and Grand Hustle Records, and distributed by Epic Records. " +
+                "The album follows his second studio album Birds in the Trap Sing McKnight (2016), and his collaborative album Huncho Jack, Jack Huncho (2017) with Quavo.",
+                toByteArr(R.drawable.galleria_logo),
                                         Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
-                                        100, CurrencyCode.NZD, "#dddddd",
+                                        12.93f, CurrencyCode.NZD, "#dddddd",
                                         4.7f, 200, 1, 3,
                                         Category.ALBUM, "Raymond Feng");
 
@@ -55,8 +59,66 @@ public class GalleriaApplication extends Application {
                                         4.7f, 200, 1, 3,
                                         Category.ALBUM, "Raymond Feng");
 
+        Product product3 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product4 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product5 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product6 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product7 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product8 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product9 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+        Product product10 = new AlbumArt("", "Test Example no. 2",
+                "Test tagline", "Long description", toByteArr(R.drawable.galleria_logo),
+                Stream.of(R.drawable.aigenerated, R.drawable.album).map(this::toByteArr).collect(Collectors.toList()),
+                100, CurrencyCode.NZD, "#dddddd",
+                4.7f, 200, 1, 3,
+                Category.ALBUM, "Raymond Feng");
+
+
         // TODO: Remember to add product into here
-        addProducts(product1);
+        addProducts(product1, product2, product3, product4, product5, product6, product7, product8, product9, product10);
+
     }
 
     private byte[] toByteArr(int rId) {
