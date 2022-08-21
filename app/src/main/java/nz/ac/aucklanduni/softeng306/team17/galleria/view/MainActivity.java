@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class MainActivity extends SearchBarActivity {
 
     ActivityMainBinding binding;
+    CategoryResultAdapter adapter;
+    ViewPagerAdapter mViewPageAdapter;
+    MainActivityViewModel viewModel;
+    ImageView[] dotView;
     private Toolbar toolbar;
 
     @Override

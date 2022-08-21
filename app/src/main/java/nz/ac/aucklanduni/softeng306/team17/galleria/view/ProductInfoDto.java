@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 
 import java.util.Locale;
 
-import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 

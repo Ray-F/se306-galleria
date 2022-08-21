@@ -59,7 +59,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
         addBackButton(toolbar);
         loadToolbar(toolbar);
 
-        imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>());
         imageViewPage.setAdapter(imageViewPageAdapter);
 
         // Get passed in product Id from intent
