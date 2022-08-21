@@ -28,12 +28,14 @@ public class SearchBarActivity extends AppCompatActivity {
     
     private SearchView searchView;
 
+    private Boolean isNavActive;
+
     private SearchBarViewModel searchBarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        isNavActive = true;
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
     }
 
@@ -127,7 +129,7 @@ public class SearchBarActivity extends AppCompatActivity {
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> {
-            if (toolbar.getNavigationIcon().equals(R.drawable.back_button)) {
+            if (isNavActive) {
                 System.out.println("IM CLICKING THE DUMB BACK BUTTON");
                 Intent previousIntent = resolveReturn();
                 previousIntent.putExtra("NAVIGATION", navigationHistory);
@@ -140,6 +142,10 @@ public class SearchBarActivity extends AppCompatActivity {
                 startActivity(savedIntent);
             }
         });
+    }
+
+    protected void setIsNavActive(Boolean val) {
+        isNavActive = val;
     }
 
     protected void setNavigationHistory(ArrayList<Intent> navHistory) {
@@ -155,14 +161,16 @@ public class SearchBarActivity extends AppCompatActivity {
     }
 
     protected void switchBackToSavedButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon().equals(R.drawable.ic_baseline_arrow_back_ios_24)) {
-            toolbar.setNavigationIcon(R.drawable.white_heart);
+        if (isNavActive) {
+            setIsNavActive(false);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.white_heart));
         }
     }
 
     protected void switchSavedToBackButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon().equals(R.drawable.white_heart)) {
-            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_24);
+        if (!isNavActive) {
+            setIsNavActive(true);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         }
     }
 }
