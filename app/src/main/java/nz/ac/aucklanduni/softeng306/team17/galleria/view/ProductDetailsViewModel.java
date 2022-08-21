@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
@@ -43,7 +44,9 @@ public class ProductDetailsViewModel extends ViewModel {
                                                          false, 1, ""));
 
 
-        productIsSaved.setValue(false);
+        productUseCase.isProductSaved(GalleriaApplication.DEV_USER, productId).subscribe(data -> {
+            productIsSaved.setValue(data);
+        });
 
         productUseCase.getProductById(this.productId).subscribe(product -> {
             this.product = product;
@@ -63,7 +66,11 @@ public class ProductDetailsViewModel extends ViewModel {
     }
 
     public void toggleSaveProduct() {
+        if (productIsSaved.getValue()) {
+            productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, product.getId());
+        } else {
+            productUseCase.saveProductToUser(GalleriaApplication.DEV_USER, product.getId());
+        }
         productIsSaved.setValue(!productIsSaved.getValue());
-        productUseCase.saveProductToUser(product);
     }
 }

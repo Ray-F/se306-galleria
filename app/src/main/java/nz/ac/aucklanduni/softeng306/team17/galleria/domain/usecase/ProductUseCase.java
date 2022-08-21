@@ -61,9 +61,8 @@ public class ProductUseCase {
     /**
      * @return products that have been saved by the user.
      */
-    public Single<List<Product>> listSavedProductsByUser(String userId) {
-        // TODO: Replace this with actual saved products from the user
-        Single<List<String>> productIdsProm = Single.just(new ArrayList<>());
+    public Single<List<Product>> listSavedProductsByUser(String uuid) {
+        Single<List<String>> productIdsProm = userRepo.getSavedProductsByUser(uuid);
         Single<List<Product>> allProductsProm = productRepo.listAll();
 
         return Single.zip(productIdsProm, allProductsProm, (productIds, allProducts) -> allProducts.stream()
@@ -74,7 +73,29 @@ public class ProductUseCase {
     /**
      * Saves a product to a user's saved products.
      */
-    public void saveProductToUser(Product product) {
-        // TODO: Complete this use case
+    public void saveProductToUser(String uuid, String targetId) {
+        userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
+            data.add(targetId);
+            userRepo.updateSavedProductsByUser(uuid, data);
+        });
     }
+
+    /**
+     * Removes a product to a user's saved products.
+     */
+    public void unsaveProductToUser(String uuid, String targetId) {
+        userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
+            data.remove(targetId);
+            userRepo.updateSavedProductsByUser(uuid, data);
+        });
+    }
+
+    /**
+     * Checks if a product is saved by given user
+     */
+    public Single<Boolean> isProductSaved(String uuid, String targetId) {
+        return userRepo.getSavedProductsByUser(uuid).map( data -> data.contains(targetId));
+    }
+
+
 }

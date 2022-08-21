@@ -25,6 +25,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     Context mContext;
     List<ProductInfoDto> mProducts = new ArrayList<ProductInfoDto>();
     ArrayList<Intent> navigationHistory;
+    SavedProductsViewModel viewModel;
 
     public SavedAdapter(List<ProductInfoDto> products) {
         this.mProducts = products;
@@ -36,6 +37,10 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setNavigationHistory(ArrayList<Intent> navHistory) {
         navigationHistory = navHistory;
+    }
+
+    public void setViewModel(SavedProductsViewModel vm) {
+        this.viewModel = vm;
     }
 
     @Override
@@ -74,7 +79,8 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // ADD FUNCTIONALITY HERE FOR LIVE DATABASE CONNECTION TO REMOVE SAVED IN BACKEND
+                                viewModel.unsaveProduct(mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
+
                                 mProducts.remove(holder.getAbsoluteAdapterPosition());
                                 System.out.println("SAVED PRODUCT REMOVED");
                                 notifyDataSetChanged();

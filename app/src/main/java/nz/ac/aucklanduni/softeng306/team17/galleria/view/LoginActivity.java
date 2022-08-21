@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
