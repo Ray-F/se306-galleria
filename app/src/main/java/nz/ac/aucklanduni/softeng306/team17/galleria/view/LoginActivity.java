@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,7 +23,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SavedProductsActivity.class);
+            intent.putExtra("NAVIGATION", new ArrayList<Intent>());
             startActivity(intent);
         });
     }

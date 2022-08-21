@@ -12,7 +12,7 @@ public class UserDbo {
     public String id;
     public String name;
     public String email;
-    public List<String> savedProducts;
+    public List<String> saved;
 
     // Empty constructor required for Firestore mapping
     public UserDbo() {}
@@ -27,7 +27,7 @@ public class UserDbo {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.savedProducts = savedProductList;
+        this.saved = savedProductList;
     }
 
     public User toModel() {
