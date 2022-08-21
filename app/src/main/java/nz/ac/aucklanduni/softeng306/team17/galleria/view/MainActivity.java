@@ -21,7 +21,6 @@ public class MainActivity extends SearchBarActivity {
         // Link XML elements with code
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         super.onCreate(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);

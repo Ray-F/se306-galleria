@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -22,27 +21,15 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
-    private SearchBarActivity context;
-
-    private SimpleCursorAdapter adapter;
+    private SearchView searchView;
 
     private SearchBarViewModel searchBarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        context = this;
         super.onCreate(savedInstanceState);
 
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
-
-        final String[] from = new String[] { "productName" };
-        final int[] to = new int[] { android.R.id.text1 };
-
-        adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                                          null, from, to, CursorAdapter.NO_SELECTION) {
-            @Override
-            public void changeCursor(Cursor cursor) { super.swapCursor(cursor); }
-        };
     }
 
     @Override
@@ -50,38 +37,45 @@ public class SearchBarActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.header_bar, menu);
         MenuItem menuItem = menu.findItem(R.id.searchBar);
 
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
 
-        setUpSearchBar(searchView);
+        setUpSearchBar();
 
         return true;
     }
 
-    private void setUpSearchBar(SearchView searchView) {
+    private void setUpSearchBar() {
+        // Create cursor for search autocomplete functionality
+        final String[] from = new String[] { "productName" };
+        final int[] to = new int[] { android.R.id.text1 };
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                                                              android.R.layout.simple_list_item_1,
+                                                              null, from, to,
+                                                              CursorAdapter.NO_SELECTION);
+
+        // Set up LiveData listener to fill in data in suggestions whenever suggestions change
+        searchBarViewModel.getAutofill().observe(this, data -> {
+            final MatrixCursor c = new MatrixCursor(new String[] { BaseColumns._ID, "productName" });
+            for (int i = 0; i < data.size(); i++) {
+                c.addRow(new Object[] { i, data.get(i) });
+            }
+            adapter.changeCursor(c);
+        });
+
+
         searchView.setQueryHint("Search for products");
         searchView.setSuggestionsAdapter(adapter);
 
-        AutoCompleteTextView searchAutoCompleteTextView = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-        searchAutoCompleteTextView.setThreshold(0);
+        // Set search threshold to 0 (so all query sizes will return a result)
+        ((AutoCompleteTextView) searchView.findViewById(androidx.appcompat.R.id.search_src_text))
+                .setThreshold(0);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                System.out.println("Submit ");
+        setUpSearchBarQueryListener();
+        setUpSearchBarAutocompleteClickListener();
+    }
 
-                // Redirect user to SearchResultActivity with query.
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("searchString", s);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                searchBarViewModel.changeSearchQuery(s);
-                return false;
-            }
-        });
-
+    private void setUpSearchBarAutocompleteClickListener() {
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionSelect(int position) {
@@ -103,22 +97,35 @@ public class SearchBarActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
-        searchBarViewModel.getAutofill().observe(context, data -> {
-            final MatrixCursor c = new MatrixCursor(new String[] {BaseColumns._ID, "productName" });
-            for (int i = 0; i < data.size(); i++) {
-                c.addRow(new Object[] { i, data.get(i)});
+    private void setUpSearchBarQueryListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                System.out.println("Submit ");
+
+                // Redirect user to SearchResultActivity with query.
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("searchString", s);
+                return true;
             }
-            adapter.changeCursor(c);
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchBarViewModel.changeSearchQuery(s);
+                return false;
+            }
         });
+    }
+
+    private void onBackButtonClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-
-        toolbar.setNavigationOnClickListener(view -> {
-            Intent categoryIntent = new Intent(context, SavedProductsActivity.class);
-            startActivity(categoryIntent);
-        });
+        toolbar.setNavigationOnClickListener(this::onBackButtonClick);
     }
 }
