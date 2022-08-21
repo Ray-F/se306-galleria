@@ -44,7 +44,9 @@ public class ProductDetailsViewModel extends ViewModel {
                                                          false, 1, ""));
 
 
-        productIsSaved.setValue(false);
+        productUseCase.isProductSaved(GalleriaApplication.DEV_USER, productId).subscribe(data -> {
+            productIsSaved.setValue(data);
+        });
 
         productUseCase.getProductById(this.productId).subscribe(product -> {
             this.product = product;

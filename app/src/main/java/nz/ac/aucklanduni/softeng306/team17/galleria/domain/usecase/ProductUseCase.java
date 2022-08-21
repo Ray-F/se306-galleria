@@ -89,4 +89,13 @@ public class ProductUseCase {
             userRepo.updateSavedProductsByUser(uuid, data);
         });
     }
+
+    /**
+     * Checks if a product is saved by given user
+     */
+    public Single<Boolean> isProductSaved(String uuid, String targetId) {
+        return userRepo.getSavedProductsByUser(uuid).map( data -> data.contains(targetId));
+    }
+
+
 }
