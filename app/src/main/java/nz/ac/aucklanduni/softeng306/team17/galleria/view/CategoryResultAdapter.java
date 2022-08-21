@@ -20,17 +20,14 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
-    List<ProductInfoDto> mProducts;
+    List<ProductInfoDto> mProducts = new ArrayList<>();
     Boolean mIsListViewEnabled = true;
     Category category;
     ArrayList<Intent> navigationHistory;
 
-    public CategoryResultAdapter() {
-        mProducts = new ArrayList<>();
-    }
-
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
+        notifyDataSetChanged();
     }
 
     public void setCategory(Category setCategory) {

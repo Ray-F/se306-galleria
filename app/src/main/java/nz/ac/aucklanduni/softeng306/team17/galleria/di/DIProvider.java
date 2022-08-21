@@ -17,6 +17,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.MainActivityViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductDetailsViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.SavedProductsViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.SearchBarViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.SearchResultViewModel;
 
 /**
  * Dependency injection container for providing prebuilt classes.
@@ -38,5 +39,6 @@ public class DIProvider {
     public ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel(productUseCase);
     public SearchBarViewModel searchBarViewModel = new SearchBarViewModel(searchUseCase);
     public MainActivityViewModel mainActivityViewModel = new MainActivityViewModel(productUseCase);
+    public SearchResultViewModel searchResultViewModel = new SearchResultViewModel(searchUseCase);
 
 }
