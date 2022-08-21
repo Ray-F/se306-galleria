@@ -24,16 +24,21 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
+
+    private SearchBarActivity instance;
     public ArrayList<Intent> navigationHistory;
     
     private SearchView searchView;
+
+    private Boolean isNavActive;
 
     private SearchBarViewModel searchBarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         super.onCreate(savedInstanceState);
-
+        isNavActive = true;
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
     }
 
@@ -94,11 +99,14 @@ public class SearchBarActivity extends AppCompatActivity {
                 String term = cursor.getString(index);
                 cursor.close();
 
-                // Construct intent to go to Search Result Activity
-//                Intent intent = new Intent(context, ProductDetailsActivity.class);
-//                intent.putExtra("productName", term);
-//                startActivity(intent);
+                Intent returnIntent = getIntent();
+                navigationHistory.add(returnIntent);
 
+                // Construct intent to go to Search Result Activity
+                Intent intent = new Intent(instance, SearchResultActivity.class);
+                intent.putExtra("searchTerm", term);
+                intent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(intent);
                 return false;
             }
         });
@@ -108,11 +116,15 @@ public class SearchBarActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                System.out.println("Submit ");
+                Intent returnIntent = getIntent();
+                navigationHistory.add(returnIntent);
 
                 // Redirect user to SearchResultActivity with query.
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("searchString", s);
+                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putExtra("searchTerm", s);
+                intent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(intent);
+
                 return true;
             }
 
@@ -127,11 +139,23 @@ public class SearchBarActivity extends AppCompatActivity {
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> {
-            System.out.println("IM CLICKING THE DUMB BACK BUTTON");
-            Intent previousIntent = resolveReturn();
-            previousIntent.putExtra("NAVIGATION", navigationHistory);
-            startActivity(previousIntent);
+            if (isNavActive) {
+                System.out.println("IM CLICKING THE DUMB BACK BUTTON");
+                Intent previousIntent = resolveReturn();
+                previousIntent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(previousIntent);
+            } else {
+                Intent savedIntent = new Intent(this, SavedProductsActivity.class);
+                Intent returnIntent = new Intent(this, MainActivity.class);
+                navigationHistory.add(returnIntent);
+                savedIntent.putExtra("NAVIGATION", navigationHistory);
+                startActivity(savedIntent);
+            }
         });
+    }
+
+    protected void setIsNavActive(Boolean val) {
+        isNavActive = val;
     }
 
     protected void setNavigationHistory(ArrayList<Intent> navHistory) {
@@ -146,15 +170,17 @@ public class SearchBarActivity extends AppCompatActivity {
         }
     }
 
-    protected void removeBackButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon() != null) {
-            toolbar.setNavigationIcon(null);
+    protected void switchBackToSavedButton(Toolbar toolbar) {
+        if (isNavActive) {
+            setIsNavActive(false);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.white_heart));
         }
     }
 
-    protected void addBackButton(Toolbar toolbar) {
-        if (toolbar.getNavigationIcon() == null) {
-            toolbar.setNavigationIcon(R.drawable.back_button);
+    protected void switchSavedToBackButton(Toolbar toolbar) {
+        if (!isNavActive) {
+            setIsNavActive(true);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         }
     }
 }

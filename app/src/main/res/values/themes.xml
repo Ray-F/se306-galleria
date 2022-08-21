@@ -33,7 +33,7 @@
         <item name="android:textColorPrimary">@color/white</item>
 
         <!-- colour of hint -->
-        <item name="android:textColorHint">@color/lightShadeGreen</item>
+        <item name="android:textColorHint">@color/lightShadeGray</item>
 
         <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
         <item name="android:textColorSecondary">@android:color/white</item>

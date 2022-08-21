@@ -2,11 +2,15 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("NAVIGATION", new ArrayList<>());
             startActivity(intent);
         });
     }

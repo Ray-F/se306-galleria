@@ -1,5 +1,8 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.User;
 
 public class UserDbo {
@@ -9,6 +12,7 @@ public class UserDbo {
     public String id;
     public String name;
     public String email;
+    public List<String> saved;
 
     // Empty constructor required for Firestore mapping
     public UserDbo() {}
@@ -17,6 +21,13 @@ public class UserDbo {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public UserDbo(String id, String name, String email, List<String> savedProductList) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.saved = savedProductList;
     }
 
     public User toModel() {

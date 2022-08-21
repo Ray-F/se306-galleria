@@ -24,6 +24,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product
 
 public class GalleriaApplication extends Application {
 
+    public static final String DEV_USER = "FNHjiDLfkalYlufrBBtR";
     public DIProvider diProvider;
 
     @Override

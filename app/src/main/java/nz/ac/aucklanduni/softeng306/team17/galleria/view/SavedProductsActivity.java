@@ -34,7 +34,7 @@ public class SavedProductsActivity extends SearchBarActivity {
 
         appBarLayout = findViewById(R.id.topBarLayout);
         Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);
-        addBackButton(toolbar);
+        switchSavedToBackButton(toolbar);
         loadToolbar(toolbar);
 
         rvSaved = findViewById(R.id.SavedRecyclerView);
@@ -45,9 +45,10 @@ public class SavedProductsActivity extends SearchBarActivity {
 
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
+        adapter.setViewModel(viewModel);
 
         // Default user
-        String uuid = "Raymond Zhafeng";
+        String uuid = GalleriaApplication.DEV_USER;
 
         viewModel.getProducts(uuid)
                 .observe(this, data -> {

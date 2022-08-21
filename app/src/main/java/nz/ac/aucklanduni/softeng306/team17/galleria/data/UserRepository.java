@@ -1,5 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,26 +26,42 @@ public class UserRepository extends CachedRepository<User> implements IUserRepos
     }
 
     @Override
-    public Single<User> get(String id) {
+    public Single<User> get(String uuid) {
         return Single.create(emitter -> {
-            User cached = getFromCacheOrNull(id);
+            User cached = getFromCacheOrNull(uuid);
 
             if (cached != null) {
                 emitter.onSuccess(cached);
                 return;
             }
 
-            usersCollection.document(id).get()
+            usersCollection.document(uuid).get()
                     .addOnSuccessListener((doc) -> {
                         if (doc.exists()) {
                             User user = Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
                             addToCache(user.getId(), user);
                             emitter.onSuccess(user);
                         } else {
-                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", id)));
+                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", uuid)));
                         }
                     })
                     .addOnFailureListener(System.out::println);
+        });
+    }
+
+    @Override
+    public Single<List<String>> getSavedProductsByUser(String uuid) {
+
+        return Single.create(emitter -> {
+            usersCollection.document(uuid).get().addOnSuccessListener((doc) -> {
+                if (doc.exists()) {
+                    UserDbo userDbo = Objects.requireNonNull(doc.toObject(UserDbo.class));
+                    List<String> savedIds = userDbo.saved;
+                    emitter.onSuccess(savedIds);
+                } else {
+                    emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", uuid)));
+                }
+            }).addOnFailureListener(emitter::onError);
         });
     }
 
@@ -91,5 +108,16 @@ public class UserRepository extends CachedRepository<User> implements IUserRepos
                     })
                     .addOnFailureListener(emitter::onError);
         });
+    }
+
+    @Override
+    public void updateSavedProductsByUser(String uuid, List<String> newSavedProducts) {
+        usersCollection.document(uuid).update("saved", newSavedProducts)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        System.out.println("SUCCESSFULLY UPDATED SAVED PRODUCTS FOR " + uuid);
+                    }
+                });
     }
 }
