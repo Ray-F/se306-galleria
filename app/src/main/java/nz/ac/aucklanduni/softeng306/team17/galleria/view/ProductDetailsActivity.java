@@ -114,8 +114,8 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.productDetailsBarColor : R.color.purple_500)));
-                    saveProductButton.setText(data ? "ALREADY SAVED (UNSAVE?)" : "SAVE LISTING");
+                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : R.color.darkestShadeGreen)));
+                    saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
                 }
         );
     }

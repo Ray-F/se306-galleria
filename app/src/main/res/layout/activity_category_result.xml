@@ -7,41 +7,39 @@
     android:orientation="vertical">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/header_section"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/header_section">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/topBarLayout"
-            layout="@layout/header_toolbar_layout"
-            />
+            layout="@layout/header_toolbar_layout" />
 
         <RelativeLayout
             android:id="@+id/secondaryTopBar"
-            android:layout_height="50dp"
             android:layout_width="match_parent"
-            android:background="@color/mediumShadeGreen"
+            android:layout_height="50dp"
             android:layout_marginTop="55dp"
-            >
+            android:background="@color/mediumShadeGreen">
 
             <TextView
-                style="@style/GreenPalette"
                 android:id="@+id/SortFilterText"
+                style="@style/GreenPalette"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
                 android:gravity="center"
                 android:text="Sort By: "
-                android:textSize="20sp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"></TextView>
+                android:textSize="20sp"></TextView>
 
             <ImageView
                 android:id="@+id/SortIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/filter_icon"
+                android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/SortFilterText"
-                android:layout_marginLeft="15dp"></ImageView>
+                android:src="@drawable/filter_icon"></ImageView>
 
             <ImageView
                 android:id="@+id/ViewLayoutIcon"
@@ -49,21 +47,19 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
-                android:padding="5dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/grid_view_icon"></ImageView>
+                android:padding="5dp"
+                android:src="@drawable/grid_view_icon" />
 
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ProductRecyclerView"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </androidx.recyclerview.widget.RecyclerView>
 

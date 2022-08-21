@@ -34,6 +34,7 @@ public class ProductRepository extends CachedRepository<Product> implements IPro
         return Single.create(emitter -> {
             productsCollection.orderBy(ProductDbo.RATING_KEY).limit(limit).get()
                     .addOnSuccessListener((res) -> {
+                        System.out.println("Grabbed data by rating");
                         List<Product> products = res.getDocuments().stream()
                                 .map((it) -> Objects.requireNonNull(it.toObject(ProductDbo.class)).toModel())
                                 .collect(Collectors.toList());
