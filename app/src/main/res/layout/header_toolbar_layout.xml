@@ -8,11 +8,11 @@
 
     <androidx.appcompat.widget.Toolbar
         app:menu="@menu/header_bar"
-        app:navigationIcon="@drawable/back_button"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24"
         app:title="GALLERIA"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/darkestShadeGreen"
-        android:theme="@style/SearchViewStyle.Main" />
+        app:titleTextColor="@color/white"
+        android:background="@color/darkestShadeGreen" />
 
 </com.google.android.material.appbar.AppBarLayout>
