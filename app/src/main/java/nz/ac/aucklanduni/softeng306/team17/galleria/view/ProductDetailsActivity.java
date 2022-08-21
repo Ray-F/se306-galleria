@@ -22,7 +22,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -45,8 +44,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
 
-    Stack<Intent> navigationHistory;
-
     ImageView[] dotView;
 
 
@@ -56,7 +53,7 @@ public class ProductDetailsActivity extends SearchBarActivity {
         linkElements();
 
         Bundle allKeys = getIntent().getExtras();
-        navigationHistory = (Stack<Intent>) allKeys.get("NAVIGATION");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
 

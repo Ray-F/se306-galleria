@@ -11,7 +11,6 @@ import android.os.Bundle;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -24,7 +23,6 @@ public class SavedProductsActivity extends SearchBarActivity {
     RecyclerView rvSaved;
     SavedProductsViewModel viewModel;
     AppBarLayout appBarLayout;
-    Stack<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class SavedProductsActivity extends SearchBarActivity {
         setContentView(R.layout.activity_saved_products);
 
         Bundle allKeys = getIntent().getExtras();
-        navigationHistory = (Stack<Intent>) allKeys.get("NAVIGATION");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         appBarLayout = findViewById(R.id.topBarLayout);
         Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);

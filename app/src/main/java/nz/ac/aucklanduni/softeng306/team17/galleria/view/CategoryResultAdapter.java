@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
@@ -24,7 +23,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
     Category category;
-    Stack<Intent> navigationHistory;
+    ArrayList<Intent> navigationHistory;
 
     public CategoryResultAdapter() {
         mProducts = new ArrayList<>();
@@ -38,7 +37,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         category = setCategory;
     }
 
-    public void setNavigationHistory(Stack<Intent> navHistory) {
+    public void setNavigationHistory(ArrayList<Intent> navHistory) {
         navigationHistory = navHistory;
     }
 

@@ -6,10 +6,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
@@ -17,16 +16,17 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 public class MainActivity extends SearchBarActivity {
 
     private ActivityMainBinding binding;
-    Stack<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
+        // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
         if (navigationHistory == null) {
-            navigationHistory = new Stack<Intent>();
+            navigationHistory = new ArrayList<Intent>();
         }
+        setNavigationHistory(navigationHistory);
 
         setContentView(binding.getRoot());
 

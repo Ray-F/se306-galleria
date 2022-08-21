@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -32,7 +32,6 @@ public class CategoryResultActivity extends SearchBarActivity {
     Context localContext = this;
     RelativeLayout secondaryTopBar;
     Toolbar toolbar;
-    Stack<Intent> navigationHistory;
 
     CategoryResultViewModel viewModel;
 
@@ -43,7 +42,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         Bundle allKeys = getIntent().getExtras();
         Category category = (Category) allKeys.get("CATEGORY");
-        navigationHistory = (Stack<Intent>) allKeys.get("NAVIGATION");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
         loadToolbar(toolbar);

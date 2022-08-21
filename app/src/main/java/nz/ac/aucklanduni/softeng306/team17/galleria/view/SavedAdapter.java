@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
@@ -25,7 +24,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     Context mContext;
     List<ProductInfoDto> mProducts = new ArrayList<ProductInfoDto>();
-    Stack<Intent> navigationHistory;
+    ArrayList<Intent> navigationHistory;
 
     public SavedAdapter(List<ProductInfoDto> products) {
         this.mProducts = products;
@@ -35,7 +34,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    public void setNavigationHistory(Stack<Intent> navHistory) {
+    public void setNavigationHistory(ArrayList<Intent> navHistory) {
         navigationHistory = navHistory;
     }
 

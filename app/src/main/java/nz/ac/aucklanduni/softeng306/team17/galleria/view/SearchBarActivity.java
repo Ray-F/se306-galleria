@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -17,7 +18,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 public class SearchBarActivity extends AppCompatActivity {
 
     private Context context;
-    Stack<Intent> navigationHistory;
+    public ArrayList<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,21 @@ public class SearchBarActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> {
             System.out.println("IM CLICKING THE DUMB BACK BUTTON");
-            Intent categoryIntent = new Intent(context, SavedProductsActivity.class);
-            startActivity(categoryIntent);
+            Intent previousIntent = resolveReturn();
+            previousIntent.putExtra("NAVIGATION", navigationHistory);
+            startActivity(previousIntent);
         });
+    }
+
+    protected void setNavigationHistory(ArrayList<Intent> navHistory) {
+        navigationHistory = navHistory;
+    }
+
+    private Intent resolveReturn() {
+        if (navigationHistory.isEmpty()) {
+            return new Intent(context, MainActivity.class);
+        } else {
+            return navigationHistory.remove(navigationHistory.size()-1);
+        }
     }
 }
