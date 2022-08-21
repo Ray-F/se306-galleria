@@ -13,6 +13,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.CategoryResultViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.MainActivityViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductDetailsViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.SavedProductsViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.SearchBarViewModel;
@@ -36,5 +37,6 @@ public class DIProvider {
     public SavedProductsViewModel savedProductsViewModel = new SavedProductsViewModel(productUseCase);
     public ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel(productUseCase);
     public SearchBarViewModel searchBarViewModel = new SearchBarViewModel(searchUseCase);
+    public MainActivityViewModel mainActivityViewModel = new MainActivityViewModel(productUseCase);
 
 }

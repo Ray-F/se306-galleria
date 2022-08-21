@@ -54,7 +54,7 @@ public class ProductUseCase {
     /**
      * @return the top rated product.
      */
-    public Single<List<Product>> listTopRatedProduct(int limit) {
+    public Single<List<Product>> listTopRatedProducts(int limit) {
         return productRepo.listSortByRating(limit);
     }
 
