@@ -13,14 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context mContext;
     List<ProductInfoDto> mProducts;
     Boolean mIsListViewEnabled = true;
+    Category category;
+    Stack<Intent> navigationHistory;
 
     public CategoryResultAdapter() {
         mProducts = new ArrayList<>();
@@ -28,6 +32,14 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
+    }
+
+    public void setCategory(Category setCategory) {
+        category = setCategory;
+    }
+
+    public void setNavigationHistory(Stack<Intent> navHistory) {
+        navigationHistory = navHistory;
     }
 
     @Override
@@ -50,9 +62,14 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View view) {
                 System.out.println("Clicked on a single product DONT CARE TYPE!!!!");
-                Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
 
+                Intent returnIntent = new Intent(mContext, CategoryResultActivity.class);
+                returnIntent.putExtra("CATEGORY", category);
+                navigationHistory.add(returnIntent);
+
+                Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
                 productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
+                productIntent.putExtra("NAVIGATION", navigationHistory);
 
                 mContext.startActivity(productIntent);
             }

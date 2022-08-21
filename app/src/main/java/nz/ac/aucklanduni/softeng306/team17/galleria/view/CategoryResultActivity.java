@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+
+import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -29,6 +32,7 @@ public class CategoryResultActivity extends SearchBarActivity {
     Context localContext = this;
     RelativeLayout secondaryTopBar;
     Toolbar toolbar;
+    Stack<Intent> navigationHistory;
 
     CategoryResultViewModel viewModel;
 
@@ -39,6 +43,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         Bundle allKeys = getIntent().getExtras();
         Category category = (Category) allKeys.get("CATEGORY");
+        navigationHistory = (Stack<Intent>) allKeys.get("NAVIGATION");
 
         toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
         loadToolbar(toolbar);
@@ -50,12 +55,14 @@ public class CategoryResultActivity extends SearchBarActivity {
         sortFilterButton = (ImageView) findViewById(R.id.SortIcon);
         viewTypeButton = (ImageView) findViewById(R.id.ViewLayoutIcon);
 
-        setCategoryData(category);
+        setCategoryStyle(category);
 
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
         adapter = new CategoryResultAdapter();
+        adapter.setCategory(category);
+        adapter.setNavigationHistory(navigationHistory);
 
         viewModel.getProducts(category)
                 .observe(this, data -> {
@@ -85,7 +92,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
     }
 
-    public void setCategoryData(Category category) {
+    public void setCategoryStyle(Category category) {
         // Add implementation for category specific database calls.
         if (category.equals(Category.PHOTOGRAPHIC)) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGreen));

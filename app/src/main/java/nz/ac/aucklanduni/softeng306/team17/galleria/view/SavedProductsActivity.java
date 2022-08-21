@@ -5,14 +5,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class SavedProductsActivity extends SearchBarActivity {
 
@@ -21,11 +24,15 @@ public class SavedProductsActivity extends SearchBarActivity {
     RecyclerView rvSaved;
     SavedProductsViewModel viewModel;
     AppBarLayout appBarLayout;
+    Stack<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_products);
+
+        Bundle allKeys = getIntent().getExtras();
+        navigationHistory = (Stack<Intent>) allKeys.get("NAVIGATION");
 
         appBarLayout = findViewById(R.id.topBarLayout);
         Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);

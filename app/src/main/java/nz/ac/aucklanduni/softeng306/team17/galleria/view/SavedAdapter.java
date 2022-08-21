@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
@@ -24,6 +25,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     Context mContext;
     List<ProductInfoDto> mProducts = new ArrayList<ProductInfoDto>();
+    Stack<Intent> navigationHistory;
 
     public SavedAdapter(List<ProductInfoDto> products) {
         this.mProducts = products;
@@ -31,6 +33,10 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public SavedAdapter() {
 
+    }
+
+    public void setNavigationHistory(Stack<Intent> navHistory) {
+        navigationHistory = navHistory;
     }
 
     @Override
@@ -46,9 +52,13 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     System.out.println("Clicked on a single product from SAVED VIEW");
-                    Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
 
+                    Intent returnIntent = new Intent(mContext, SavedProductsActivity.class);
+                    navigationHistory.add(returnIntent);
+
+                    Intent productIntent = new Intent(mContext, ProductDetailsActivity.class);
                     productIntent.putExtra("productId", mProducts.get(holder.getAbsoluteAdapterPosition()).getId());
+                    productIntent.putExtra("NAVIGATION", navigationHistory);
 
                     mContext.startActivity(productIntent);
                 }
