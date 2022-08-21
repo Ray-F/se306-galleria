@@ -51,10 +51,12 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productViewHolder.productName.setText(productInfoDto.getName());
             productViewHolder.productDescription.setText((productInfoDto.getTagline()));
             productViewHolder.productPrice.setText(productInfoDto.getDisplayPrice());
+            productViewHolder.specialTextRow.setText(productInfoDto.getSpecialText());
         } else {
             ProductGridViewHolder productGridViewHolder = (ProductGridViewHolder) holder;
             productGridViewHolder.productImageGrid.setImageBitmap(productInfoDto.getHeroImage());
             productGridViewHolder.productNameGrid.setText(productInfoDto.getName());
+            productGridViewHolder.specialTextGrid.setText(productInfoDto.getSpecialText());
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView productDescription;
         TextView productPrice;
         String productId;
+        TextView specialTextRow;
 
         public ProductViewHolder(View inputView) {
             super(inputView);
@@ -124,6 +127,7 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productName = inputView.findViewById(R.id.ProductName);
             productDescription = inputView.findViewById(R.id.ProductDescription);
             productPrice = inputView.findViewById(R.id.ProductPrice);
+            specialTextRow = inputView.findViewById(R.id.RowSpecialText);
         }
 
         @Override
@@ -137,11 +141,13 @@ public class CategoryResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ImageView productImageGrid;
         TextView productNameGrid;
         String productId;
+        TextView specialTextGrid;
 
         public ProductGridViewHolder(View inputView) {
             super(inputView);
             productImageGrid = inputView.findViewById(R.id.ProductImageGrid);
             productNameGrid = inputView.findViewById(R.id.ProductNameGrid);
+            specialTextGrid = inputView.findViewById(R.id.GridSpecialText);
         }
 
         @Override
