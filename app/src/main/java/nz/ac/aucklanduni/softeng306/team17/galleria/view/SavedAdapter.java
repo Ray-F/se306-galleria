@@ -1,6 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -51,6 +53,34 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     mContext.startActivity(productIntent);
                 }
             });
+
+        ((SavedProductViewHolder) holder).unsaveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setCancelable(true);
+                builder.setTitle("CONFIRM ACTION");
+                builder.setMessage("Are you sure you want to unsave this artwork?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // ADD FUNCTIONALITY HERE FOR LIVE DATABASE CONNECTION TO REMOVE SAVED IN BACKEND
+                                mProducts.remove(position);
+                                System.out.println("SAVED PRODUCT REMOVED");
+                                notifyDataSetChanged();
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("SAVED PRODUCT NOT REMOVED");
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     @NonNull
@@ -90,8 +120,7 @@ public class SavedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             unsaveIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // functionality goes here in future;
-                    savedProductName.setText("I CLICKED HERE WITH ICON");
+                    // Dummy implementation here not needed
                 }
             });
 

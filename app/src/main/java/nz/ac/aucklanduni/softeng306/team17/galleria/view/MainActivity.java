@@ -1,5 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
