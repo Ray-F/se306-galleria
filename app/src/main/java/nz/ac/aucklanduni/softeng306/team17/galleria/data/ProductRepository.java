@@ -14,7 +14,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IProductRepository;
 
-public class ProductRepository implements IProductRepository {
+public class ProductRepository extends CachedRepository<Product> implements IProductRepository {
 
     private final CollectionReference productsCollection;
 
@@ -47,7 +47,6 @@ public class ProductRepository implements IProductRepository {
     @Override
     public Single<List<Product>> listByCategory(Category category) {
         return Single.create(emitter -> {
-            System.out.println("Test");
             productsCollection.whereEqualTo(ProductDbo.CATEGORY_KEY, category).get()
                     .addOnSuccessListener((res) -> {
                         List<Product> products = res.getDocuments().stream()
@@ -64,10 +63,18 @@ public class ProductRepository implements IProductRepository {
     @Override
     public Single<Product> get(String id) {
         return Single.create(emitter -> {
+            Product cached = getFromCacheOrNull(id);
+
+            if (cached != null) {
+                emitter.onSuccess(cached);
+                return;
+            }
+
             productsCollection.document(id).get()
                     .addOnSuccessListener((doc) -> {
                         if (doc.exists()) {
                             Product product = Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
+                            addToCache(product.getId(), product);
                             emitter.onSuccess(product);
                         } else {
                             emitter.onError(new RuntimeException(String.format("Product \"%s\" not found in DB.", id)));
@@ -99,6 +106,8 @@ public class ProductRepository implements IProductRepository {
         DocumentReference docRef = productsCollection.document();
         dbo.id = docRef.getId();
         Product createdProduct = dbo.toModel();
+
+        addToCache(createdProduct.getId(), createdProduct);
 
         docRef.set(dbo);
 
