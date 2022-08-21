@@ -24,7 +24,6 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
-    private Context context;
     public ArrayList<Intent> navigationHistory;
     
     private SearchView searchView;
@@ -125,9 +124,6 @@ public class SearchBarActivity extends AppCompatActivity {
         });
     }
 
-        return true;
-    }
-
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> {
@@ -144,7 +140,7 @@ public class SearchBarActivity extends AppCompatActivity {
 
     private Intent resolveReturn() {
         if (navigationHistory.isEmpty()) {
-            return new Intent(context, MainActivity.class);
+            return new Intent(this, MainActivity.class);
         } else {
             return navigationHistory.remove(navigationHistory.size()-1);
         }

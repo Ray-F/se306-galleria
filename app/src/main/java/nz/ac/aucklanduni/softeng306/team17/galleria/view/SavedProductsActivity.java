@@ -40,6 +40,7 @@ public class SavedProductsActivity extends SearchBarActivity {
         rvSaved = findViewById(R.id.SavedRecyclerView);
 
         adapter = new SavedAdapter();
+        adapter.setNavigationHistory(navigationHistory);
         rvSaved.setAdapter(adapter);
 
         // Bind ViewModel
