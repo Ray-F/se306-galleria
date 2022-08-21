@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
@@ -16,11 +17,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
+import java.util.ArrayList;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
+    public ArrayList<Intent> navigationHistory;
+    
     private SearchView searchView;
 
     private SearchBarViewModel searchBarViewModel;
@@ -119,13 +124,37 @@ public class SearchBarActivity extends AppCompatActivity {
         });
     }
 
-    private void onBackButtonClick(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     protected void loadToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(this::onBackButtonClick);
+        toolbar.setNavigationOnClickListener(view -> {
+            System.out.println("IM CLICKING THE DUMB BACK BUTTON");
+            Intent previousIntent = resolveReturn();
+            previousIntent.putExtra("NAVIGATION", navigationHistory);
+            startActivity(previousIntent);
+        });
+    }
+
+    protected void setNavigationHistory(ArrayList<Intent> navHistory) {
+        navigationHistory = navHistory;
+    }
+
+    private Intent resolveReturn() {
+        if (navigationHistory.isEmpty()) {
+            return new Intent(this, MainActivity.class);
+        } else {
+            return navigationHistory.remove(navigationHistory.size()-1);
+        }
+    }
+
+    protected void removeBackButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.setNavigationIcon(null);
+        }
+    }
+
+    protected void addBackButton(Toolbar toolbar) {
+        if (toolbar.getNavigationIcon() == null) {
+            toolbar.setNavigationIcon(R.drawable.back_button);
+        }
     }
 }

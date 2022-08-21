@@ -70,8 +70,6 @@ public class ProductRepository implements IProductRepository {
                             Product product = Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
                             emitter.onSuccess(product);
                         }
-
-                        emitter.onSuccess(null);
                     })
                     .addOnFailureListener(emitter::onError);
         });

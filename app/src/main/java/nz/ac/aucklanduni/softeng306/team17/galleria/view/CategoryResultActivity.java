@@ -7,12 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+
+import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -26,6 +30,8 @@ public class CategoryResultActivity extends SearchBarActivity {
     ImageView sortFilterButton;
     ImageView viewTypeButton;
     Context localContext = this;
+    RelativeLayout secondaryTopBar;
+    Toolbar toolbar;
 
     CategoryResultViewModel viewModel;
 
@@ -34,28 +40,36 @@ public class CategoryResultActivity extends SearchBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_result);
 
-        Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+        Bundle allKeys = getIntent().getExtras();
+        Category category = (Category) allKeys.get("CATEGORY");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
+
+        toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+        addBackButton(toolbar);
         loadToolbar(toolbar);
+
+        // Set default sort filter setting
+        secondaryTopBar = findViewById(R.id.secondaryTopBar);
+        filterText = (TextView) findViewById(R.id.SortFilterText);
+        filterText.setText("Sort By: New");
+        sortFilterButton = (ImageView) findViewById(R.id.SortIcon);
+        viewTypeButton = (ImageView) findViewById(R.id.ViewLayoutIcon);
+
+        setCategoryStyle(category);
 
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
 
         adapter = new CategoryResultAdapter();
-
-        Category category = (Category) getIntent().getExtras().get("category");
+        adapter.setCategory(category);
+        adapter.setNavigationHistory(navigationHistory);
 
         viewModel.getProducts(category)
                 .observe(this, data -> {
-                    System.out.println("When does this change!");
                     adapter.setProducts(data);
                     adapter.notifyDataSetChanged();
                 });
 
-        // Set default sort filter setting
-        filterText = (TextView) findViewById(R.id.SortFilterText);
-        filterText.setText("Sort By: New");
-        sortFilterButton = (ImageView) findViewById(R.id.SortIcon);
-        viewTypeButton = (ImageView) findViewById(R.id.ViewLayoutIcon);
 
         rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
         rvProducts.setAdapter(adapter);
@@ -63,25 +77,39 @@ public class CategoryResultActivity extends SearchBarActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvProducts.setLayoutManager(layoutManager);
 
-        sortFilterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Functionality goes here later;
-                filterText.setText("Sort By: Price");
-            }
+        sortFilterButton.setOnClickListener(v -> {
+            // Functionality goes here later;
+            filterText.setText("Sort By: Price");
         });
 
-        viewTypeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.toggleDisplayLayoutMode();
-                rvProducts.setLayoutManager(adapter.getmIsListViewEnabled() ?  new LinearLayoutManager(localContext) : new GridLayoutManager(localContext, 2));
-                rvProducts.setAdapter(adapter);
-                viewTypeButton.setImageResource(adapter.getmIsListViewEnabled() ? R.drawable.grid_view_icon : R.drawable.list_view_icon);
-            }
+        viewTypeButton.setOnClickListener(v -> {
+            adapter.toggleDisplayLayoutMode();
+            rvProducts.setLayoutManager(adapter.getmIsListViewEnabled() ?  new LinearLayoutManager(localContext) : new GridLayoutManager(localContext, 2));
+            rvProducts.setAdapter(adapter);
+            viewTypeButton.setImageResource(adapter.getmIsListViewEnabled() ? R.drawable.grid_view_icon : R.drawable.list_view_icon);
         });
 
 
+    }
+
+    public void setCategoryStyle(Category category) {
+        // Add implementation for category specific database calls.
+        if (category.equals(Category.PHOTOGRAPHIC)) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGreen));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGreen));
+        } else if (category.equals(Category.AI)) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeGray));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeGray));
+        } else if (category.equals(Category.ALBUM)) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeOrange));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeOrange));
+        } else if (category.equals(Category.PAINTING)) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.darkestShadeBlue));
+            secondaryTopBar.setBackgroundColor(getResources().getColor(R.color.mediumShadeBlue));
+        }
     }
 
 

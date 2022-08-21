@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 
@@ -34,6 +36,13 @@ public class ProductDetailsViewModel extends ViewModel {
     }
 
     public LiveData<ProductDetailDto> getProduct() {
+        this.singleProduct.setValue(new ProductDetailDto("", "", "", CurrencyCode.NZD,
+                                                         2f, new byte[1], false,
+                                                         new ArrayList<>(), "",
+                                                         "", 2f, 1,
+                                                         false, 1));
+
+
         productIsSaved.setValue(false);
 
         productUseCase.getProductById(this.productId).subscribe(product -> {

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,16 +15,26 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class MainActivity extends SearchBarActivity {
 
-    ActivityMainBinding binding;
+    private ActivityMainBinding binding;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Link XML elements with code
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
+        // Link XML elements with code
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
+        if (navigationHistory == null) {
+            navigationHistory = new ArrayList<Intent>();
+        }
+        setNavigationHistory(navigationHistory);
+
+        setContentView(binding.getRoot());
+
+        toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
+        removeBackButton(toolbar);
         loadToolbar(toolbar);
 
         initCategoryListeners();
@@ -40,8 +51,11 @@ public class MainActivity extends SearchBarActivity {
         // For each image, when it is clicked on, open the relevant category result view
         categoryIconMap.forEach((icon, category) -> {
             icon.setOnClickListener((view) -> {
+                navigationHistory.add(new Intent(this, MainActivity.class));
+
                 Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
-                categoryIntent.putExtra("category", category);
+                categoryIntent.putExtra("CATEGORY", category);
+                categoryIntent.putExtra("NAVIGATION", navigationHistory);
                 startActivity(categoryIntent);
             });
         });
