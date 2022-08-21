@@ -27,7 +27,6 @@ public class SearchHistoryRepository implements ISearchRepository {
     public SearchAutocompleteTerms get() {
         SearchAutocompleteTerms searchAutocompleteTerms = new SearchAutocompleteTerms();
         getAllSearchTerms().subscribe(terms -> {
-            System.out.println("ALL TERMS" + terms);
             terms.forEach(searchAutocompleteTerms::addSearchTerm);
         });
         return searchAutocompleteTerms;
