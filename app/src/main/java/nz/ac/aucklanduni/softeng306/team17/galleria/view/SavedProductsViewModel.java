@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 
 public class SavedProductsViewModel extends ViewModel {
@@ -33,4 +35,9 @@ public class SavedProductsViewModel extends ViewModel {
 
         return products;
     }
+
+    public void unsaveProduct(String productId) {
+        productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, productId);
+    }
+
 }

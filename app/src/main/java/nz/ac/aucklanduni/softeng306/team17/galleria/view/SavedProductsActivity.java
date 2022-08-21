@@ -45,6 +45,7 @@ public class SavedProductsActivity extends SearchBarActivity {
 
         // Bind ViewModel
         viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
+        adapter.setViewModel(viewModel);
 
         // Default user
         String uuid = GalleriaApplication.DEV_USER;

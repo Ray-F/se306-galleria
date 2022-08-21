@@ -65,9 +65,9 @@ public class ProductDetailsViewModel extends ViewModel {
 
     public void toggleSaveProduct() {
         if (productIsSaved.getValue()) {
-            productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, product);
+            productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, product.getId());
         } else {
-            productUseCase.saveProductToUser(GalleriaApplication.DEV_USER, product);
+            productUseCase.saveProductToUser(GalleriaApplication.DEV_USER, product.getId());
         }
         productIsSaved.setValue(!productIsSaved.getValue());
     }

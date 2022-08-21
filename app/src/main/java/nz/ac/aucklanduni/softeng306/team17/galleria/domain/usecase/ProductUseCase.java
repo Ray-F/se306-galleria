@@ -73,10 +73,9 @@ public class ProductUseCase {
     /**
      * Saves a product to a user's saved products.
      */
-    public void saveProductToUser(String uuid, Product newProduct) {
-        String newId = newProduct.getId();
+    public void saveProductToUser(String uuid, String targetId) {
         userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
-            data.add(newId);
+            data.add(targetId);
             userRepo.updateSavedProductsByUser(uuid, data);
         });
     }
@@ -84,10 +83,9 @@ public class ProductUseCase {
     /**
      * Removes a product to a user's saved products.
      */
-    public void unsaveProductToUser(String uuid, Product newProduct) {
-        String newId = newProduct.getId();
+    public void unsaveProductToUser(String uuid, String targetId) {
         userRepo.getSavedProductsByUser(uuid).subscribe( data -> {
-            data.remove(newId);
+            data.remove(targetId);
             userRepo.updateSavedProductsByUser(uuid, data);
         });
     }
