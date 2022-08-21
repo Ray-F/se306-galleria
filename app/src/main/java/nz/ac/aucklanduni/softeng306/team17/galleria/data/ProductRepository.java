@@ -69,6 +69,8 @@ public class ProductRepository implements IProductRepository {
                         if (doc.exists()) {
                             Product product = Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
                             emitter.onSuccess(product);
+                        } else {
+                            emitter.onError(new RuntimeException(String.format("Product \"%s\" not found in DB.", id)));
                         }
                     })
                     .addOnFailureListener(emitter::onError);

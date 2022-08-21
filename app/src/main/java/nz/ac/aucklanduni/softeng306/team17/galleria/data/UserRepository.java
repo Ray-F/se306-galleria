@@ -33,9 +33,9 @@ public class UserRepository implements IUserRepository {
                         if (doc.exists()) {
                             User user = Objects.requireNonNull(doc.toObject(UserDbo.class)).toModel();
                             emitter.onSuccess(user);
+                        } else {
+                            emitter.onError(new RuntimeException(String.format("User \"%s\" not found in DB.", id)));
                         }
-
-                        emitter.onSuccess(null);
                     })
                     .addOnFailureListener(System.out::println);
         });
