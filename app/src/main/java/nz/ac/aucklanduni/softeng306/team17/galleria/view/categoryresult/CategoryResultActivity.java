@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -20,6 +19,10 @@ import java.util.ArrayList;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
@@ -73,11 +76,11 @@ public class CategoryResultActivity extends SearchBarActivity {
                     int imageResource;
 
                     switch (data) {
-                        case GRID:
+                        case ListViewLayoutMode.GRID:
                             layoutManager = new GridLayoutManager(this, 2);
                             imageResource = R.drawable.list_view_icon;
                             break;
-                        case LIST:
+                        case ListViewLayoutMode.LIST:
                         default:
                             layoutManager = new LinearLayoutManager(this);
                             imageResource = R.drawable.grid_view_icon;

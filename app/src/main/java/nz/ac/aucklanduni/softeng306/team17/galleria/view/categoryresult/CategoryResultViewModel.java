@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,6 +14,8 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AlbumAr
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PaintingArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PhotographicArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
 public class CategoryResultViewModel extends ViewModel {
 

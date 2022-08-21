@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,11 @@ import java.util.List;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityCategoryResultBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 public class SearchResultActivity extends SearchBarActivity {
 
@@ -67,11 +72,11 @@ public class SearchResultActivity extends SearchBarActivity {
             int imageResource;
 
             switch (mode) {
-                case GRID:
+                case ListViewLayoutMode.GRID:
                     layoutManager = new GridLayoutManager(this, 2);
                     imageResource = R.drawable.list_view_icon;
                     break;
-                case LIST:
+                case ListViewLayoutMode.LIST:
                 default:
                     layoutManager = new LinearLayoutManager(this);
                     imageResource = R.drawable.grid_view_icon;

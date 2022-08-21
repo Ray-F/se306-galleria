@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
 
@@ -21,6 +20,9 @@ import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultActivity;
 
 public class SearchBarActivity extends AppCompatActivity {
 

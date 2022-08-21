@@ -1,8 +1,7 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
