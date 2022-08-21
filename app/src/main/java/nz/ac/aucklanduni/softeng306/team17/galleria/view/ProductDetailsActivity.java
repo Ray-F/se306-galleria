@@ -62,8 +62,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>());
         imageViewPage.setAdapter(imageViewPageAdapter);
 
-        clearViewModelData();
-
         // Get passed in product Id from intent
         String productId = getIntent().getExtras().getString("productId");
 

@@ -1,7 +1,5 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
-import android.content.res.Resources;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,18 +63,15 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public Single<Product> get(String id) {
-        System.out.println("THE ID OF THIS PRODUCT IS: " + id);
         return Single.create(emitter -> {
             productsCollection.document(id).get()
                     .addOnSuccessListener((doc) -> {
                         if (doc.exists()) {
                             Product product = Objects.requireNonNull(doc.toObject(ProductDbo.class)).toModel();
                             emitter.onSuccess(product);
-                        } else {
-                            emitter.onError(new RuntimeException());
                         }
                     })
-                    .addOnFailureListener(System.err::println);
+                    .addOnFailureListener(emitter::onError);
         });
     }
 
