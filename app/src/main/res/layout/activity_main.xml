@@ -25,18 +25,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:text="Categories"
                 android:textColor="@color/black"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:id="@+id/positionOfImages"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -54,14 +54,14 @@
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:src="@drawable/photographic" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Photographic"
-                        android:textColor="@color/black"
-                        android:textSize="12dp"
                         android:textAlignment="center"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -79,14 +79,14 @@
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:src="@drawable/paintings" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="12dp"
                         android:text="Paintings"
                         android:textAlignment="center"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,14 +106,14 @@
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:src="@drawable/aigenerated" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="AI Generated"
-                        android:textColor="@color/black"
-                        android:textSize="12dp"
                         android:textAlignment="center"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -135,28 +135,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Albums"
-                        android:textColor="@color/black"
-                        android:textSize="12dp"
                         android:textAlignment="center"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:text="Most Viewed"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <androidx.viewpager.widget.ViewPager
-                android:layout_marginTop="10dp"
-                android:id="@+id/viewPagerMain"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp" />
+                android:id="@+id/mainViewPagerMain"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="0dp" />
 
             <LinearLayout
                 android:id="@+id/threeDots"
@@ -164,25 +164,26 @@
                 android:layout_height="10dp"
                 android:layout_weight="0.25"
                 android:gravity="center_vertical|center_horizontal"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:layout_marginTop="-45dp"
+                android:layout_marginBottom="45dp" />
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:text="Featured"
                 android:textColor="@color/black"
                 android:textSize="24dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ProductRecyclerView"
+                android:id="@+id/MainRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                >
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="10dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
 
 

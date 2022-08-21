@@ -1,21 +1,34 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
+import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
+
 public class MainActivity extends SearchBarActivity {
 
-    private ActivityMainBinding binding;
+    ActivityMainBinding binding;
+    CategoryResultAdapter adapter;
+    ViewPagerAdapter mViewPageAdapter;
+    MainActivityViewModel viewModel;
+    ImageView[] dotView;
     private Toolbar toolbar;
 
     @Override
@@ -36,6 +49,36 @@ public class MainActivity extends SearchBarActivity {
         toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         removeBackButton(toolbar);
         loadToolbar(toolbar);
+
+        adapter = new CategoryResultAdapter();
+        binding.MainRecyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.MainRecyclerView.setLayoutManager(layoutManager);
+
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
+
+        viewModel.fetchFeaturedProducts();
+        viewModel.getProducts().observe(this, data -> {
+            adapter.setProducts(data);
+            adapter.notifyDataSetChanged();
+        });
+
+        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
+                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
+        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
+        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                resetDotsWithActiveNumber(position);
+            }
+        });
+
+        viewModel.fetchMostViewedProducts();
+        viewModel.getMostViewedProductImages().observe(this, data -> {
+            mViewPageAdapter.setImages(data);
+            mViewPageAdapter.notifyDataSetChanged();
+            createDots(data.size());
+        });
 
         initCategoryListeners();
     }
@@ -61,4 +104,26 @@ public class MainActivity extends SearchBarActivity {
         });
     }
 
+    private void createDots(int nImages) {
+        dotView = new ImageView[nImages];
+        // Set layout parameters for the dots
+        LinearLayout.LayoutParams parameters = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        parameters.setMargins(4, 0, 4, 0);
+
+        binding.threeDots.removeAllViews();
+        for (int i = 0; i < nImages; i++) {
+            dotView[i] = new ImageView(this);
+            binding.threeDots.addView(dotView[i], parameters);
+        }
+
+        if (nImages > 0) {
+            resetDotsWithActiveNumber(0);
+        }
+
+    }
+
+    private void resetDotsWithActiveNumber(int currentPosition) {
+        Arrays.stream(dotView).forEach(it -> it.setImageResource(R.drawable.dot_for_viewpager));
+        dotView[currentPosition].setImageResource(R.drawable.dot_for_viewpager_selected);
+    }
 }

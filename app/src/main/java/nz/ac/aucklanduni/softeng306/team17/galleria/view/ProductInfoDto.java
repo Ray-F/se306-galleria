@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory;
 
 import java.util.Locale;
 
-import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 
 public class ProductInfoDto {
 
@@ -51,6 +51,10 @@ public class ProductInfoDto {
 
     public String getSpecialText() {
         return this.specialText;
+    }
+
+    public static Bitmap convertByteToBitMap(Product product) {
+        return BitmapFactory.decodeByteArray(product.getHeroImage(), 0, product.getHeroImage().length);
     }
 
     public boolean getIsSaved() { return this.isSaved; }
