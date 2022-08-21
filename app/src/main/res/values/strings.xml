@@ -17,4 +17,7 @@
     <string name="productText">Stargazing</string>
     <string name="saveListing">Save Listing</string>
     <string name="info">Arto Marttinen @ Ghandruk, Nepal</string>
+    <string name="login">Welcome!</string>
+    <string name="loginSubtitle">Login to Galleria to continue</string>
+
 </resources>
