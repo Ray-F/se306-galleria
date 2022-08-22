@@ -14,16 +14,15 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityCategoryResultBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 
 public class SearchResultActivity extends SearchBarActivity {
 
-    private ActivityCategoryResultBinding binding;
+    private ActivityListResultBinding binding;
 
     private String searchTerm;
 
@@ -37,11 +36,10 @@ public class SearchResultActivity extends SearchBarActivity {
 
         super.onCreate(savedInstanceState);
         navigationHistory = (ArrayList<Intent>) getIntent().getExtras().get("NAVIGATION");
-
-        binding = ActivityCategoryResultBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         searchTerm = getIntent().getExtras().getString("searchTerm");
+
+        binding = ActivityListResultBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);

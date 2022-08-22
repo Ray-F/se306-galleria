@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,43 +18,38 @@ import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
-    SimpleListInfoAdapter adapter;
-    RecyclerView rvProducts;
-    TextView filterText;
-    MaterialButton sortFilterButton;
-    MaterialButton viewTypeButton;
-    RelativeLayout secondaryTopBar;
-    Toolbar toolbar;
+    private CategoryResultViewModel viewModel;
+    private SimpleListInfoAdapter adapter;
 
-    CategoryResultViewModel viewModel;
+    private ActivityListResultBinding binding;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityListResultBinding.inflate(getLayoutInflater());
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_result);
+        setContentView(binding.getRoot());
 
         Bundle allKeys = getIntent().getExtras();
+
         Category category = (Category) allKeys.get("CATEGORY");
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
-        toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
+        toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         switchSavedToBackButton(toolbar);
         loadToolbar(toolbar);
 
-        // Set default sort filter setting
-        secondaryTopBar = findViewById(R.id.secondaryTopBar);
-        filterText = (TextView) findViewById(R.id.SortFilterText);
-        filterText.setText("Sort By: New");
-        sortFilterButton = (MaterialButton) findViewById(R.id.SortIcon);
-        viewTypeButton = (MaterialButton) findViewById(R.id.ViewLayoutIcon);
+        binding.SortFilterText.setText("Sort By: New");
 
         setCategoryStyle(category);
 
@@ -64,10 +58,8 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         adapter = new SimpleListInfoAdapter();
 
-        viewModel.getProducts(category)
-                .observe(this, data -> {
-                    adapter.setProducts(data);
-                });
+        viewModel.fetchCategoryProducts(category);
+        viewModel.getProducts().observe(this, data -> adapter.setProducts(data));
 
         viewModel.getLayoutMode()
                 .observe(this, data -> {
@@ -87,25 +79,22 @@ public class CategoryResultActivity extends SearchBarActivity {
                             imageResource = R.drawable.grid_view_icon;
                     }
 
-                    rvProducts.setLayoutManager(layoutManager);
-                    viewTypeButton.setIconResource(imageResource);
+                    binding.ProductRecyclerView.setLayoutManager(layoutManager);
+                    binding.ViewLayoutIcon.setIconResource(imageResource);
                 });
 
-        rvProducts = (RecyclerView) findViewById(R.id.ProductRecyclerView);
-        rvProducts.setAdapter(adapter);
+        binding.ProductRecyclerView.setAdapter(adapter);
 
-        // TODO: see if we can replace this
-        rvProducts.setLayoutManager(new LinearLayoutManager(this));
-        viewTypeButton.setOnClickListener(it -> viewModel.toggleLayoutMode());
+        binding.ViewLayoutIcon.setOnClickListener(it -> viewModel.toggleLayoutMode());
 
-        sortFilterButton.setOnClickListener(v -> {
+        binding.SortIcon.setOnClickListener(v -> {
             // Functionality goes here later;
-            filterText.setText("Sort By: Price");
+            binding.SortFilterText.setText("Sort By: Price");
         });
 
-
         adapter.setOnItemClickListener((productId) -> {
-            Intent returnIntent = getIntent();
+            Intent returnIntent = new Intent(this, CategoryResultActivity.class);
+            returnIntent.putExtra("CATEGORY", category);
             navigationHistory.add(returnIntent);
 
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
@@ -117,27 +106,32 @@ public class CategoryResultActivity extends SearchBarActivity {
     }
 
     public void setCategoryStyle(Category category) {
+        int statusBarColourResId;
         int colourResId;
         int secondaryColourResId;
         String title;
 
         switch (category) {
             case PHOTOGRAPHIC:
+                statusBarColourResId = R.color.blackShadeGreen;
                 colourResId = R.color.darkestShadeGreen;
                 secondaryColourResId = R.color.mediumShadeGreen;
                 title = "PHOTOGRAPHIC ART";
                 break;
             case ALBUM:
+                statusBarColourResId = R.color.blackShadeGray;
                 colourResId = R.color.darkestShadeGray;
                 secondaryColourResId = R.color.mediumShadeGray;
                 title = "ALBUM COVER ART";
                 break;
             case AI:
+                statusBarColourResId = R.color.blackShadeOrange;
                 colourResId = R.color.darkestShadeOrange;
                 secondaryColourResId = R.color.mediumShadeOrange;
                 title = "AI GENERATED ART";
                 break;
             case PAINTING:
+                statusBarColourResId = R.color.blackShadeBlue;
                 colourResId = R.color.darkestShadeBlue;
                 secondaryColourResId = R.color.mediumShadeBlue;
                 title = "PAINTINGS";
@@ -146,8 +140,9 @@ public class CategoryResultActivity extends SearchBarActivity {
                 throw new IllegalStateException("Unexpected value: " + category);
         }
 
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
-        secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryColourResId));
+        binding.secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryColourResId));
         toolbar.setTitle(title);
     }
 

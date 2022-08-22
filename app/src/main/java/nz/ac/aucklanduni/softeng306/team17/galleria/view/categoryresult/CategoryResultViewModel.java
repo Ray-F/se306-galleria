@@ -21,18 +21,20 @@ public class CategoryResultViewModel extends ViewModel {
 
     private final ProductUseCase productUseCase;
 
-    private final MutableLiveData<List<ProductInfoDto>> products;
+    private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>(new ArrayList<>());
 
     // Default view should be list
     private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
 
     public CategoryResultViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
-
-        products = new MutableLiveData<>();
     }
 
-    public LiveData<List<ProductInfoDto>> getProducts(Category category) {
+    public LiveData<List<ProductInfoDto>> getProducts() {
+        return products;
+    }
+
+    public void fetchCategoryProducts(Category category) {
         this.products.setValue(new ArrayList<>());
         productUseCase.listProductsByCategory(category).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(
@@ -55,14 +57,11 @@ public class CategoryResultViewModel extends ViewModel {
                                 specialField = "";
                         }
 
-
                         return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                // TODO: Make isSaved return actual information
-                                it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField);
+                                                  // TODO: Make isSaved return actual information
+                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField);
                     }).collect(Collectors.toList()));
         });
-
-        return products;
     }
 
     public void toggleLayoutMode() {
