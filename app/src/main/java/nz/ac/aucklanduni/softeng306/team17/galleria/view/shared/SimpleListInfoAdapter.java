@@ -1,6 +1,8 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.shared;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +64,8 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 productViewHolder.productImage.setImageBitmap(productInfoDto.getHeroImage());
                 productViewHolder.productName.setText(productInfoDto.getName());
                 productViewHolder.productDescription.setText((productInfoDto.getTagline()));
-                productViewHolder.productPrice.setText(productInfoDto.getDisplayPrice());
+                productViewHolder.productPrice.setText(productInfoDto.getPrice());
+                productViewHolder.productCurrency.setText(productInfoDto.getCurrency());
                 productViewHolder.specialTextRow.setText(productInfoDto.getSpecialText());
 
                 if (noSpecialTextAvailable) {
@@ -106,6 +109,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView productName;
         TextView productDescription;
         TextView productPrice;
+        TextView productCurrency;
         TextView specialTextRow;
 
         public ProductViewHolder(View inputView) {
@@ -114,6 +118,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productName = inputView.findViewById(R.id.ProductName);
             productDescription = inputView.findViewById(R.id.ProductDescription);
             productPrice = inputView.findViewById(R.id.ProductPrice);
+            productCurrency = inputView.findViewById(R.id.ProductCurrency);
             specialTextRow = inputView.findViewById(R.id.RowSpecialText);
         }
 
@@ -138,6 +143,65 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      */
     public interface OnItemClickListener {
         void onClick(String productId);
+    }
+
+    public static class ColumnModeItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final Context context;
+        private final int nColumns;
+        private final int spacingDp;
+
+        public ColumnModeItemDecoration(Context context, int nColumns, int spacingDp) {
+            this.context = context;
+            this.nColumns = nColumns;
+            this.spacingDp = spacingDp;
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            int spacing = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    spacingDp,
+                    context.getResources().getDisplayMetrics()
+            );
+
+            int position = parent.getChildAdapterPosition(view);
+
+            int column = position % nColumns;
+
+            outRect.left = column * spacing / nColumns;
+            outRect.right = spacing - (column + 1) * spacing / nColumns;
+            if (position >= nColumns) {
+                outRect.top = spacing;
+            }
+        }
+    }
+
+    public static class ListModeItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final Context context;
+        private final int spacingDp;
+
+        public ListModeItemDecoration(Context context, int spacingDp) {
+            this.context = context;
+            this.spacingDp = spacingDp;
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            int spacing = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    spacingDp,
+                    context.getResources().getDisplayMetrics()
+            );
+
+            int position = parent.getChildAdapterPosition(view);
+
+            if (position != 0) {
+                outRect.top = spacing / 2;
+            }
+            outRect.bottom = spacing / 2;
+        }
     }
 
 }

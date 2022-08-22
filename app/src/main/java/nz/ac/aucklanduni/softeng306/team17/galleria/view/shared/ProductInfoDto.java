@@ -13,6 +13,8 @@ public class ProductInfoDto {
     private final String id;
     private final String name;
     private final String tagline;
+    private final String price;
+    private final String currency;
     private final String priceAsString;
     private final Bitmap heroImage;
     private final String specialText;
@@ -22,6 +24,8 @@ public class ProductInfoDto {
         this.id = id;
         this.name = name;
         this.tagline = tagline;
+        this.price = String.format(Locale.ENGLISH, "$%.0f", price);
+        this.currency = currencyCode.toString();
         this.priceAsString = String.format(Locale.UK, "%.0f", price) + " " + currencyCode;
         this.isSaved = isSaved;
         this.specialText = specialText;
@@ -60,4 +64,11 @@ public class ProductInfoDto {
     public boolean getIsSaved() { return this.isSaved; }
     public void setIsSaved(boolean isSaved) { this.isSaved = isSaved; }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
 }

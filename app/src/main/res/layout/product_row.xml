@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/GreenPalette"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="100dp"
     android:orientation="horizontal"
     android:weightSum="8">
 
@@ -12,12 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
-        android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="2.5dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="3"
-        android:src="@drawable/test_raccoon"></ImageView>
+        android:layout_marginRight="16dp"
+        android:layout_weight="2.5"
+        android:src="@drawable/test_raccoon" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -32,8 +29,7 @@
             style="@style/ProductRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="20pt"
+            android:textSize="18sp"
             android:text="TITLE TEXT"
             android:textStyle="bold" />
 
@@ -42,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ProductName"
-            android:textSize="16pt"
+            android:textSize="14dp"
             android:layout_marginTop="5dp"
             android:text="Some description text about this product for the user" />
 
@@ -50,25 +46,40 @@
             android:id="@+id/RowSpecialText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16pt"
+            android:textSize="14sp"
             android:layout_below="@id/ProductDescription"
             android:layout_marginTop="5dp"
             android:text="Special Text Goes Here And it might be long" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/ProductPrice"
-        android:layout_width="90dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="300.50 NZD"
-        android:padding="5dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginLeft="10dp"
-        android:textSize="20sp"
-        android:gravity="center"
         android:layout_weight="0.5"
-        ></TextView>
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/ProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="300"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/ProductCurrency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NZD $"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:gravity="right" />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

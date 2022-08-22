@@ -1,5 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -7,12 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
+import android.util.TypedValue;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
@@ -67,19 +67,27 @@ public class CategoryResultActivity extends SearchBarActivity {
 
                     RecyclerView.LayoutManager layoutManager;
                     int imageResource;
+                    RecyclerView.ItemDecoration itemDecoration = null;
 
                     switch (data) {
                         case GRID:
                             layoutManager = new GridLayoutManager(this, 2);
                             imageResource = R.drawable.list_view_icon;
+
+                            itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2,16);
                             break;
                         case LIST:
                         default:
                             layoutManager = new LinearLayoutManager(this);
+                            itemDecoration = new ListModeItemDecoration(this, 16);
                             imageResource = R.drawable.grid_view_icon;
                     }
 
                     binding.ProductRecyclerView.setLayoutManager(layoutManager);
+                    if (binding.ProductRecyclerView.getItemDecorationCount() > 0) {
+                        binding.ProductRecyclerView.removeItemDecorationAt(0);
+                    }
+                    binding.ProductRecyclerView.addItemDecoration(itemDecoration);
                     binding.ViewLayoutIcon.setIconResource(imageResource);
                 });
 
@@ -87,22 +95,26 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         binding.ViewLayoutIcon.setOnClickListener(it -> viewModel.toggleLayoutMode());
 
-        binding.SortIcon.setOnClickListener(v -> {
-            // Functionality goes here later;
-            binding.SortFilterText.setText("Sort By: Price");
-        });
+        binding.SortIcon.setOnClickListener(v ->
 
-        adapter.setOnItemClickListener((productId) -> {
-            Intent returnIntent = new Intent(this, CategoryResultActivity.class);
-            returnIntent.putExtra("CATEGORY", category);
-            navigationHistory.add(returnIntent);
+                                            {
+                                                // Functionality goes here later;
+                                                binding.SortFilterText.setText("Sort By: Price");
+                                            });
 
-            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-            productIntent.putExtra("productId", productId);
-            productIntent.putExtra("NAVIGATION", navigationHistory);
+        adapter.setOnItemClickListener((productId) ->
 
-            startActivity(productIntent);
-        });
+                                       {
+                                           Intent returnIntent = new Intent(this, CategoryResultActivity.class);
+                                           returnIntent.putExtra("CATEGORY", category);
+                                           navigationHistory.add(returnIntent);
+
+                                           Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+                                           productIntent.putExtra("productId", productId);
+                                           productIntent.putExtra("NAVIGATION", navigationHistory);
+
+                                           startActivity(productIntent);
+                                       });
     }
 
     public void setCategoryStyle(Category category) {
