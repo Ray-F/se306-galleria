@@ -34,7 +34,6 @@ public class SavedProductsActivity extends SearchBarActivity {
 
         appBarLayout = findViewById(R.id.topBarLayout);
         Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);
-        switchSavedToBackButton(toolbar);
         loadToolbar(toolbar);
 
         rvSaved = findViewById(R.id.SavedRecyclerView);

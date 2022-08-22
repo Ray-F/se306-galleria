@@ -66,7 +66,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
-        switchSavedToBackButton(toolbar);
         loadToolbar(toolbar);
 
         imageViewPage.setAdapter(imageViewPageAdapter);

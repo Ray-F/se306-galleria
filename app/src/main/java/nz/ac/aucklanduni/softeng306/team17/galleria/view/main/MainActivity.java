@@ -25,6 +25,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBind
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
@@ -33,7 +34,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDe
 public class MainActivity extends SearchBarActivity {
 
     ActivityMainBinding binding;
-    SimpleListInfoAdapter adapter;
+    SimpleListInfoAdapter featuredListViewAdapter;
     ViewPagerAdapter mViewPageAdapter;
     MainActivityViewModel viewModel;
     ImageView[] dotView;
@@ -46,6 +47,8 @@ public class MainActivity extends SearchBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
+
         super.onCreate(savedInstanceState);
 
         // Link XML elements with code
@@ -53,21 +56,53 @@ public class MainActivity extends SearchBarActivity {
 
         // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
         if (navigationHistory == null) {
-            navigationHistory = new ArrayList<Intent>();
+            navigationHistory = new ArrayList<>();
         }
         setNavigationHistory(navigationHistory);
 
         setContentView(binding.getRoot());
 
         toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        switchBackToSavedButton(toolbar);
         loadToolbar(toolbar);
+        customizeToolbar(toolbar);
 
-        adapter = new SimpleListInfoAdapter();
-        binding.MainRecyclerView.setAdapter(adapter);
-        binding.MainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        /*
+         * Set up categories
+         */
+        initCategoryListeners();
 
-        adapter.setOnItemClickListener((productId) -> {
+
+        /*
+         * Set up "Most viewed products"
+         */
+        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
+                                                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
+        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
+        initScrollTimer();
+        viewModel.fetchMostViewedProducts();
+        viewModel.getMostViewedProductImages().observe(this, data -> {
+            mViewPageAdapter.setImages(data);
+            mViewPageAdapter.notifyDataSetChanged();
+            createDots(data.size());
+        });
+        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                resetDotsWithActiveNumber(position);
+            }
+        });
+
+        /*
+         * Set up "featured products"
+         */
+        featuredListViewAdapter = new SimpleListInfoAdapter();
+        binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
+        binding.FeaturedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Add spacing between main items
+        binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
+        viewModel.fetchFeaturedProducts();
+        viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
+        featuredListViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, MainActivity.class);
             navigationHistory.add(returnIntent);
 
@@ -77,34 +112,6 @@ public class MainActivity extends SearchBarActivity {
 
             startActivity(productIntent);
         });
-
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
-
-        viewModel.fetchFeaturedProducts();
-        viewModel.getProducts().observe(this, adapter::setProducts);
-
-        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
-                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
-        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
-        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                resetDotsWithActiveNumber(position);
-            }
-        });
-
-        viewModel.fetchMostViewedProducts();
-        viewModel.getMostViewedProductImages().observe(this, data -> {
-            mViewPageAdapter.setImages(data);
-            mViewPageAdapter.notifyDataSetChanged();
-            createDots(data.size());
-        });
-
-        initCategoryListeners();
-
-        customizeToolbar();
-
-        initScrollTimer();
     }
 
     private void initScrollTimer() {
@@ -147,8 +154,8 @@ public class MainActivity extends SearchBarActivity {
         });
     }
 
-    private void customizeToolbar() {
-
+    private void customizeToolbar(Toolbar toolbar) {
+        switchToSavedButton(toolbar);
     }
 
     private void createDots(int nImages) {

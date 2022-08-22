@@ -22,34 +22,34 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAd
 
 public class SearchResultActivity extends SearchBarActivity {
 
-    private ActivityListResultBinding binding;
+    private SearchResultViewModel viewModel;
+    private SimpleListInfoAdapter listViewAdapter;
 
+    private ActivityListResultBinding binding;
     private String searchTerm;
 
-    private SearchResultViewModel viewModel;
-
-    private SimpleListInfoAdapter listViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.searchResultViewModel;
-
-        super.onCreate(savedInstanceState);
-        navigationHistory = (ArrayList<Intent>) getIntent().getExtras().get("NAVIGATION");
-        searchTerm = getIntent().getExtras().getString("searchTerm");
-
         binding = ActivityListResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.searchResultViewModel;
+        listViewAdapter = new SimpleListInfoAdapter();
+
+        super.onCreate(savedInstanceState);
+
+        Bundle allKeys = getIntent().getExtras();
+        searchTerm = allKeys.getString("searchTerm");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);
         customizeToolbar(toolbar);
 
-        viewModel.getSearchResults().observe(this, this::loadSearchResultData);
         viewModel.enterSearch(searchTerm);
+        viewModel.getSearchResults().observe(this, listViewAdapter::setProducts);
 
-        binding.ProductRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        listViewAdapter = new SimpleListInfoAdapter();
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
         listViewAdapter.setOnItemClickListener((productId) -> {
@@ -64,23 +64,32 @@ public class SearchResultActivity extends SearchBarActivity {
             startActivity(productIntent);
         });
 
+        // TODO: We need to extract this code out from Search and Category Result activity
         viewModel.getLayoutMode().observe(this, mode -> {
             listViewAdapter.setLayoutMode(mode);
+
             RecyclerView.LayoutManager layoutManager;
             int imageResource;
+            RecyclerView.ItemDecoration itemDecoration;
 
             switch (mode) {
                 case GRID:
                     layoutManager = new GridLayoutManager(this, 2);
                     imageResource = R.drawable.list_view_icon;
+                    itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2,16);
                     break;
                 case LIST:
                 default:
                     layoutManager = new LinearLayoutManager(this);
+                    itemDecoration = new SimpleListInfoAdapter.ListModeItemDecoration(this, 16);
                     imageResource = R.drawable.grid_view_icon;
             }
 
             binding.ProductRecyclerView.setLayoutManager(layoutManager);
+            if (binding.ProductRecyclerView.getItemDecorationCount() > 0) {
+                binding.ProductRecyclerView.removeItemDecorationAt(0);
+            }
+            binding.ProductRecyclerView.addItemDecoration(itemDecoration);
             binding.ViewLayoutIcon.setIconResource(imageResource);
         });
 
@@ -96,18 +105,12 @@ public class SearchResultActivity extends SearchBarActivity {
     }
 
     private void customizeToolbar(Toolbar toolbar) {
-        toolbar.setTitle("Search: " + searchTerm);
+        toolbar.setTitle("SEARCH: " + searchTerm);
     }
-    // Override options menu to not have menu item.
+    // Override options menu to not have the search menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
-    }
-
-    private void loadSearchResultData(List<ProductInfoDto> productInfos) {
-        System.out.println(productInfos);
-        listViewAdapter.setProducts(productInfos);
-        listViewAdapter.notifyDataSetChanged();
     }
 
 }

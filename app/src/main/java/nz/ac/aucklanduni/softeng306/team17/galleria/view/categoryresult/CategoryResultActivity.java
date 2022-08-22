@@ -1,17 +1,13 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
 
 import java.util.ArrayList;
 
@@ -19,105 +15,94 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
     private CategoryResultViewModel viewModel;
-    private SimpleListInfoAdapter adapter;
+    private SimpleListInfoAdapter listViewAdapter;
 
     private ActivityListResultBinding binding;
-    private Toolbar toolbar;
-
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityListResultBinding.inflate(getLayoutInflater());
-
-        super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
-        Bundle allKeys = getIntent().getExtras();
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
+        listViewAdapter = new SimpleListInfoAdapter();
 
-        Category category = (Category) allKeys.get("CATEGORY");
+        super.onCreate(savedInstanceState);
+
+        Bundle allKeys = getIntent().getExtras();
+        category = (Category) allKeys.get("CATEGORY");
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
-        toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        switchSavedToBackButton(toolbar);
+        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);
-
-        binding.SortFilterText.setText("Sort By: New");
-
-        setCategoryStyle(category);
-
-        // Bind ViewModel
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
-
-        adapter = new SimpleListInfoAdapter();
+        customizeToolbar(toolbar, category);
 
         viewModel.fetchCategoryProducts(category);
-        viewModel.getProducts().observe(this, data -> adapter.setProducts(data));
+        viewModel.getProducts().observe(this, listViewAdapter::setProducts);
 
-        viewModel.getLayoutMode()
-                .observe(this, data -> {
-                    adapter.setLayoutMode(data);
+        binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
-                    RecyclerView.LayoutManager layoutManager;
-                    int imageResource;
-                    RecyclerView.ItemDecoration itemDecoration = null;
+        listViewAdapter.setOnItemClickListener((productId) -> {
+            Intent returnIntent = new Intent(this, CategoryResultActivity.class);
+            returnIntent.putExtra("CATEGORY", category);
+            navigationHistory.add(returnIntent);
 
-                    switch (data) {
-                        case GRID:
-                            layoutManager = new GridLayoutManager(this, 2);
-                            imageResource = R.drawable.list_view_icon;
+            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productId);
+            productIntent.putExtra("NAVIGATION", navigationHistory);
 
-                            itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2,16);
-                            break;
-                        case LIST:
-                        default:
-                            layoutManager = new LinearLayoutManager(this);
-                            itemDecoration = new ListModeItemDecoration(this, 16);
-                            imageResource = R.drawable.grid_view_icon;
-                    }
+            startActivity(productIntent);
+        });
 
-                    binding.ProductRecyclerView.setLayoutManager(layoutManager);
-                    if (binding.ProductRecyclerView.getItemDecorationCount() > 0) {
-                        binding.ProductRecyclerView.removeItemDecorationAt(0);
-                    }
-                    binding.ProductRecyclerView.addItemDecoration(itemDecoration);
-                    binding.ViewLayoutIcon.setIconResource(imageResource);
-                });
+        viewModel.getLayoutMode().observe(this, mode -> {
+            listViewAdapter.setLayoutMode(mode);
 
-        binding.ProductRecyclerView.setAdapter(adapter);
+            RecyclerView.LayoutManager layoutManager;
+            int imageResource;
+            RecyclerView.ItemDecoration itemDecoration;
 
-        binding.ViewLayoutIcon.setOnClickListener(it -> viewModel.toggleLayoutMode());
+            switch (mode) {
+                case GRID:
+                    layoutManager = new GridLayoutManager(this, 2);
+                    imageResource = R.drawable.list_view_icon;
+                    itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2, 16);
+                    break;
+                case LIST:
+                default:
+                    layoutManager = new LinearLayoutManager(this);
+                    itemDecoration = new ListModeItemDecoration(this, 16);
+                    imageResource = R.drawable.grid_view_icon;
+            }
 
-        binding.SortIcon.setOnClickListener(v ->
+            binding.ProductRecyclerView.setLayoutManager(layoutManager);
+            if (binding.ProductRecyclerView.getItemDecorationCount() > 0) {
+                binding.ProductRecyclerView.removeItemDecorationAt(0);
+            }
+            binding.ProductRecyclerView.addItemDecoration(itemDecoration);
+            binding.ViewLayoutIcon.setIconResource(imageResource);
+        });
 
-                                            {
-                                                // Functionality goes here later;
-                                                binding.SortFilterText.setText("Sort By: Price");
-                                            });
-
-        adapter.setOnItemClickListener((productId) ->
-
-                                       {
-                                           Intent returnIntent = new Intent(this, CategoryResultActivity.class);
-                                           returnIntent.putExtra("CATEGORY", category);
-                                           navigationHistory.add(returnIntent);
-
-                                           Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-                                           productIntent.putExtra("productId", productId);
-                                           productIntent.putExtra("NAVIGATION", navigationHistory);
-
-                                           startActivity(productIntent);
-                                       });
+        initModifierListeners();
     }
 
-    public void setCategoryStyle(Category category) {
+    private void initModifierListeners() {
+        binding.SortIcon.setOnClickListener(view -> {
+            System.out.println("Sorting button clicked!");
+        });
+
+        binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
+    }
+
+    public void customizeToolbar(Toolbar toolbar, Category category) {
         int statusBarColourResId;
         int colourResId;
         int secondaryColourResId;
