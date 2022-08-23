@@ -76,7 +76,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Sign in"
-                    android:backgroundTint="@color/darkestShadeBlue"
+                    android:backgroundTint="@color/mediumShadeGreen"
                     />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Continue anonymously"
-                    android:backgroundTint="@color/darkGrey"
+                    android:backgroundTint="@color/darkestShadeGray"
                     />
 
             </LinearLayout>

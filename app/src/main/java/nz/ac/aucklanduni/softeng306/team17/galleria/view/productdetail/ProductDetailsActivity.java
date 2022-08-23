@@ -2,6 +2,7 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -33,6 +35,7 @@ import nl.dionsegijn.konfetti.core.models.Size;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
@@ -53,6 +56,7 @@ public class ProductDetailsActivity extends SearchBarActivity {
     // Activity state / information
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
+    Category parentCategory;
 
     ImageView[] dotView;
 
@@ -64,9 +68,11 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         Bundle allKeys = getIntent().getExtras();
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
+        parentCategory = (Category) allKeys.get("CATEGORY");
 
         Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
         loadToolbar(toolbar);
+        customizeToolbar(toolbar, parentCategory);
 
         imageViewPage.setAdapter(imageViewPageAdapter);
 
@@ -150,6 +156,36 @@ public class ProductDetailsActivity extends SearchBarActivity {
     private void resetDotsWithActiveNumber(int currentPosition) {
         Arrays.stream(dotView).forEach(it -> it.setImageResource(R.drawable.dot_for_viewpager));
         dotView[currentPosition].setImageResource(R.drawable.dot_for_viewpager_selected);
+    }
+
+    public void customizeToolbar(Toolbar toolbar, Category category) {
+        int statusBarColourResId;
+        int colourResId;
+
+        switch (category) {
+            case PHOTOGRAPHIC:
+                statusBarColourResId = R.color.blackShadeGreen;
+                colourResId = R.color.darkestShadeGreen;
+                break;
+            case ALBUM:
+                statusBarColourResId = R.color.blackShadeGray;
+                colourResId = R.color.darkestShadeGray;
+                break;
+            case AI:
+                statusBarColourResId = R.color.blackShadeOrange;
+                colourResId = R.color.darkestShadeOrange;
+                break;
+            case PAINTING:
+                statusBarColourResId = R.color.blackShadeBlue;
+                colourResId = R.color.darkestShadeBlue;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + category);
+        }
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
+        saveProductButton.setBackgroundColor(ContextCompat.getColor(this, colourResId));
     }
 
     private void initListeners() {

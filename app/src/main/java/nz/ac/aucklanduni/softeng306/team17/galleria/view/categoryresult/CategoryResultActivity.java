@@ -59,6 +59,7 @@ public class CategoryResultActivity extends SearchBarActivity {
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
             productIntent.putExtra("productId", productId);
             productIntent.putExtra("NAVIGATION", navigationHistory);
+            productIntent.putExtra("CATEGORY", category);
 
             startActivity(productIntent);
         });
