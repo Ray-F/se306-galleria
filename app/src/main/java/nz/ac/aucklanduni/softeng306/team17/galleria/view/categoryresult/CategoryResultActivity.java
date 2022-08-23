@@ -98,6 +98,7 @@ public class CategoryResultActivity extends SearchBarActivity {
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
             System.out.println("Sorting button clicked!");
+            listViewAdapter.setProducts(viewModel.sortByPrice());
         });
 
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());

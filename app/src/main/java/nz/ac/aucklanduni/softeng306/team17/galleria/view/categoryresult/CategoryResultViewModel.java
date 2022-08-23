@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,27 @@ public class CategoryResultViewModel extends ViewModel {
             this.layoutMode.setValue(ListViewLayoutMode.GRID);
         } else {
             this.layoutMode.setValue(ListViewLayoutMode.LIST);
+        }
+    }
+
+    public List<ProductInfoDto> sortByPrice() {
+        List<ProductInfoDto> prods = products.getValue();
+        prods.sort(new CustomComparator());
+        return prods;
+    }
+
+    class CustomComparator implements Comparator<ProductInfoDto> {
+
+        public int compare(ProductInfoDto p1, ProductInfoDto p2) {
+            Long price1 = Long.parseLong(p1.getPrice().substring(1, p1.getPrice().length()));
+            Long price2 = Long.parseLong(p2.getPrice().substring(1, p2.getPrice().length()));
+            if (price1 == price2) {
+                return 0;
+            } else if (price1 > price2) {
+                return 1;
+            } else {
+                return -1;
+            }
         }
     }
 
