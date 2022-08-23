@@ -12,12 +12,12 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.ISearchRepositor
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.repo.IUserRepository;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.CategoryResultViewModel;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.MainActivityViewModel;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.ProductDetailsViewModel;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.SavedProductsViewModel;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.SearchBarViewModel;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.SearchResultViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivityViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultViewModel;
 
 /**
  * Dependency injection container for providing prebuilt classes.

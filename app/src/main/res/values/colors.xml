@@ -9,22 +9,25 @@
     <color name="white">#FFFFFFFF</color>
 
 <!--    Green Palette-->
+    <color name="blackShadeGreen">#34493C</color>
     <color name="darkestShadeGreen">#42604E</color>
     <color name="mediumShadeGreen">#5C8B6F</color>
     <color name="lightShadeGreen">#8FCCA7</color>
-    <color name="productDetailsBarColor">#40535F</color>
 
 <!--Blue Palette-->
+    <color name="blackShadeBlue">#323F47</color>
     <color name="darkestShadeBlue">#40535F</color>
     <color name="mediumShadeBlue">#567B92</color>
     <color name="lightShadeBlue">#7DA4BD</color>
 
 <!--Gray Palette-->
+    <color name="blackShadeGray">#232325</color>
     <color name="darkestShadeGray">#35363A</color>
     <color name="mediumShadeGray">#707070</color>
     <color name="lightShadeGray">#EDEDED</color>
 
 <!--Orange Palette-->
+    <color name="blackShadeOrange">#5A482E</color>
     <color name="darkestShadeOrange">#856A42</color>
     <color name="mediumShadeOrange">#BC965C</color>
     <color name="lightShadeOrange">#EAC183</color>

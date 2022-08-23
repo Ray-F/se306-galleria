@@ -1,65 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/GreenPalette"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="150dp"
     android:weightSum="8"
-    android:orientation="horizontal"
-    >
+
+    android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4.5"
+        android:layout_weight="4"
         >
         <ImageView
             android:id="@+id/ProductImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/test_raccoon"
-            android:alpha="0.8"
-            ></ImageView>
+            android:alpha="1" />
+        <ImageView
+            android:id="@+id/ImageOverlaySolid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@color/black"
+            android:alpha="0.5" />
         <ImageView
             android:id="@+id/UnsaveHeart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/heart_icon"
-            android:onClick="unsaveProduct"
-            ></ImageView>
+            android:src="@drawable/white_heart"
+            android:onClick="unsaveProduct" />
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/savedTextArea"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3.5"
+        android:layout_weight="4"
         android:weightSum="3"
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:paddingLeft="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             style="@style/ProductRow"
             android:id="@+id/SavedProductName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
             android:textStyle="bold"
-            android:text="TITLE TEXT"></TextView>
+            android:text="TITLE TEXT" />
+
         <TextView
             android:id="@+id/SavedProductDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/ProductName"
             android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:layout_weight="2"
-            android:text="Some description text about this product for the user"></TextView>
+            android:gravity="left"
+            android:text="Some description text about this product for the user" />
 
+        <TextView
+            android:id="@+id/BehaviourHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="bottom"
+            android:text="(Click to view product details)"
+            android:textColor="@color/darkestShadeGreen"
+            android:textSize="10dp" />
     </LinearLayout>
 </LinearLayout>

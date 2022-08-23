@@ -1,18 +1,16 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -22,9 +20,21 @@ import com.google.android.material.appbar.AppBarLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import nl.dionsegijn.konfetti.core.Angle;
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
 
 public class ProductDetailsActivity extends SearchBarActivity {
@@ -56,7 +66,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
-        switchSavedToBackButton(toolbar);
         loadToolbar(toolbar);
 
         imageViewPage.setAdapter(imageViewPageAdapter);
@@ -114,8 +123,8 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.productDetailsBarColor : R.color.purple_500)));
-                    saveProductButton.setText(data ? "ALREADY SAVED (UNSAVE?)" : "SAVE LISTING");
+                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : R.color.darkestShadeGreen)));
+                    saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
                 }
         );
     }
@@ -155,6 +164,20 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         // Add saved product click button listener
         saveProductButton.setOnClickListener(view -> {
+            if (saveProductButton.getText().toString().toLowerCase(Locale.ROOT).equals("save product")) {
+                EmitterConfig emitterConfig = new Emitter(2L, TimeUnit.SECONDS).perSecond(200);
+                Party party = new PartyFactory(emitterConfig)
+                        .angle(Angle.TOP)
+                        .spread(90)
+                        .setSpeedBetween(15f, 20f)
+                        .timeToLive(1000L)
+                        .sizes(new Size(12, 5f, 0.2f))
+                        .position(0.0, 0, 1.0, 1)
+                        .build();
+
+                ((KonfettiView) findViewById(R.id.konfettiView)).start(party);
+            }
+
             viewModel.toggleSaveProduct();
         });
     }

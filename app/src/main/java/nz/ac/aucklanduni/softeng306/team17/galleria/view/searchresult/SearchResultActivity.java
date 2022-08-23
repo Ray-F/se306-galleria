@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,39 +14,42 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityCategoryResultBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 
 public class SearchResultActivity extends SearchBarActivity {
 
-    private ActivityCategoryResultBinding binding;
+    private SearchResultViewModel viewModel;
+    private SimpleListInfoAdapter listViewAdapter;
 
+    private ActivityListResultBinding binding;
     private String searchTerm;
 
-    private SearchResultViewModel viewModel;
-
-    private SimpleListInfoAdapter listViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.searchResultViewModel;
-
-        super.onCreate(savedInstanceState);
-        navigationHistory = (ArrayList<Intent>) getIntent().getExtras().get("NAVIGATION");
-
-        binding = ActivityCategoryResultBinding.inflate(getLayoutInflater());
+        binding = ActivityListResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        searchTerm = getIntent().getExtras().getString("searchTerm");
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.searchResultViewModel;
+        listViewAdapter = new SimpleListInfoAdapter();
+
+        super.onCreate(savedInstanceState);
+
+        Bundle allKeys = getIntent().getExtras();
+        searchTerm = allKeys.getString("searchTerm");
+        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);
         customizeToolbar(toolbar);
 
-        viewModel.getSearchResults().observe(this, this::loadSearchResultData);
         viewModel.enterSearch(searchTerm);
+        viewModel.getSearchResults().observe(this, listViewAdapter::setProducts);
 
-        binding.ProductRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        listViewAdapter = new SimpleListInfoAdapter();
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
         listViewAdapter.setOnItemClickListener((productId) -> {
@@ -61,24 +64,33 @@ public class SearchResultActivity extends SearchBarActivity {
             startActivity(productIntent);
         });
 
+        // TODO: We need to extract this code out from Search and Category Result activity
         viewModel.getLayoutMode().observe(this, mode -> {
             listViewAdapter.setLayoutMode(mode);
+
             RecyclerView.LayoutManager layoutManager;
             int imageResource;
+            RecyclerView.ItemDecoration itemDecoration;
 
             switch (mode) {
                 case GRID:
                     layoutManager = new GridLayoutManager(this, 2);
                     imageResource = R.drawable.list_view_icon;
+                    itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2,16);
                     break;
                 case LIST:
                 default:
                     layoutManager = new LinearLayoutManager(this);
+                    itemDecoration = new SimpleListInfoAdapter.ListModeItemDecoration(this, 16);
                     imageResource = R.drawable.grid_view_icon;
             }
 
             binding.ProductRecyclerView.setLayoutManager(layoutManager);
-            binding.ViewLayoutIcon.setImageResource(imageResource);
+            if (binding.ProductRecyclerView.getItemDecorationCount() > 0) {
+                binding.ProductRecyclerView.removeItemDecorationAt(0);
+            }
+            binding.ProductRecyclerView.addItemDecoration(itemDecoration);
+            binding.ViewLayoutIcon.setIconResource(imageResource);
         });
 
         initModifierListeners();
@@ -86,25 +98,19 @@ public class SearchResultActivity extends SearchBarActivity {
 
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
-            System.out.println("Sorting butotn clicked!");
+            System.out.println("Sorting button clicked!");
         });
 
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
     private void customizeToolbar(Toolbar toolbar) {
-        toolbar.setTitle("Search: " + searchTerm);
+        toolbar.setTitle("SEARCH: " + searchTerm);
     }
-    // Override options menu to not have menu item.
+    // Override options menu to not have the search menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
-    }
-
-    private void loadSearchResultData(List<ProductInfoDto> productInfos) {
-        System.out.println(productInfos);
-        listViewAdapter.setProducts(productInfos);
-        listViewAdapter.notifyDataSetChanged();
     }
 
 }

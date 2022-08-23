@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.main;
 
 import android.graphics.Bitmap;
 
@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
 public class MainActivityViewModel extends ViewModel {
 
@@ -39,7 +39,7 @@ public class MainActivityViewModel extends ViewModel {
     public void fetchMostViewedProducts() {
         productUseCase.listAllProducts().subscribe(productsFromRepo -> {
             mostViewedProductImages.setValue(productsFromRepo.stream()
-                    .limit(3)
+                    .limit(5)
                     .map(ProductInfoDto::convertByteToBitMap)
                     .collect(Collectors.toList())
             );

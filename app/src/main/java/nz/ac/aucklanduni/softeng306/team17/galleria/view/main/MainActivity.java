@@ -1,9 +1,10 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.main;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -15,24 +16,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 
 public class MainActivity extends SearchBarActivity {
 
     ActivityMainBinding binding;
-    SimpleListInfoAdapter adapter;
+    SimpleListInfoAdapter featuredListViewAdapter;
     ViewPagerAdapter mViewPageAdapter;
     MainActivityViewModel viewModel;
     ImageView[] dotView;
     private Toolbar toolbar;
 
+    Timer timer;
+    int currentPage = 0;
+    final long DELAY_MS = 500;
+    final long PERIOD_MS = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
+
         super.onCreate(savedInstanceState);
 
         // Link XML elements with code
@@ -40,21 +56,53 @@ public class MainActivity extends SearchBarActivity {
 
         // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
         if (navigationHistory == null) {
-            navigationHistory = new ArrayList<Intent>();
+            navigationHistory = new ArrayList<>();
         }
         setNavigationHistory(navigationHistory);
 
         setContentView(binding.getRoot());
 
         toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        switchBackToSavedButton(toolbar);
         loadToolbar(toolbar);
+        customizeToolbar(toolbar);
 
-        adapter = new SimpleListInfoAdapter();
-        binding.MainRecyclerView.setAdapter(adapter);
-        binding.MainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        /*
+         * Set up categories
+         */
+        initCategoryListeners();
 
-        adapter.setOnItemClickListener((productId) -> {
+
+        /*
+         * Set up "Most viewed products"
+         */
+        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
+                                                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
+        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
+        initScrollTimer();
+        viewModel.fetchMostViewedProducts();
+        viewModel.getMostViewedProductImages().observe(this, data -> {
+            mViewPageAdapter.setImages(data);
+            mViewPageAdapter.notifyDataSetChanged();
+            createDots(data.size());
+        });
+        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                resetDotsWithActiveNumber(position);
+            }
+        });
+
+        /*
+         * Set up "featured products"
+         */
+        featuredListViewAdapter = new SimpleListInfoAdapter();
+        binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
+        binding.FeaturedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Add spacing between main items
+        binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
+        viewModel.fetchFeaturedProducts();
+        viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
+        featuredListViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, MainActivity.class);
             navigationHistory.add(returnIntent);
 
@@ -64,32 +112,25 @@ public class MainActivity extends SearchBarActivity {
 
             startActivity(productIntent);
         });
+    }
 
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.mainActivityViewModel;
-
-        viewModel.fetchFeaturedProducts();
-        viewModel.getProducts().observe(this, adapter::setProducts);
-
-        mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
-                R.layout.main_activity_slideview, R.id.mainViewPagerMain);
-        binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
-        binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                resetDotsWithActiveNumber(position);
+    private void initScrollTimer() {
+        /*After setting the adapter use the timer */
+        final Handler handler = new Handler();
+        final Runnable Update = () -> {
+            if (currentPage == 3) {
+                currentPage = 0;
             }
-        });
+            binding.mainViewPagerMain.setCurrentItem(currentPage++, true);
+        };
 
-        viewModel.fetchMostViewedProducts();
-        viewModel.getMostViewedProductImages().observe(this, data -> {
-            mViewPageAdapter.setImages(data);
-            mViewPageAdapter.notifyDataSetChanged();
-            createDots(data.size());
-        });
-
-        initCategoryListeners();
-
-        customizeToolbar();
+        timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 
     private void initCategoryListeners() {
@@ -113,8 +154,8 @@ public class MainActivity extends SearchBarActivity {
         });
     }
 
-    private void customizeToolbar() {
-
+    private void customizeToolbar(Toolbar toolbar) {
+        switchToSavedButton(toolbar);
     }
 
     private void createDots(int nImages) {

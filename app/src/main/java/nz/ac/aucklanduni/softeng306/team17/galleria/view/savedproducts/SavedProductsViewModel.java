@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
 public class SavedProductsViewModel extends ViewModel {
 
