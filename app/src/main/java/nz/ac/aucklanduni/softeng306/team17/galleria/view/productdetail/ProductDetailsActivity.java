@@ -53,6 +53,9 @@ public class ProductDetailsActivity extends SearchBarActivity {
     Button saveProductButton;
     LinearLayout buttonsSlide;
 
+    int statusBarColourResId;
+    int colourResId;
+
     // Activity state / information
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
@@ -129,7 +132,7 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : R.color.darkestShadeGreen)));
+                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : colourResId)));
                     saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
                 }
         );
@@ -159,8 +162,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
     }
 
     public void customizeToolbar(Toolbar toolbar, Category category) {
-        int statusBarColourResId;
-        int colourResId;
 
         switch (category) {
             case PHOTOGRAPHIC:
@@ -185,7 +186,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
-        saveProductButton.setBackgroundColor(ContextCompat.getColor(this, colourResId));
     }
 
     private void initListeners() {
