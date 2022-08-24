@@ -20,4 +20,15 @@
     <string name="login">Welcome!</string>
     <string name="loginSubtitle">Login to Galleria to continue</string>
 
+
+<!--    Strings used for dropdown -->
+    <string name="dropdown_sort_options">dropdownOptions</string>
+    <string-array name="sort_options">
+        <item>Lowest Price</item>
+        <item>Highest Price</item>
+        <item>Alphabetical</item>
+        <item>Reverse Alphabetical</item>
+        <item>Most Views</item>
+        <item>Least Views</item>
+    </string-array>
 </resources>

@@ -34,7 +34,7 @@ public class SearchResultViewModel extends ViewModel {
             products.setValue(repoProducts.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                        // TODO: Somehow get whether this product is saved by user or not
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory())
+                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
                     )).collect(Collectors.toList()));
         });
     }

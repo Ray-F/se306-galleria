@@ -59,7 +59,7 @@
                 android:minWidth="48dp"
                 app:iconSize="30dp" />
 
-<!--            <ImageView-->
+            <!--            <ImageView-->
 <!--                android:id="@+id/ViewLayoutIcon"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="match_parent"-->
@@ -81,6 +81,14 @@
             android:layout_marginHorizontal="16dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </androidx.recyclerview.widget.RecyclerView>
+
+        <Spinner
+            android:id="@+id/sortSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/ProductRecyclerView"
+            app:layout_anchorGravity="top|center"
+            android:spinnerMode="dropdown"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

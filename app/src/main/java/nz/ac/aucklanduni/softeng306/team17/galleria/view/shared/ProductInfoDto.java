@@ -20,9 +20,10 @@ public class ProductInfoDto {
     private final Bitmap heroImage;
     private final String specialText;
     private boolean isSaved;
-    private Category category;
+    private final Category category;
+    private final int views;
 
-    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, String specialText, Category category) {
+    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, String specialText, Category category, int views) {
         this.id = id;
         this.name = name;
         this.tagline = tagline;
@@ -32,6 +33,7 @@ public class ProductInfoDto {
         this.isSaved = isSaved;
         this.specialText = specialText;
         this.category = category;
+        this.views = views;
 
         this.heroImage = BitmapFactory.decodeByteArray(heroImage, 0, heroImage.length);
     }
@@ -62,6 +64,10 @@ public class ProductInfoDto {
 
     public Category getCategory() {
         return this.category;
+    }
+
+    public int getViews() {
+        return this.views;
     }
 
     public static Bitmap convertByteToBitMap(Product product) {

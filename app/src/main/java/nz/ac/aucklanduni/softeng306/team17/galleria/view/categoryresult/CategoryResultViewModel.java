@@ -60,7 +60,7 @@ public class CategoryResultViewModel extends ViewModel {
 
                         return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                                   // TODO: Make isSaved return actual information
-                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory());
+                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory(), it.getViews());
                     }).collect(Collectors.toList()));
         });
     }
@@ -73,26 +73,13 @@ public class CategoryResultViewModel extends ViewModel {
         }
     }
 
-    public List<ProductInfoDto> sortByPrice() {
+    public List<ProductInfoDto> sortByComparator(Comparator comparator) {
         List<ProductInfoDto> prods = products.getValue();
-        prods.sort(new CustomComparator());
+        prods.sort(comparator);
         return prods;
     }
 
-    class CustomComparator implements Comparator<ProductInfoDto> {
 
-        public int compare(ProductInfoDto p1, ProductInfoDto p2) {
-            Long price1 = Long.parseLong(p1.getPrice().substring(1, p1.getPrice().length()));
-            Long price2 = Long.parseLong(p2.getPrice().substring(1, p2.getPrice().length()));
-            if (price1 == price2) {
-                return 0;
-            } else if (price1 > price2) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }
-    }
 
     public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
         return layoutMode;

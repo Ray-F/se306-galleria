@@ -30,7 +30,7 @@ public class MainActivityViewModel extends ViewModel {
         productUseCase.listTopRatedProducts(5).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                            it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory())
+                            it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
             )).collect(Collectors.toList()));
         });
     }
