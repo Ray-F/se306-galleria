@@ -3,6 +3,10 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +18,12 @@ import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.NameAscendingComparator;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.NameDescendingComparator;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.PriceAscendingComparator;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.PriceDescendingComparator;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewAscendingComparator;
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewDescendingComparator;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
@@ -27,6 +37,8 @@ public class SearchResultActivity extends SearchBarActivity {
 
     private ActivityListResultBinding binding;
     private String searchTerm;
+
+    private Spinner dropdown;
 
 
     @Override
@@ -93,12 +105,60 @@ public class SearchResultActivity extends SearchBarActivity {
             binding.ViewLayoutIcon.setIconResource(imageResource);
         });
 
+        dropdown = (Spinner) findViewById(R.id.sortSpinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
+        dropdown.setAdapter(spinnerAdapter);
+        dropdown.setVisibility(View.GONE);
+        int defaultPosition = spinnerAdapter.getPosition("Alphabetical");
+        dropdown.setSelection(defaultPosition);
+        binding.SortFilterText.setText("Sort By: Alphabetical");
+
         initModifierListeners();
     }
 
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
             System.out.println("Sorting button clicked!");
+            dropdown.setVisibility(View.VISIBLE);
+            dropdown.performClick();
+        });
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                switch (selectedItem) {
+                    case "Lowest Price":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new PriceAscendingComparator()));
+                        break;
+                    case "Highest Price":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new PriceDescendingComparator()));
+                        break;
+                    case "Alphabetical":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new NameAscendingComparator()));
+                        break;
+                    case "Reverse Alphabetical":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new NameDescendingComparator()));
+                        break;
+                    case "Most Views":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new ViewAscendingComparator()));
+                        break;
+                    case "Least Views":
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new ViewDescendingComparator()));
+                        break;
+                    default:
+                        listViewAdapter.setProducts(viewModel.sortByComparator(new NameAscendingComparator()));
+                }
+
+                binding.SortFilterText.setText("Sort By: " + selectedItem);
+
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
         });
 
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());

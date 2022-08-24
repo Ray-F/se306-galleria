@@ -82,10 +82,13 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <!-- CODE FOR RELATIVE ANCHORING TO BELOW SORT BAR IS SLIGHTLY OFF BUT UNNOTICEABLE WITH SPINNER INVISIBLE -->
         <Spinner
             android:id="@+id/sortSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:popupBackground="@color/white"
             app:layout_anchor="@+id/ProductRecyclerView"
             app:layout_anchorGravity="top|center"
             android:spinnerMode="dropdown"/>

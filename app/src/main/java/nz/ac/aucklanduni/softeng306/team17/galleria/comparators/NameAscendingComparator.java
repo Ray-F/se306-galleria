@@ -10,20 +10,20 @@ public class NameAscendingComparator implements Comparator<ProductInfoDto> {
         String name1 = p1.getName();
         String name2 = p2.getName();
 
-        boolean firstChosen = true;
+        boolean firstBigger = true;
         int minLength = name1.length() < name2.length() ? name1.length() : name2.length();
 
         for (int i = 0; i < minLength; i++) {
-            if ( ((int) name1.charAt(i)) > ((int) name2.charAt(i)) ) {
-                firstChosen = false;
+            if ( ((int) name1.charAt(i)) < ((int) name2.charAt(i)) ) {
+                firstBigger = false;
                 break;
-            } else if ( ((int) name1.charAt(i)) < ((int) name2.charAt(i)) ) {
-                firstChosen = true;
+            } else if ( ((int) name1.charAt(i)) > ((int) name2.charAt(i)) ) {
+                firstBigger = true;
                 break;
             }
         }
 
-        if (firstChosen) {
+        if (firstBigger) {
             return 1;
         } else {
             return -1;

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,12 @@ public class SearchResultViewModel extends ViewModel {
         } else {
             this.layoutMode.setValue(ListViewLayoutMode.LIST);
         }
+    }
+
+    public List<ProductInfoDto> sortByComparator(Comparator comparator) {
+        List<ProductInfoDto> prods = products.getValue();
+        prods.sort(comparator);
+        return prods;
     }
 
     public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
