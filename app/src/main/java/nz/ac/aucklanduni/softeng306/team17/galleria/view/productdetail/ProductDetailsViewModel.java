@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
@@ -38,7 +39,7 @@ public class ProductDetailsViewModel extends ViewModel {
                                                          2f, new byte[1], false,
                                                          new ArrayList<>(), "",
                                                          "", 2f, 1,
-                                                         false, 1, ""));
+                                                         false, 1, "", Category.ALBUM));
 
 
         productUseCase.isProductSaved(GalleriaApplication.DEV_USER, productId).subscribe(data -> {
@@ -51,7 +52,7 @@ public class ProductDetailsViewModel extends ViewModel {
                     product.getId(), product.getName(), product.getTagline(),
                     product.getCurrency(), product.getPrice(), product.getHeroImage(), false, product.getOtherImages(),
                     product.getDesc(), product.getBackgroundColor(), product.getRating(),
-                    product.getViews(), product.getStockLevel() > 0, product.getTotalReviews(), "")
+                    product.getViews(), product.getStockLevel() > 0, product.getTotalReviews(), "", product.getCategory())
             );
         });
 

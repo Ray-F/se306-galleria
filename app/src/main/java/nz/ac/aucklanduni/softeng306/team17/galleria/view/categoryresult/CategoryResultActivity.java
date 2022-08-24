@@ -51,7 +51,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
-        listViewAdapter.setOnItemClickListener((productId) -> {
+        listViewAdapter.setOnItemClickListener((productId, category) -> {
             Intent returnIntent = new Intent(this, CategoryResultActivity.class);
             returnIntent.putExtra("CATEGORY", category);
             navigationHistory.add(returnIntent);

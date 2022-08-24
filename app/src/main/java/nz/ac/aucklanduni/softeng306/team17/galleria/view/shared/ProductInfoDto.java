@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 
 import java.util.Locale;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 
@@ -19,8 +20,9 @@ public class ProductInfoDto {
     private final Bitmap heroImage;
     private final String specialText;
     private boolean isSaved;
+    private Category category;
 
-    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, String specialText) {
+    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, String specialText, Category category) {
         this.id = id;
         this.name = name;
         this.tagline = tagline;
@@ -29,6 +31,7 @@ public class ProductInfoDto {
         this.priceAsString = String.format(Locale.UK, "%.0f", price) + " " + currencyCode;
         this.isSaved = isSaved;
         this.specialText = specialText;
+        this.category = category;
 
         this.heroImage = BitmapFactory.decodeByteArray(heroImage, 0, heroImage.length);
     }
@@ -55,6 +58,10 @@ public class ProductInfoDto {
 
     public String getSpecialText() {
         return this.specialText;
+    }
+
+    public Category getCategory() {
+        return this.category;
     }
 
     public static Bitmap convertByteToBitMap(Product product) {

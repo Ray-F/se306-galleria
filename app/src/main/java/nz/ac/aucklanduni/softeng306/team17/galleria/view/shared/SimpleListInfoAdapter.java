@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -26,7 +27,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     ListViewLayoutMode listViewLayoutMode = ListViewLayoutMode.LIST;
 
     // Default listener which does nothing
-    OnItemClickListener itemClickListener = (id) -> {};
+    OnItemClickListener itemClickListener = (id, ctg) -> {};
 
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
@@ -76,7 +77,8 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         holder.itemView.setOnClickListener(view -> {
             String productId = mProducts.get(holder.getAbsoluteAdapterPosition()).getId();
-            itemClickListener.onClick(productId);
+            Category category = mProducts.get(holder.getAbsoluteAdapterPosition()).getCategory();
+            itemClickListener.onClick(productId, category);
         });
     }
 
@@ -142,7 +144,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * Listener for item button click.
      */
     public interface OnItemClickListener {
-        void onClick(String productId);
+        void onClick(String productId, Category category);
     }
 
     public static class ColumnModeItemDecoration extends RecyclerView.ItemDecoration {

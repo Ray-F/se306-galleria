@@ -102,14 +102,14 @@ public class MainActivity extends SearchBarActivity {
         binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
         viewModel.fetchFeaturedProducts();
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
-        featuredListViewAdapter.setOnItemClickListener((productId) -> {
+        featuredListViewAdapter.setOnItemClickListener((productId, category) -> {
             Intent returnIntent = new Intent(this, MainActivity.class);
             navigationHistory.add(returnIntent);
 
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
             productIntent.putExtra("productId", productId);
             productIntent.putExtra("NAVIGATION", navigationHistory);
-            productIntent.putExtra("CATEGORY", Category.AI);
+            productIntent.putExtra("CATEGORY", category);
 
             startActivity(productIntent);
         });

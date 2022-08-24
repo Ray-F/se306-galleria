@@ -60,7 +60,7 @@ public class CategoryResultViewModel extends ViewModel {
 
                         return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                                   // TODO: Make isSaved return actual information
-                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField);
+                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory());
                     }).collect(Collectors.toList()));
         });
     }

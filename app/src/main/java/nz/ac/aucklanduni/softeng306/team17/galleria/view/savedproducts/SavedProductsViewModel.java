@@ -28,7 +28,7 @@ public class SavedProductsViewModel extends ViewModel {
         productUseCase.listSavedProductsByUser(uuid).subscribe(filteredProducts -> {
             products.setValue(filteredProducts.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                            it.getCurrency(), it.getPrice(), it.getHeroImage(), true, "")
+                            it.getCurrency(), it.getPrice(), it.getHeroImage(), true, "", it.getCategory())
             )).collect(Collectors.toList()));
         });
 
