@@ -22,10 +22,11 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAd
 
 public class SearchResultActivity extends SearchBarActivity {
 
+    private ActivityListResultBinding binding;
     private SearchResultViewModel viewModel;
+
     private SimpleListInfoAdapter listViewAdapter;
 
-    private ActivityListResultBinding binding;
     private String searchTerm;
 
 
@@ -47,8 +48,8 @@ public class SearchResultActivity extends SearchBarActivity {
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        loadToolbar(toolbar);
-        customizeToolbar(toolbar);
+        loadToolbar(toolbar, binding.secondaryToolbar);
+        customizeToolbar(R.color.darkestShadeGreen, R.color.darkestShadeGreen, "SEARCH: " + searchTerm);
 
         viewModel.enterSearch(searchTerm);
         viewModel.getSearchResults().observe(this, listViewAdapter::setProducts);
@@ -107,9 +108,6 @@ public class SearchResultActivity extends SearchBarActivity {
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
-    private void customizeToolbar(Toolbar toolbar) {
-        toolbar.setTitle("SEARCH: " + searchTerm);
-    }
     // Override options menu to not have the search menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

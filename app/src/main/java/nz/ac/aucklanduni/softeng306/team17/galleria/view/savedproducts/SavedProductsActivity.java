@@ -1,61 +1,60 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
+import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivitySavedProductsBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 
 public class SavedProductsActivity extends SearchBarActivity {
 
+    ActivitySavedProductsBinding binding;
+
     SavedAdapter adapter;
-    RecyclerView rvSaved;
     SavedProductsViewModel viewModel;
-    AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_products);
+        binding = ActivitySavedProductsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
 
         Bundle allKeys = getIntent().getExtras();
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
-        appBarLayout = findViewById(R.id.topBarLayout);
-        Toolbar toolbar = (Toolbar) appBarLayout.getChildAt(0);
-        loadToolbar(toolbar);
-
-        rvSaved = findViewById(R.id.SavedRecyclerView);
+        loadToolbar(binding.topBarLayout.toolbar, null);
+        customizeToolbar(R.color.blackShadeGreen, R.color.darkestShadeGreen, "SAVED PRODUCTS");
 
         adapter = new SavedAdapter();
-        adapter.setNavigationHistory(navigationHistory);
-        rvSaved.setAdapter(adapter);
-
-        // Bind ViewModel
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
-        adapter.setViewModel(viewModel);
+        binding.SavedRecyclerView.setAdapter(adapter);
 
         // Default user
         String uuid = GalleriaApplication.DEV_USER;
 
-        viewModel.getProducts(uuid)
-                .observe(this, data -> {
-                    adapter.setProducts(data);
-                    adapter.notifyDataSetChanged();
-                });
+        viewModel.getProducts(uuid).observe(this, adapter::setProducts);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rvSaved.setLayoutManager(layoutManager);
+        initListeners();
+    }
 
+    private void initListeners() {
+        adapter.setOnItemClickListener((productId) -> {
+            Intent returnIntent = new Intent(this, SavedProductsActivity.class);
+            navigationHistory.add(returnIntent);
+
+            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
+            productIntent.putExtra("productId", productId);
+            productIntent.putExtra("NAVIGATION", navigationHistory);
+
+            startActivity(productIntent);
+        });
+
+        adapter.setOnUnsaveClickListener(viewModel::unsaveProduct);
     }
 }

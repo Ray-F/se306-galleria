@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ public class SavedProductsViewModel extends LoadingViewModel {
 
     public void unsaveProduct(String productId) {
         productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, productId);
+        products.setValue(Objects.requireNonNull(products.getValue()).stream().filter((it) -> !it.getId().equals(productId)).collect(Collectors.toList()));
     }
 
 }

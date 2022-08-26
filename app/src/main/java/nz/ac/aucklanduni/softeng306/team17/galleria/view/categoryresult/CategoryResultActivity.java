@@ -22,10 +22,11 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAd
 
 public class CategoryResultActivity extends SearchBarActivity {
 
+    private ActivityListResultBinding binding;
     private CategoryResultViewModel viewModel;
+
     private SimpleListInfoAdapter listViewAdapter;
 
-    private ActivityListResultBinding binding;
     private Category category;
 
     @Override
@@ -45,9 +46,9 @@ public class CategoryResultActivity extends SearchBarActivity {
         category = (Category) allKeys.get("CATEGORY");
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
-        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        loadToolbar(toolbar);
-        customizeToolbarByCategory(toolbar, category);
+        Toolbar toolbar = binding.topBarLayout.toolbar;
+        loadToolbar(toolbar, binding.secondaryToolbar);
+        customizeToolbarByCategory(category);
 
         viewModel.fetchCategoryProducts(category);
         viewModel.getProducts().observe(this, listViewAdapter::setProducts);
@@ -66,6 +67,7 @@ public class CategoryResultActivity extends SearchBarActivity {
             startActivity(productIntent);
         });
 
+        // TODO: We need to extract this code out from Search and Category Result activity
         viewModel.getLayoutMode().observe(this, mode -> {
             listViewAdapter.setLayoutMode(mode);
 
@@ -105,32 +107,28 @@ public class CategoryResultActivity extends SearchBarActivity {
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
-    private void customizeToolbarByCategory(Toolbar toolbar, Category category) {
+    private void customizeToolbarByCategory(Category category) {
         switch (category) {
             case PHOTOGRAPHIC:
-                customizeToolbar(toolbar,
-                                 R.color.darkestShadeGreen,
+                customizeToolbar(R.color.darkestShadeGreen,
                                  R.color.darkestShadeGreen,
                                  R.color.mediumShadeGreen,
                                  "PHOTOGRAPHIC ART");
                 break;
             case ALBUM:
-                customizeToolbar(toolbar,
-                                 R.color.darkestShadeGray,
+                customizeToolbar(R.color.darkestShadeGray,
                                  R.color.darkestShadeGray,
                                  R.color.mediumShadeGray,
                                  "ALBUM COVER ART");
                 break;
             case AI:
-                customizeToolbar(toolbar,
-                                 R.color.darkestShadeOrange,
+                customizeToolbar(R.color.darkestShadeOrange,
                                  R.color.darkestShadeOrange,
                                  R.color.mediumShadeOrange,
                                  "AI GENERATED ART");
                 break;
             case PAINTING:
-                customizeToolbar(toolbar,
-                                 R.color.darkestShadeBlue,
+                customizeToolbar(R.color.darkestShadeBlue,
                                  R.color.darkestShadeBlue,
                                  R.color.mediumShadeBlue,
                                  "PAINTINGS");
@@ -138,13 +136,6 @@ public class CategoryResultActivity extends SearchBarActivity {
             default:
                 throw new IllegalStateException("Unexpected value: " + category);
         }
-    }
-
-    private void customizeToolbar(Toolbar toolbar, int statusBarColourResId, int toolbarColourResId, int secondaryToolbarColourResId, String toolbarTitle) {
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, toolbarColourResId));
-        binding.secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryToolbarColourResId));
-        toolbar.setTitle(toolbarTitle);
     }
 
 }
