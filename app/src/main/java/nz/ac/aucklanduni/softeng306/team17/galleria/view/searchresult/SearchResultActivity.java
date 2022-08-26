@@ -37,6 +37,9 @@ public class SearchResultActivity extends SearchBarActivity {
         viewModel = ((GalleriaApplication) getApplication()).diProvider.searchResultViewModel;
         listViewAdapter = new SimpleListInfoAdapter();
 
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
+
         super.onCreate(savedInstanceState);
 
         Bundle allKeys = getIntent().getExtras();

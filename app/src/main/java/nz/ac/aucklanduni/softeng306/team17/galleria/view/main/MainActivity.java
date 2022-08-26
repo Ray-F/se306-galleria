@@ -53,6 +53,8 @@ public class MainActivity extends SearchBarActivity {
 
         // Link XML elements with code
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
 
         // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
         if (navigationHistory == null) {
@@ -79,7 +81,6 @@ public class MainActivity extends SearchBarActivity {
                                                 R.layout.main_activity_slideview, R.id.mainViewPagerMain);
         binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
         initScrollTimer();
-        viewModel.fetchMostViewedProducts();
         viewModel.getMostViewedProductImages().observe(this, data -> {
             mViewPageAdapter.setImages(data);
             mViewPageAdapter.notifyDataSetChanged();
@@ -100,7 +101,6 @@ public class MainActivity extends SearchBarActivity {
         binding.FeaturedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Add spacing between main items
         binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
-        viewModel.fetchFeaturedProducts();
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
         featuredListViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, MainActivity.class);

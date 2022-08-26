@@ -18,7 +18,6 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActi
 
 public class SavedProductsActivity extends SearchBarActivity {
 
-    ArrayList<ProductInfoDto> products;
     SavedAdapter adapter;
     RecyclerView rvSaved;
     SavedProductsViewModel viewModel;

@@ -31,10 +31,13 @@ public class CategoryResultActivity extends SearchBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityListResultBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
         listViewAdapter = new SimpleListInfoAdapter();
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
 
         super.onCreate(savedInstanceState);
 
@@ -44,7 +47,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar);
-        customizeToolbar(toolbar, category);
+        customizeToolbarByCategory(toolbar, category);
 
         viewModel.fetchCategoryProducts(category);
         viewModel.getProducts().observe(this, listViewAdapter::setProducts);
@@ -102,45 +105,46 @@ public class CategoryResultActivity extends SearchBarActivity {
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
-    public void customizeToolbar(Toolbar toolbar, Category category) {
-        int statusBarColourResId;
-        int colourResId;
-        int secondaryColourResId;
-        String title;
-
+    private void customizeToolbarByCategory(Toolbar toolbar, Category category) {
         switch (category) {
             case PHOTOGRAPHIC:
-                statusBarColourResId = R.color.blackShadeGreen;
-                colourResId = R.color.darkestShadeGreen;
-                secondaryColourResId = R.color.mediumShadeGreen;
-                title = "PHOTOGRAPHIC ART";
+                customizeToolbar(toolbar,
+                                 R.color.darkestShadeGreen,
+                                 R.color.darkestShadeGreen,
+                                 R.color.mediumShadeGreen,
+                                 "PHOTOGRAPHIC ART");
                 break;
             case ALBUM:
-                statusBarColourResId = R.color.blackShadeGray;
-                colourResId = R.color.darkestShadeGray;
-                secondaryColourResId = R.color.mediumShadeGray;
-                title = "ALBUM COVER ART";
+                customizeToolbar(toolbar,
+                                 R.color.darkestShadeGray,
+                                 R.color.darkestShadeGray,
+                                 R.color.mediumShadeGray,
+                                 "ALBUM COVER ART");
                 break;
             case AI:
-                statusBarColourResId = R.color.blackShadeOrange;
-                colourResId = R.color.darkestShadeOrange;
-                secondaryColourResId = R.color.mediumShadeOrange;
-                title = "AI GENERATED ART";
+                customizeToolbar(toolbar,
+                                 R.color.darkestShadeOrange,
+                                 R.color.darkestShadeOrange,
+                                 R.color.mediumShadeOrange,
+                                 "AI GENERATED ART");
                 break;
             case PAINTING:
-                statusBarColourResId = R.color.blackShadeBlue;
-                colourResId = R.color.darkestShadeBlue;
-                secondaryColourResId = R.color.mediumShadeBlue;
-                title = "PAINTINGS";
+                customizeToolbar(toolbar,
+                                 R.color.darkestShadeBlue,
+                                 R.color.darkestShadeBlue,
+                                 R.color.mediumShadeBlue,
+                                 "PAINTINGS");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + category);
         }
+    }
 
+    private void customizeToolbar(Toolbar toolbar, int statusBarColourResId, int toolbarColourResId, int secondaryToolbarColourResId, String toolbarTitle) {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
-        binding.secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryColourResId));
-        toolbar.setTitle(title);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, toolbarColourResId));
+        binding.secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryToolbarColourResId));
+        toolbar.setTitle(toolbarTitle);
     }
 
 }

@@ -1,88 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/GreenPalette"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel" />
+    </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/header_section"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/topBarLayout"
-            layout="@layout/header_toolbar_layout" />
-
-        <RelativeLayout
-            android:id="@+id/secondaryTopBar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/header_section"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="55dp"
-            android:background="@color/mediumShadeGreen">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/SortIcon"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="48dp"
-                android:padding="0dp"
-                app:icon="@drawable/ic_baseline_sort_24"
-                app:iconGravity="textEnd"
-                app:iconPadding="0dp"
-                app:iconSize="25dp" />
+            <include
+                android:id="@+id/topBarLayout"
+                layout="@layout/header_toolbar_layout" />
 
-            <TextView
-                android:id="@+id/SortFilterText"
-                style="@style/GreenPalette"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="50dp"
-                android:gravity="center"
-                android:text="Sort By: "
-                android:textSize="15dp" />
+            <include
+                layout="@layout/loading_view"
+                app:isLoading="@{viewmodel.isLoading}"
+                />
 
+            <RelativeLayout
+                android:id="@+id/secondaryTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="55dp"
+                android:background="@color/mediumShadeGreen">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/ViewLayoutIcon"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:icon="@drawable/grid_view_icon"
-                android:layout_alignParentRight="true"
-                app:iconGravity="textEnd"
-                app:iconPadding="0dp"
-                android:padding="0dp"
-                android:minWidth="48dp"
-                app:iconSize="30dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/SortIcon"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="48dp"
+                    android:padding="0dp"
+                    app:icon="@drawable/ic_baseline_sort_24"
+                    app:iconGravity="textEnd"
+                    app:iconPadding="0dp"
+                    app:iconSize="25dp" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/ViewLayoutIcon"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_marginRight="5dp"-->
-<!--                android:adjustViewBounds="true"-->
-<!--                android:src="@drawable/grid_view_icon" />-->
-
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ProductRecyclerView"
-            android:layout_marginTop="49dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp"
-            android:layout_marginHorizontal="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <TextView
+                    android:id="@+id/SortFilterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="Sort By: "
+                    android:textSize="15dp" />
 
 
-</LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ViewLayoutIcon"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:icon="@drawable/grid_view_icon"
+                    android:layout_alignParentRight="true"
+                    app:iconGravity="textEnd"
+                    app:iconPadding="0dp"
+                    android:padding="0dp"
+                    android:minWidth="48dp"
+                    app:iconSize="30dp" />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="@{viewmodel.isLoading ? View.GONE : View.VISIBLE}"
+                android:id="@+id/ProductRecyclerView"
+                android:layout_marginTop="49dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingTop="16dp"
+                android:paddingBottom="32dp"
+                android:layout_marginHorizontal="16dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </LinearLayout>
+</layout>
