@@ -19,6 +19,8 @@ public class SearchResultViewModel extends LoadingViewModel {
 
     private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>();
 
+    private final MutableLiveData<Boolean> isSearchResultsEmpty = new MutableLiveData<>();
+
 
     // Default view should be list
     private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
@@ -31,9 +33,14 @@ public class SearchResultViewModel extends LoadingViewModel {
         return products;
     }
 
+    public LiveData<Boolean> isSearchResultsEmpty() {
+        return isSearchResultsEmpty;
+    }
+
     public void enterSearch(String searchTerm) {
         UUID id = setIsLoading();
         searchUseCase.makeSearch(searchTerm, -1, "").subscribe(repoProducts -> {
+            isSearchResultsEmpty.setValue(repoProducts.isEmpty());
             products.setValue(repoProducts.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                        // TODO: Somehow get whether this product is saved by user or not

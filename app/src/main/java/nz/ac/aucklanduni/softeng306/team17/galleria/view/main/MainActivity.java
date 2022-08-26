@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -24,13 +23,13 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 
 public class MainActivity extends SearchBarActivity {
@@ -109,9 +108,9 @@ public class MainActivity extends SearchBarActivity {
          */
         featuredListViewAdapter = new SimpleListInfoAdapter();
         binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
-        binding.FeaturedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Add spacing between main items
         binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
+
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
         featuredListViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, MainActivity.class);

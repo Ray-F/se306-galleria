@@ -53,6 +53,7 @@ public class SearchResultActivity extends SearchBarActivity {
 
         viewModel.enterSearch(searchTerm);
         viewModel.getSearchResults().observe(this, listViewAdapter::setProducts);
+        viewModel.isSearchResultsEmpty().observe(this, binding::setSearchResultsEmpty);
 
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
