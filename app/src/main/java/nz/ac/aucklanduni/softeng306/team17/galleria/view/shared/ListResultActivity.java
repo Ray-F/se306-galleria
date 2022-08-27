@@ -9,18 +9,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.NameAscendingComparator;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.NameDescendingComparator;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.PriceAscendingComparator;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.PriceDescendingComparator;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewAscendingComparator;
-import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewDescendingComparator;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 
@@ -63,8 +55,10 @@ abstract public class ListResultActivity extends TopBarActivity {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
         binding.sortSpinner.setAdapter(spinnerAdapter);
 
-        int defaultPosition = spinnerAdapter.getPosition("Alphabetical");
-        binding.sortSpinner.setSelection(defaultPosition);
+        viewModel.getSortText().observe(this, sortText -> {
+            int defaultPosition = spinnerAdapter.getPosition(sortText);
+            binding.sortSpinner.setSelection(defaultPosition);
+        });
 
         setupLayoutChangeListener();
         setupSortChangeListener();
@@ -115,19 +109,8 @@ abstract public class ListResultActivity extends TopBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-
-                Map<String, Comparator<ProductInfoDto>> mapSortTextToComparator = Map.of(
-                        "Lowest Price", new PriceAscendingComparator(),
-                        "Highest Price", new PriceDescendingComparator(),
-                        "Alphabetical", new NameAscendingComparator(),
-                        "Reverse Alphabetical", new NameDescendingComparator(),
-                        "Most Views", new ViewAscendingComparator(),
-                        "Least Views", new ViewDescendingComparator()
-                );
-
-                viewModel.setComparator(mapSortTextToComparator.getOrDefault(selectedItem, new PriceAscendingComparator()));
+                viewModel.setSortText(selectedItem);
                 binding.SortFilterText.setText("Sort By: " + selectedItem);
-
             }
 
             // Deliberately left empty (when somewhere else is clicked, do nothing)
