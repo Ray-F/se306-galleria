@@ -19,7 +19,7 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 
 public abstract class TopBarActivity extends AppCompatActivity {
 

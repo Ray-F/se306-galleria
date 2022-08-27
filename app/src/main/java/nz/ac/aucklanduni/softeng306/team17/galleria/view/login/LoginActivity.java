@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 
 public class LoginActivity extends AppCompatActivity {
 

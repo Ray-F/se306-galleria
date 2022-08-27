@@ -22,7 +22,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
@@ -62,6 +62,7 @@ public class MainActivity extends TopBarActivity {
         loadToolbar(toolbar, null);
         // Show "Saved Products" button on home page
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.white_heart, null));
+        toolbar.setNavigationContentDescription("Saved Products");
         toolbar.setNavigationOnClickListener(view -> {
             Intent savedIntent = new Intent(this, SavedProductsActivity.class);
             startActivity(savedIntent);

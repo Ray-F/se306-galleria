@@ -5,7 +5,7 @@ import android.os.Bundle;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivitySavedProductsBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 
 public class SavedProductsActivity extends TopBarActivity {

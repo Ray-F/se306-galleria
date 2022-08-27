@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ColourTheme;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListResultActivity;
 

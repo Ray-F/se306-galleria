@@ -2,7 +2,7 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-import static nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory.PRODUCT_ID_INTENT_KEY;
+import static nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory.PRODUCT_ID_INTENT_KEY;
 
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation;
+package nz.ac.aucklanduni.softeng306.team17.galleria.view.shared;
 
 import android.content.Context;
 import android.content.Intent;
