@@ -2,15 +2,12 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts;
 
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivitySavedProductsBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.AdapterItemDecoration;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 
 public class SavedProductsActivity extends TopBarActivity {
 
