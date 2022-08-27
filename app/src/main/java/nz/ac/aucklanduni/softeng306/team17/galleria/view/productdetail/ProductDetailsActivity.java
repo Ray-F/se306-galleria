@@ -181,7 +181,7 @@ public class ProductDetailsActivity extends SearchBarActivity {
                         .build();
 
                 ((KonfettiView) findViewById(R.id.konfettiView)).start(party);
-            }g
+            }
 
             viewModel.toggleSaveProduct();
         });
