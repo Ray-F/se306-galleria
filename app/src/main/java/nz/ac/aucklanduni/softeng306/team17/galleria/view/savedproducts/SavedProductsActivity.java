@@ -23,6 +23,9 @@ public class SavedProductsActivity extends TopBarActivity {
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
 
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
+
         loadToolbar(binding.topBarLayout.toolbar, null);
         customizeToolbar(R.color.blackShadeGreen, R.color.darkestShadeGreen, "SAVED PRODUCTS");
 
@@ -32,7 +35,10 @@ public class SavedProductsActivity extends TopBarActivity {
         // Default user
         String uuid = GalleriaApplication.DEV_USER;
 
-        viewModel.getProducts(uuid).observe(this, adapter::setProducts);
+        viewModel.getProducts(uuid).observe(this, products -> {
+            binding.setEmptyResults(products.isEmpty());
+            adapter.setProducts(products);
+        });
 
         initListeners();
     }

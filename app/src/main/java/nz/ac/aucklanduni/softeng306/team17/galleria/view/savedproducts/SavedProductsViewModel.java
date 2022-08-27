@@ -18,12 +18,10 @@ public class SavedProductsViewModel extends LoadingViewModel {
 
     private final ProductUseCase productUseCase;
 
-    private final MutableLiveData<List<ProductInfoDto>> products;
+    private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>();
 
     public SavedProductsViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
-
-        products = new MutableLiveData<>();
     }
 
 

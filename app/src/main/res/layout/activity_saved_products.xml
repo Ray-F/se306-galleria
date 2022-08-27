@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel" />
+
+        <variable
+            name="emptyResults"
+            type="boolean" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/header_section">
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/topBarLayout"
-            layout="@layout/header_toolbar_layout"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:id="@+id/SavedRecyclerView"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/header_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingBottom="20dp"
-            android:paddingTop="10dp"
-            android:clipToPadding="false"
-            >
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/topBarLayout"
+                layout="@layout/header_toolbar_layout" />
+
+            <include
+                layout="@layout/no_results_view"
+                app:isVisible="@{emptyResults &amp;&amp; !viewmodel.isLoading}"
+                />
+
+            <include
+                layout="@layout/loading_view"
+                app:isLoading="@{viewmodel.isLoading}"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="@{viewmodel.isLoading ? View.GONE : View.VISIBLE}"
+                android:id="@+id/SavedRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

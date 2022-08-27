@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
         <variable
@@ -75,33 +73,10 @@
 
             </RelativeLayout>
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:visibility="@{emptyResults &amp;&amp; !viewmodel.isLoading ? View.VISIBLE : View.GONE}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:src="@drawable/no_results"
-                        android:contentDescription="@string/no_results_found" />
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/no_results_found"
-                        android:textSize="20sp"
-                        android:textColor="@color/darkGrey"
-                        />
-                </LinearLayout>
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <include
+                layout="@layout/no_results_view"
+                app:isVisible="@{emptyResults &amp;&amp; !viewmodel.isLoading}"
+                />
 
             <include
                 layout="@layout/loading_view"
