@@ -38,8 +38,8 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     public void setImages(List<Bitmap> bitmaps) {
-
         this.images = bitmaps;
+        notifyDataSetChanged();
     }
 
     @Override

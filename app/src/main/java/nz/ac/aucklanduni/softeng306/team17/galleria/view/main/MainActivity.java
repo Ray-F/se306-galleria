@@ -78,12 +78,12 @@ public class MainActivity extends TopBarActivity {
         initScrollTimer();
         viewModel.getMostViewedProductImages().observe(this, data -> {
             mViewPageAdapter.setImages(data);
-            mViewPageAdapter.notifyDataSetChanged();
             createDots(data.size());
         });
         binding.mainViewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                currentPage = position;
                 resetDotsWithActiveNumber(position);
             }
         });
@@ -102,7 +102,7 @@ public class MainActivity extends TopBarActivity {
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();
         final Runnable Update = () -> {
-            if (currentPage == 3) {
+            if (currentPage == 5) {
                 currentPage = 0;
             }
             binding.mainViewPagerMain.setCurrentItem(currentPage++, true);
