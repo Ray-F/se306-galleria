@@ -1,13 +1,11 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
 import android.widget.RelativeLayout;
@@ -18,16 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
-import java.util.ArrayList;
-
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
 
 public abstract class TopBarActivity extends AppCompatActivity {
-
-    private TopBarActivity instance;
 
     private SearchBarViewModel searchBarViewModel;
 
@@ -37,7 +30,6 @@ public abstract class TopBarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance = this;
         super.onCreate(savedInstanceState);
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
     }
@@ -100,9 +92,7 @@ public abstract class TopBarActivity extends AppCompatActivity {
                 cursor.close();
 
                 // Construct intent to go to Search Result Activity
-                Intent intent = new Intent(instance, SearchResultActivity.class);
-                intent.putExtra(SearchResultActivity.SEARCH_TERM_INTENT_KEY, term);
-                startActivity(intent);
+                new NavFactory(getApplicationContext()).startSearchResult(term);
                 return false;
             }
         });
@@ -111,15 +101,10 @@ public abstract class TopBarActivity extends AppCompatActivity {
     private void setUpSearchBarQueryListener() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                // Redirect user to SearchResultActivity with query.
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("searchTerm", s);
-                startActivity(intent);
-
+            public boolean onQueryTextSubmit(String term) {
+                new NavFactory(getApplicationContext()).startSearchResult(term);
                 searchView.setIconified(true);
-
-                return true;
+                return false;
             }
 
             @Override

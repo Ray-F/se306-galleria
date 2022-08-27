@@ -1,6 +1,5 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,12 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import java.util.ArrayList;
-
-import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityLoginBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,8 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Go to main page when continue anonymously button clicked
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            new NavFactory(this).startMain();
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_top);
         });
 

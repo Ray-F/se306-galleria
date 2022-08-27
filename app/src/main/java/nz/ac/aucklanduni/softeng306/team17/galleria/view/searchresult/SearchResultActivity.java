@@ -1,15 +1,16 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult;
 
+import static nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory.SEARCH_TERM_INTENT_KEY;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.ArrayList;
-
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListResultActivity;
 
@@ -19,7 +20,6 @@ public class SearchResultActivity extends ListResultActivity {
 
     private String searchTerm;
 
-    public static String SEARCH_TERM_INTENT_KEY = "searchTerm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,7 @@ public class SearchResultActivity extends ListResultActivity {
         binding.setViewmodel(searchResultViewModel);
         binding.setLifecycleOwner(this);
 
-        Bundle allKeys = getIntent().getExtras();
-        searchTerm = allKeys.getString(SEARCH_TERM_INTENT_KEY);
+        searchTerm = getIntent().getStringExtra(SEARCH_TERM_INTENT_KEY);
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar, binding.secondaryToolbar);
@@ -43,12 +42,7 @@ public class SearchResultActivity extends ListResultActivity {
         searchResultViewModel.getSearchResults().observe(this, super::setProducts);
         searchResultViewModel.isSearchResultsEmpty().observe(this, binding::setEmptyResults);
 
-        super.setOnItemClickListener((productId) -> {
-            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-            productIntent.putExtra(ProductDetailsActivity.PRODUCT_ID_INTENT_KEY, productId);
-            startActivity(productIntent);
-        });
-
+        super.setOnItemClickListener((productId) -> new NavFactory(this).startProductDetail(productId));
     }
 
     // Override options menu to not have the search menu

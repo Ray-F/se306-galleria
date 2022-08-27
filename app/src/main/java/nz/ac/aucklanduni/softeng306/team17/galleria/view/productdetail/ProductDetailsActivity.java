@@ -2,7 +2,8 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-import android.content.Intent;
+import static nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory.PRODUCT_ID_INTENT_KEY;
+
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -44,8 +45,6 @@ public class ProductDetailsActivity extends TopBarActivity {
 
     ImageView[] dotView;
 
-    public static String PRODUCT_ID_INTENT_KEY = "productId";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +54,9 @@ public class ProductDetailsActivity extends TopBarActivity {
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
-        String productId = getIntent().getExtras().getString(PRODUCT_ID_INTENT_KEY);
+        String productId = getIntent().getStringExtra(PRODUCT_ID_INTENT_KEY);
 
         loadToolbar(binding.topBarLayout.toolbar, null);
-
-        binding.viewPagerMain.setAdapter(imageViewPageAdapter);
-
-
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>(),
                 R.layout.product_details_slideview, R.id.imageViewMain);

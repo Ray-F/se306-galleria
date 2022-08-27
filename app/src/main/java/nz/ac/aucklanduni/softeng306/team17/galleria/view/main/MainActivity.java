@@ -14,7 +14,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,8 +22,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
@@ -97,11 +95,7 @@ public class MainActivity extends TopBarActivity {
         binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
 
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
-        featuredListViewAdapter.setOnItemClickListener((productId) -> {
-            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-            productIntent.putExtra(ProductDetailsActivity.PRODUCT_ID_INTENT_KEY, productId);
-            startActivity(productIntent);
-        });
+        featuredListViewAdapter.setOnItemClickListener((productId) -> new NavFactory(this).startProductDetail(productId));
     }
 
     private void initScrollTimer() {
@@ -125,17 +119,17 @@ public class MainActivity extends TopBarActivity {
 
     private void initCategoryListeners() {
         // Map each image to its related category
-        Map<ImageView, Category> categoryIconMap = new HashMap<>();
-        categoryIconMap.put(binding.aiGeneratedIcon, Category.AI);
-        categoryIconMap.put(binding.albumsIcon, Category.ALBUM);
-        categoryIconMap.put(binding.photographicIcon, Category.PHOTOGRAPHIC);
-        categoryIconMap.put(binding.paintingsIcon, Category.PAINTING);
+        Map<ImageView, Category> categoryIconMap = Map.of(
+                binding.aiGeneratedIcon, Category.AI,
+                binding.albumsIcon, Category.ALBUM,
+                binding.photographicIcon, Category.PHOTOGRAPHIC,
+                binding.paintingsIcon, Category.PAINTING
+        );
 
         // For each image, when it is clicked on, open the relevant category result view
         categoryIconMap.forEach((icon, category) -> icon.setOnClickListener((view) -> {
-            Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
-            categoryIntent.putExtra(CategoryResultActivity.CATEGORY_INTENT_KEY, category);
-            startActivity(categoryIntent);
+            NavFactory factory = new NavFactory(this);
+            factory.startCategoryResult(category);
         }));
     }
 
