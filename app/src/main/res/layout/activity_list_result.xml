@@ -11,7 +11,7 @@
             type="nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel" />
 
         <variable
-            name="searchResultsEmpty"
+            name="emptyResults"
             type="boolean" />
     </data>
 
@@ -76,7 +76,7 @@
             </RelativeLayout>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:visibility="@{searchResultsEmpty &amp;&amp; !viewmodel.isLoading ? View.VISIBLE : View.GONE}"
+                android:visibility="@{emptyResults &amp;&amp; !viewmodel.isLoading ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
