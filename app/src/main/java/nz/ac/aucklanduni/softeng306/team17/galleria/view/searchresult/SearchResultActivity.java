@@ -69,7 +69,7 @@ public class SearchResultActivity extends SearchBarActivity {
 
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
-        listViewAdapter.setOnItemClickListener((productId, category) -> {
+        listViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, SearchResultActivity.class);
             returnIntent.putExtra("searchTerm", searchTerm);
             navigationHistory.add(returnIntent);

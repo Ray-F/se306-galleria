@@ -16,38 +16,24 @@ public class ProductDetailsViewModel extends ViewModel {
 
     private final ProductUseCase productUseCase;
 
-    private final MutableLiveData<ProductDetailDto> singleProduct;
-    private String productId;
+    private final MutableLiveData<ProductDetailDto> singleProduct = new MutableLiveData<>();
 
-    private MutableLiveData<Boolean> productIsSaved;
+    private final MutableLiveData<Boolean> productIsSaved = new MutableLiveData<>(false);
 
-    private Product product;
 
     public ProductDetailsViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
-
-        singleProduct = new MutableLiveData<>();
-        productIsSaved = new MutableLiveData<>(false);
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
 
-    public LiveData<ProductDetailDto> getProduct() {
-        this.singleProduct.setValue(new ProductDetailDto("", "", "", CurrencyCode.NZD,
-                                                         2f, new byte[1], false,
-                                                         new ArrayList<>(), "",
-                                                         "", 2f, 1,
-                                                         false, 1, "", Category.ALBUM));
-
-
+    public void fetchProduct(String productId) {
         productUseCase.isProductSaved(GalleriaApplication.DEV_USER, productId).subscribe(data -> {
-            productIsSaved.setValue(data);
+            if (productIsSaved.getValue() != data) {
+                productIsSaved.setValue(data);
+            }
         });
 
-        productUseCase.getProductById(this.productId).subscribe(product -> {
-            this.product = product;
+        productUseCase.getProductById(productId).subscribe(product -> {
             singleProduct.setValue(new ProductDetailDto(
                     product.getId(), product.getName(), product.getTagline(),
                     product.getCurrency(), product.getPrice(), product.getHeroImage(), false, product.getOtherImages(),
@@ -55,7 +41,9 @@ public class ProductDetailsViewModel extends ViewModel {
                     product.getViews(), product.getStockLevel() > 0, product.getTotalReviews(), "", product.getCategory())
             );
         });
+    }
 
+    public LiveData<ProductDetailDto> getProduct() {
         return singleProduct;
     }
 
@@ -65,9 +53,9 @@ public class ProductDetailsViewModel extends ViewModel {
 
     public void toggleSaveProduct() {
         if (productIsSaved.getValue()) {
-            productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, product.getId());
+            productUseCase.unsaveProductToUser(GalleriaApplication.DEV_USER, this.singleProduct.getValue().getId());
         } else {
-            productUseCase.saveProductToUser(GalleriaApplication.DEV_USER, product.getId());
+            productUseCase.saveProductToUser(GalleriaApplication.DEV_USER, this.singleProduct.getValue().getId());
         }
         productIsSaved.setValue(!productIsSaved.getValue());
     }

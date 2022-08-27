@@ -34,10 +34,7 @@ public class MainActivityViewModel extends LoadingViewModel {
     public void fetchFeaturedProducts() {
         UUID id = setIsLoading();
         productUseCase.listTopRatedProducts(5).subscribe(productsFromRepo -> {
-            products.setValue(productsFromRepo.stream().map(it -> (
-                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                            it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
-            )).collect(Collectors.toList()));
+            products.setValue(productsFromRepo.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
             System.out.println("TEST IS LOADED");
         });

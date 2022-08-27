@@ -1,6 +1,5 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product;
 
-import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -223,6 +222,8 @@ public abstract class Product implements DomainModel {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public abstract String getSpecialField();
 
     /**
      * Checks if the name of this product contains a match for the search term.

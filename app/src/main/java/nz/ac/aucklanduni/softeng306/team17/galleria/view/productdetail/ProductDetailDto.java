@@ -23,7 +23,7 @@ public class ProductDetailDto extends ProductInfoDto {
     private int totalReviews;
 
     public ProductDetailDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, List<byte[]> otherImages, String description, String backgroundColor, float rating, int views, boolean isInStock, int totalReviews, String specialText, Category category) {
-        super(id, name, tagline, currencyCode, price, heroImage, isSaved, specialText, category, views);
+        super(id, name, tagline, currencyCode, price, heroImage, specialText, category, views);
         this.allImages = otherImages.stream()
                 .map((it) ->  BitmapFactory.decodeByteArray(it, 0, it.length))
                 .collect(Collectors.toList());

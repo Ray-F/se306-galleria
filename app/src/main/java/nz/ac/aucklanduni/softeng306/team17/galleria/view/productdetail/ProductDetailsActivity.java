@@ -30,6 +30,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityProductDetailBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ColourTheme;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
 
@@ -37,13 +38,9 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
     ActivityProductDetailBinding binding;
 
-    int statusBarColourResId;
-    int colourResId;
-
     // Activity state / information
     ViewPagerAdapter imageViewPageAdapter;
     ProductDetailsViewModel viewModel;
-    Category parentCategory;
 
     ImageView[] dotView;
 
@@ -58,7 +55,6 @@ public class ProductDetailsActivity extends SearchBarActivity {
 
         Bundle allKeys = getIntent().getExtras();
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
-        parentCategory = (Category) allKeys.get("CATEGORY");
 
         loadToolbar(binding.topBarLayout.toolbar, null);
 
@@ -73,8 +69,7 @@ public class ProductDetailsActivity extends SearchBarActivity {
                 R.layout.product_details_slideview, R.id.imageViewMain);
         binding.viewPagerMain.setAdapter(imageViewPageAdapter);
 
-
-        viewModel.setProductId(productId);
+        viewModel.fetchProduct(productId);
         loadViewModelData();
 
         initListeners();
@@ -97,12 +92,17 @@ public class ProductDetailsActivity extends SearchBarActivity {
                     binding.productDetailsArtist.setText(data.getTagline());
                     binding.productDetailsStock.setText(data.isInStock() ? "In Stock" : "Out of Stock");
 
+                    customizeToolbarWithCategory(data.getCategory());
                 }
         );
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    binding.saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : colourResId)));
+                    viewModel.getProduct().observe(this, prod -> {
+                        int buttonColour = ColourTheme.getThemeByCategory(prod.getCategory()).normal;
+                        binding.saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : buttonColour)));
+                    });
+
                     binding.saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
                 }
         );
@@ -132,29 +132,9 @@ public class ProductDetailsActivity extends SearchBarActivity {
     }
 
     public void customizeToolbarWithCategory(Category category) {
-        switch (category) {
-            case PHOTOGRAPHIC:
-                statusBarColourResId = R.color.blackShadeGreen;
-                colourResId = R.color.darkestShadeGreen;
-                break;
-            case ALBUM:
-                statusBarColourResId = R.color.blackShadeGray;
-                colourResId = R.color.darkestShadeGray;
-                break;
-            case AI:
-                statusBarColourResId = R.color.blackShadeOrange;
-                colourResId = R.color.darkestShadeOrange;
-                break;
-            case PAINTING:
-                statusBarColourResId = R.color.blackShadeBlue;
-                colourResId = R.color.darkestShadeBlue;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + category);
-        }
-
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
-        binding.topBarLayout.toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
+        String title = "Viewing Product Details";
+        ColourTheme theme = ColourTheme.getThemeByCategory(category);
+        customizeToolbar(theme.dark, theme.normal, title);
     }
 
     private void initListeners() {

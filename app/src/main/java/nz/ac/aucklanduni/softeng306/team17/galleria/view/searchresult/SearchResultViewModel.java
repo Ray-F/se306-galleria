@@ -42,11 +42,7 @@ public class SearchResultViewModel extends LoadingViewModel {
         UUID id = setIsLoading();
         searchUseCase.makeSearch(searchTerm, -1, "").subscribe(repoProducts -> {
             isSearchResultsEmpty.setValue(repoProducts.isEmpty());
-            products.setValue(repoProducts.stream().map(it -> (
-                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                       // TODO: Somehow get whether this product is saved by user or not
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
-                    )).collect(Collectors.toList()));
+            products.setValue(repoProducts.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
         });
     }

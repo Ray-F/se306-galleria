@@ -30,10 +30,7 @@ public class SavedProductsViewModel extends LoadingViewModel {
     public LiveData<List<ProductInfoDto>> getProducts(String uuid) {
         UUID id = setIsLoading();
         productUseCase.listSavedProductsByUser(uuid).subscribe(filteredProducts -> {
-            products.setValue(filteredProducts.stream().map(it -> (
-                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                            it.getCurrency(), it.getPrice(), it.getHeroImage(), true, "", it.getCategory(), it.getViews())
-            )).collect(Collectors.toList()));
+            products.setValue(filteredProducts.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
         });
 

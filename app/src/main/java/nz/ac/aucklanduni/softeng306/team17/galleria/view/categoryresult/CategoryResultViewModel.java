@@ -41,30 +41,7 @@ public class CategoryResultViewModel extends LoadingViewModel {
     public void fetchCategoryProducts(Category category) {
         UUID id = setIsLoading();
         productUseCase.listProductsByCategory(category).subscribe(productsFromRepo -> {
-            products.setValue(productsFromRepo.stream().map(
-                    it -> {
-                        String specialField;
-                        switch (category) {
-                            case PHOTOGRAPHIC:
-                                specialField = ((PhotographicArt) it).getCameraUsed();
-                                break;
-                            case AI:
-                                specialField = ((AIArt) it).getGenerationPhrase();
-                                break;
-                            case ALBUM:
-                                specialField = ((AlbumArt) it).getCreator();
-                                break;
-                            case PAINTING:
-                                specialField = ((PaintingArt) it).getArtist();
-                                break;
-                            default:
-                                specialField = "";
-                        }
-
-                        return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                // TODO: Make isSaved return actual information
-                                it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory(), it.getViews());
-                    }).collect(Collectors.toList()));
+            products.setValue(productsFromRepo.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
         });
     }
