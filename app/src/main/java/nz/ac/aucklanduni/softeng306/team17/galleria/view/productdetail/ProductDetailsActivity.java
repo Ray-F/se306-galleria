@@ -126,7 +126,7 @@ public class ProductDetailsActivity extends TopBarActivity {
 
     public void customizeToolbarWithCategory(Category category) {
         ColourTheme theme = ColourTheme.getThemeByCategory(category);
-        customizeToolbar(theme.dark, theme.normal, "Product Details");
+        customizeToolbar(theme.dark, theme.normal, "PRODUCT DETAILS");
     }
 
     private void initListeners() {

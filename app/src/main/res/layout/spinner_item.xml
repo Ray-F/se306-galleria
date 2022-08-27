@@ -8,7 +8,7 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:textSize="18sp"
-    android:textStyle="bold"
+    android:textStyle="normal"
     android:layout_height="40dp"
     android:background="@color/white"
     android:ellipsize="marquee" />

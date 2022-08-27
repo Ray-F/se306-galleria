@@ -15,7 +15,7 @@ public class ListResultViewModel extends LoadingViewModel {
             "Alphabetical", Comparator.comparing(ProductInfoDto::getName, String.CASE_INSENSITIVE_ORDER),
             "Reverse Alphabetical", Comparator.comparing(ProductInfoDto::getName, String.CASE_INSENSITIVE_ORDER).reversed(),
             "Most Views", Comparator.comparing(ProductInfoDto::getViews).reversed(),
-            "Least Views", Comparator.comparing(ProductInfoDto::getPrice)
+            "Least Views", Comparator.comparing(ProductInfoDto::getViews)
     );
 
     // Default view should be list

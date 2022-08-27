@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Locale;
+
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
@@ -31,7 +33,7 @@ public class CategoryResultActivity extends ListResultActivity {
         Toolbar toolbar = binding.topBarLayout.toolbar;
         loadToolbar(toolbar, binding.secondaryToolbar);
         ColourTheme theme = ColourTheme.getThemeByCategory(category);
-        customizeToolbar(theme.dark, theme.normal, theme.light, category.displayName);
+        customizeToolbar(theme.dark, theme.normal, theme.light, category.displayName.toUpperCase(Locale.ENGLISH));
 
         // Load data and observe, observed data changes are set inside the super class for
         // populating the list activity
