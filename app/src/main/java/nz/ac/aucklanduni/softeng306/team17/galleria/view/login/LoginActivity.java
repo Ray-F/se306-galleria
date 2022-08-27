@@ -22,14 +22,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
+
+        // Go to main page when continue anonymously button clicked
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
-            // Main
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("NAVIGATION", new ArrayList<>());
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_top);
         });

@@ -26,9 +26,6 @@ public class SavedProductsActivity extends TopBarActivity {
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.savedProductsViewModel;
 
-        Bundle allKeys = getIntent().getExtras();
-        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
-
         loadToolbar(binding.topBarLayout.toolbar, null);
         customizeToolbar(R.color.blackShadeGreen, R.color.darkestShadeGreen, "SAVED PRODUCTS");
 
@@ -45,13 +42,8 @@ public class SavedProductsActivity extends TopBarActivity {
 
     private void initListeners() {
         adapter.setOnItemClickListener((productId) -> {
-            Intent returnIntent = new Intent(this, SavedProductsActivity.class);
-            navigationHistory.add(returnIntent);
-
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
             productIntent.putExtra("productId", productId);
-            productIntent.putExtra("NAVIGATION", navigationHistory);
-
             startActivity(productIntent);
         });
 

@@ -1,6 +1,7 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria;
 
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -8,8 +9,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +24,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AlbumAr
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PaintingArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PhotographicArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
 
 public class GalleriaApplication extends Application {
 

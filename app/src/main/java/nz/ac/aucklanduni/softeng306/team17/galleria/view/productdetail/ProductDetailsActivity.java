@@ -50,22 +50,18 @@ public class ProductDetailsActivity extends TopBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Link XML elements with code
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
-        Bundle allKeys = getIntent().getExtras();
         String productId = getIntent().getExtras().getString(PRODUCT_ID_INTENT_KEY);
-        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         loadToolbar(binding.topBarLayout.toolbar, null);
 
         binding.viewPagerMain.setAdapter(imageViewPageAdapter);
 
 
-        viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>(),
                 R.layout.product_details_slideview, R.id.imageViewMain);

@@ -36,7 +36,6 @@ public class MainActivityViewModel extends LoadingViewModel {
         productUseCase.listTopRatedProducts(5).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
-            System.out.println("TEST IS LOADED");
         });
     }
 

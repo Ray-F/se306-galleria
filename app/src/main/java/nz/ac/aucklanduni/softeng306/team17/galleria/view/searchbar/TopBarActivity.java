@@ -25,8 +25,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultActivity;
 
-public class TopBarActivity extends AppCompatActivity {
-
+public abstract class TopBarActivity extends AppCompatActivity {
 
     private TopBarActivity instance;
 
@@ -35,8 +34,6 @@ public class TopBarActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RelativeLayout secondaryToolbar;
     private SearchView searchView;
-
-    public ArrayList<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +99,9 @@ public class TopBarActivity extends AppCompatActivity {
                 String term = cursor.getString(index);
                 cursor.close();
 
-                Intent returnIntent = getIntent();
-                navigationHistory.add(returnIntent);
-
                 // Construct intent to go to Search Result Activity
                 Intent intent = new Intent(instance, SearchResultActivity.class);
                 intent.putExtra(SearchResultActivity.SEARCH_TERM_INTENT_KEY, term);
-                intent.putExtra("NAVIGATION", navigationHistory);
                 startActivity(intent);
                 return false;
             }
@@ -119,14 +112,12 @@ public class TopBarActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Intent returnIntent = getIntent();
-                navigationHistory.add(returnIntent);
-
                 // Redirect user to SearchResultActivity with query.
                 Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                 intent.putExtra("searchTerm", s);
-                intent.putExtra("NAVIGATION", navigationHistory);
                 startActivity(intent);
+
+                searchView.setIconified(true);
 
                 return true;
             }
@@ -144,23 +135,7 @@ public class TopBarActivity extends AppCompatActivity {
         this.secondaryToolbar = secondaryToolbar;
 
         setSupportActionBar(this.toolbar);
-        this.toolbar.setNavigationOnClickListener(view -> {
-            Intent previousIntent = resolveReturn();
-            previousIntent.putExtra("NAVIGATION", navigationHistory);
-            startActivity(previousIntent);
-        });
-    }
-
-    protected void setNavigationHistory(ArrayList<Intent> navHistory) {
-        navigationHistory = navHistory;
-    }
-
-    private Intent resolveReturn() {
-        if (navigationHistory.isEmpty()) {
-            return new Intent(this, MainActivity.class);
-        } else {
-            return navigationHistory.remove(navigationHistory.size()-1);
-        }
+        this.toolbar.setNavigationOnClickListener(view -> finish());
     }
 
     protected void customizeToolbar(int statusBarColourResId, int toolbarColourResId, String toolbarTitle) {

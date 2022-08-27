@@ -58,12 +58,6 @@ public class MainActivity extends TopBarActivity {
         binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(this);
 
-        // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
-        if (navigationHistory == null) {
-            navigationHistory = new ArrayList<>();
-        }
-        setNavigationHistory(navigationHistory);
-
         setContentView(binding.getRoot());
 
         Toolbar toolbar = binding.topBarLayout.toolbar;
@@ -72,21 +66,14 @@ public class MainActivity extends TopBarActivity {
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.white_heart, null));
         toolbar.setNavigationOnClickListener(view -> {
             Intent savedIntent = new Intent(this, SavedProductsActivity.class);
-            Intent returnIntent = new Intent(this, MainActivity.class);
-            navigationHistory.add(returnIntent);
-            savedIntent.putExtra("NAVIGATION", navigationHistory);
             startActivity(savedIntent);
         });
 
-        /*
-         * Set up categories
-         */
+        /* Set up category click listeners */
         initCategoryListeners();
 
 
-        /*
-         * Set up "Most viewed products"
-         */
+        /* Set up "Most viewed products" */
         mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
                                                 R.layout.main_activity_slideview, R.id.mainViewPagerMain);
         binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
@@ -103,9 +90,7 @@ public class MainActivity extends TopBarActivity {
             }
         });
 
-        /*
-         * Set up "featured products"
-         */
+        /* Set up "featured products" */
         featuredListViewAdapter = new SimpleListInfoAdapter();
         binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
         // Add spacing between main items
@@ -113,13 +98,8 @@ public class MainActivity extends TopBarActivity {
 
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
         featuredListViewAdapter.setOnItemClickListener((productId) -> {
-            Intent returnIntent = new Intent(this, MainActivity.class);
-            navigationHistory.add(returnIntent);
-
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-            productIntent.putExtra("productId", productId);
-            productIntent.putExtra("NAVIGATION", navigationHistory);
-
+            productIntent.putExtra(ProductDetailsActivity.PRODUCT_ID_INTENT_KEY, productId);
             startActivity(productIntent);
         });
     }
@@ -153,11 +133,8 @@ public class MainActivity extends TopBarActivity {
 
         // For each image, when it is clicked on, open the relevant category result view
         categoryIconMap.forEach((icon, category) -> icon.setOnClickListener((view) -> {
-            navigationHistory.add(new Intent(this, MainActivity.class));
-
             Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
-            categoryIntent.putExtra("CATEGORY", category);
-            categoryIntent.putExtra("NAVIGATION", navigationHistory);
+            categoryIntent.putExtra(CategoryResultActivity.CATEGORY_INTENT_KEY, category);
             startActivity(categoryIntent);
         }));
     }

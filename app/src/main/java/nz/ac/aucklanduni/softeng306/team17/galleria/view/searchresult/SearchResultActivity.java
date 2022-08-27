@@ -32,7 +32,6 @@ public class SearchResultActivity extends ListResultActivity {
 
         Bundle allKeys = getIntent().getExtras();
         searchTerm = allKeys.getString(SEARCH_TERM_INTENT_KEY);
-        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
         loadToolbar(toolbar, binding.secondaryToolbar);
@@ -45,14 +44,8 @@ public class SearchResultActivity extends ListResultActivity {
         searchResultViewModel.isSearchResultsEmpty().observe(this, binding::setEmptyResults);
 
         super.setOnItemClickListener((productId) -> {
-            Intent returnIntent = new Intent(this, SearchResultActivity.class);
-            returnIntent.putExtra(SEARCH_TERM_INTENT_KEY, searchTerm);
-            navigationHistory.add(returnIntent);
-
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
             productIntent.putExtra(ProductDetailsActivity.PRODUCT_ID_INTENT_KEY, productId);
-            productIntent.putExtra("NAVIGATION", navigationHistory);
-
             startActivity(productIntent);
         });
 
