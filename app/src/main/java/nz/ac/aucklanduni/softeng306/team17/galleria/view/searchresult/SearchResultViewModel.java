@@ -23,9 +23,6 @@ public class SearchResultViewModel extends LoadingViewModel {
     private final MutableLiveData<Boolean> isSearchResultsEmpty = new MutableLiveData<>();
 
 
-    // Default view should be list
-    private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
-
     public SearchResultViewModel(SearchUseCase searchUseCase) {
         this.searchUseCase = searchUseCase;
     }
@@ -45,24 +42,6 @@ public class SearchResultViewModel extends LoadingViewModel {
             products.setValue(repoProducts.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
         });
-    }
-
-    public void toggleLayoutMode() {
-        if (this.layoutMode.getValue() == ListViewLayoutMode.LIST) {
-            this.layoutMode.setValue(ListViewLayoutMode.GRID);
-        } else {
-            this.layoutMode.setValue(ListViewLayoutMode.LIST);
-        }
-    }
-
-    public List<ProductInfoDto> sortByComparator(Comparator comparator) {
-        List<ProductInfoDto> prods = products.getValue();
-        prods.sort(comparator);
-        return prods;
-    }
-
-    public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
-        return layoutMode;
     }
 
 }

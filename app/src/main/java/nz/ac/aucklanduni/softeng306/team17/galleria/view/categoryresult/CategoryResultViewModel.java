@@ -26,10 +26,7 @@ public class CategoryResultViewModel extends LoadingViewModel {
     private final ProductUseCase productUseCase;
 
     private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>(new ArrayList<>());
-
-    // Default view should be list
-    private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
-
+    
     public CategoryResultViewModel(ProductUseCase productUseCase) {
         this.productUseCase = productUseCase;
     }
@@ -44,23 +41,5 @@ public class CategoryResultViewModel extends LoadingViewModel {
             products.setValue(productsFromRepo.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
             setIsLoaded(id);
         });
-    }
-
-    public void toggleLayoutMode() {
-        if (this.layoutMode.getValue() == ListViewLayoutMode.LIST) {
-            this.layoutMode.setValue(ListViewLayoutMode.GRID);
-        } else {
-            this.layoutMode.setValue(ListViewLayoutMode.LIST);
-        }
-    }
-
-    public List<ProductInfoDto> sortByComparator(Comparator comparator) {
-        List<ProductInfoDto> prods = products.getValue();
-        prods.sort(comparator);
-        return prods;
-    }
-
-    public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
-        return layoutMode;
     }
 }
