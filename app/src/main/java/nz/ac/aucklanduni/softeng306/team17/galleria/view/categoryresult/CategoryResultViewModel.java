@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.NameDescendingComparator;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AIArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AlbumArt;
@@ -59,8 +60,8 @@ public class CategoryResultViewModel extends ViewModel {
                         }
 
                         return new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                                  // TODO: Make isSaved return actual information
-                                                  it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory(), it.getViews());
+                                // TODO: Make isSaved return actual information
+                                it.getCurrency(), it.getPrice(), it.getHeroImage(), false, specialField, it.getCategory(), it.getViews());
                     }).collect(Collectors.toList()));
         });
     }
@@ -78,8 +79,6 @@ public class CategoryResultViewModel extends ViewModel {
         prods.sort(comparator);
         return prods;
     }
-
-
 
     public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
         return layoutMode;

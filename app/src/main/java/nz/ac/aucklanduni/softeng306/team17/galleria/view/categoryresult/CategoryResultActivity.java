@@ -28,6 +28,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResu
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 
@@ -35,7 +36,7 @@ public class CategoryResultActivity extends SearchBarActivity {
 
     private CategoryResultViewModel viewModel;
     private SimpleListInfoAdapter listViewAdapter;
-    private Spinner dropdown;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
 
     private ActivityListResultBinding binding;
     private Category category;
@@ -76,16 +77,15 @@ public class CategoryResultActivity extends SearchBarActivity {
             startActivity(productIntent);
         });
 
-        dropdown = (Spinner) findViewById(R.id.sortSpinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_item);
+        spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
-        dropdown.setAdapter(spinnerAdapter);
-        dropdown.setVisibility(View.GONE);
+        binding.sortSpinner.setAdapter(spinnerAdapter);
+
         int defaultPosition = spinnerAdapter.getPosition("Alphabetical");
-        dropdown.setSelection(defaultPosition);
-        binding.SortFilterText.setText("Sort By: Alphabetical");
+        binding.sortSpinner.setSelection(defaultPosition);
         listViewAdapter.setProducts(viewModel.sortByComparator(new NameDescendingComparator()));
+
 
         viewModel.getLayoutMode().observe(this, mode -> {
             listViewAdapter.setLayoutMode(mode);
@@ -121,11 +121,11 @@ public class CategoryResultActivity extends SearchBarActivity {
     private void initModifierListeners() {
         binding.SortIcon.setOnClickListener(view -> {
             System.out.println("Sorting button clicked!");
-            dropdown.setVisibility(View.VISIBLE);
-            dropdown.performClick();
+            binding.sortSpinner.setVisibility(View.VISIBLE);
+            binding.sortSpinner.performClick();
         });
 
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 String selectedItem = parent.getItemAtPosition(position).toString();
