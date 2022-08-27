@@ -9,30 +9,28 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="3"
         >
         <ImageView
             android:id="@+id/ProductImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/test_raccoon"
-            android:alpha="1" />
+            android:src="@drawable/test_raccoon" />
         <ImageView
             android:id="@+id/ImageOverlaySolid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:scaleType="centerCrop"
             android:src="@color/black"
             android:alpha="0.5" />
         <ImageView
             android:id="@+id/UnsaveHeart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="55dp"
             android:layout_gravity="center"
             android:src="@drawable/white_heart"
             android:onClick="unsaveProduct" />
@@ -42,9 +40,9 @@
         android:id="@+id/savedTextArea"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:weightSum="3"
-        android:paddingLeft="10dp"
+        android:paddingLeft="16dp"
         android:gravity="center"
         android:orientation="vertical">
 

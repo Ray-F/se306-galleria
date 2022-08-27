@@ -80,12 +80,12 @@ abstract public class ListResultActivity extends TopBarActivity {
                 case GRID:
                     layoutManager = new GridLayoutManager(this, 2);
                     imageResource = R.drawable.list_view_icon;
-                    itemDecoration = new SimpleListInfoAdapter.ColumnModeItemDecoration(this, 2,16);
+                    itemDecoration = new AdapterItemDecoration.ColumnModeItemDecoration(this, 2, 16);
                     break;
                 case LIST:
                 default:
                     layoutManager = new LinearLayoutManager(this);
-                    itemDecoration = new SimpleListInfoAdapter.ListModeItemDecoration(this, 16);
+                    itemDecoration = new AdapterItemDecoration.ListModeItemDecoration(this, 16);
                     imageResource = R.drawable.grid_view_icon;
             }
 

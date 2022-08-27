@@ -22,11 +22,11 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.AdapterItemDecoration;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.NavFactory;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
 
@@ -93,7 +93,7 @@ public class MainActivity extends TopBarActivity {
         featuredListViewAdapter = new SimpleListInfoAdapter();
         binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
         // Add spacing between main items
-        binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
+        binding.FeaturedRecyclerView.addItemDecoration(new AdapterItemDecoration.ListModeItemDecoration(this, 16));
 
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
         featuredListViewAdapter.setOnItemClickListener((productId) -> new NavFactory(this).startProductDetail(productId));
