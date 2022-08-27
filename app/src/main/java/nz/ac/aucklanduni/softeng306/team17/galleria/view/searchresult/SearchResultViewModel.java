@@ -6,17 +6,21 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
-public class SearchResultViewModel extends ViewModel {
+public class SearchResultViewModel extends LoadingViewModel {
 
     private final SearchUseCase searchUseCase;
 
     private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>();
+
+    private final MutableLiveData<Boolean> isSearchResultsEmpty = new MutableLiveData<>();
 
 
     // Default view should be list
@@ -30,13 +34,20 @@ public class SearchResultViewModel extends ViewModel {
         return products;
     }
 
+    public LiveData<Boolean> isSearchResultsEmpty() {
+        return isSearchResultsEmpty;
+    }
+
     public void enterSearch(String searchTerm) {
+        UUID id = setIsLoading();
         searchUseCase.makeSearch(searchTerm, -1, "").subscribe(repoProducts -> {
+            isSearchResultsEmpty.setValue(repoProducts.isEmpty());
             products.setValue(repoProducts.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                                        // TODO: Somehow get whether this product is saved by user or not
                                        it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
                     )).collect(Collectors.toList()));
+            setIsLoaded(id);
         });
     }
 

@@ -8,20 +8,8 @@
         <item name="colorOnPrimary">@color/white</item>
          Customize your theme here.
         <item name="searchViewStyle">@style/SearchViewStyle.Main</item>
-<!--        <item name="autoCompleteTextViewStyle">@style/SearchViewStyle.AutocompleteSuggestions</item>-->
         <item name="textAppearanceSearchResultTitle">@style/SearchViewStyle.AutocompleteSuggestions</item>
-<!--        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>-->
     </style>
-
-
-<!--    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">-->
-<!--&lt;!&ndash;        <item name="android:activityOpenEnterAnimation">@anim/slide_in_up</item>&ndash;&gt;-->
-<!--&lt;!&ndash;        <item name="android:activityOpenExitAnimation">@anim/slide_out_top</item>&ndash;&gt;-->
-<!--&lt;!&ndash;        <item name="android:activityCloseEnterAnimation">@anim/slide_out_top</item>&ndash;&gt;-->
-<!--&lt;!&ndash;        <item name="android:activityCloseExitAnimation">@anim/slide_out_top</item>&ndash;&gt;-->
-<!--    </style>-->
-
-    <dimen name="maxSize">1000dp</dimen>
 
     <style name="SearchViewStyle.AutocompleteSuggestions" parent="TextAppearance.AppCompat.SearchResult.Title">
         <item name="android:width">100px</item>
@@ -43,11 +31,6 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="ProductRow">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
     <style name="GalleriaAlert" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:colorAccent">@color/darkestShadeGreen</item>
         <item name="android:textColorPrimary">@color/black</item>
@@ -62,27 +45,6 @@
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/darkestShadeGreen</item>
-    </style>
-
-
-
-    <style name="GreenPalette">
-        <item name="darkestShadeColor">@color/darkestShadeGreen</item>
-        <item name="mediumShadeColor">@color/mediumShadeGreen</item>
-        <item name="lightShadeColor">@color/lightShadeGreen</item>
-
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="titleTextColor">@color/white</item>
-        <item name="subtitleTextColor">@color/white</item>
-        <item name="android:tint">@color/white</item>
-        <item name="android:text">@color/white</item>
-    </style>
-
-    <style name="BluePalette">
-        <item name="darkestShadeColor">@color/darkestShadeBlue</item>
-        <item name="mediumShadeColor">@color/mediumShadeBlue</item>
-        <item name="lightShadeColor">@color/lightShadeBlue</item>
     </style>
 
     <style name="Theme.Galleria.NoActionBar">

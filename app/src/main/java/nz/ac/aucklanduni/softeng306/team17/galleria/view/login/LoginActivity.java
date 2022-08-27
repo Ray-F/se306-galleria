@@ -2,9 +2,11 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -23,11 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
 
-        // TODO: Change this so it doesn't refer to main activity view model here if possible
-        GalleriaApplication app = (GalleriaApplication) getApplication();
-        app.diProvider.mainActivityViewModel.fetchFeaturedProducts();
-        app.diProvider.mainActivityViewModel.fetchMostViewedProducts();
-
         setContentView(binding.getRoot());
         binding.continueAnonymouslyBtn.setOnClickListener(clickEvent -> {
             // Main
@@ -36,6 +33,14 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_top);
         });
+
+        customizeStatusBar();
+    }
+
+    // Change view just for home
+    public void customizeStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
     }
 
 }

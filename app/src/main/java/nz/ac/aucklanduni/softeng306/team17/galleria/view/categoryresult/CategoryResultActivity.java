@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -28,26 +26,29 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResu
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 
 public class CategoryResultActivity extends SearchBarActivity {
 
+    private ActivityListResultBinding binding;
     private CategoryResultViewModel viewModel;
+
     private SimpleListInfoAdapter listViewAdapter;
     private ArrayAdapter<CharSequence> spinnerAdapter;
 
-    private ActivityListResultBinding binding;
     private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityListResultBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.categoryResultViewModel;
         listViewAdapter = new SimpleListInfoAdapter();
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
 
         super.onCreate(savedInstanceState);
 
@@ -55,16 +56,16 @@ public class CategoryResultActivity extends SearchBarActivity {
         category = (Category) allKeys.get("CATEGORY");
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
-        Toolbar toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        loadToolbar(toolbar);
-        customizeToolbar(toolbar, category);
+        Toolbar toolbar = binding.topBarLayout.toolbar;
+        loadToolbar(toolbar, binding.secondaryToolbar);
+        customizeToolbarByCategory(category);
 
         viewModel.fetchCategoryProducts(category);
         viewModel.getProducts().observe(this, listViewAdapter::setProducts);
 
         binding.ProductRecyclerView.setAdapter(listViewAdapter);
 
-        listViewAdapter.setOnItemClickListener((productId, category) -> {
+        listViewAdapter.setOnItemClickListener((productId) -> {
             Intent returnIntent = new Intent(this, CategoryResultActivity.class);
             returnIntent.putExtra("CATEGORY", category);
             navigationHistory.add(returnIntent);
@@ -72,7 +73,6 @@ public class CategoryResultActivity extends SearchBarActivity {
             Intent productIntent = new Intent(this, ProductDetailsActivity.class);
             productIntent.putExtra("productId", productId);
             productIntent.putExtra("NAVIGATION", navigationHistory);
-            productIntent.putExtra("CATEGORY", category);
 
             startActivity(productIntent);
         });
@@ -87,6 +87,7 @@ public class CategoryResultActivity extends SearchBarActivity {
         listViewAdapter.setProducts(viewModel.sortByComparator(new NameDescendingComparator()));
 
 
+        // TODO: We need to extract this code out from Search and Category Result activity
         viewModel.getLayoutMode().observe(this, mode -> {
             listViewAdapter.setLayoutMode(mode);
 
@@ -164,45 +165,35 @@ public class CategoryResultActivity extends SearchBarActivity {
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
     }
 
-    public void customizeToolbar(Toolbar toolbar, Category category) {
-        int statusBarColourResId;
-        int colourResId;
-        int secondaryColourResId;
-        String title;
-
+    private void customizeToolbarByCategory(Category category) {
         switch (category) {
             case PHOTOGRAPHIC:
-                statusBarColourResId = R.color.blackShadeGreen;
-                colourResId = R.color.darkestShadeGreen;
-                secondaryColourResId = R.color.mediumShadeGreen;
-                title = "PHOTOGRAPHIC ART";
+                customizeToolbar(R.color.darkestShadeGreen,
+                                 R.color.darkestShadeGreen,
+                                 R.color.mediumShadeGreen,
+                                 "PHOTOGRAPHIC ART");
                 break;
             case ALBUM:
-                statusBarColourResId = R.color.blackShadeGray;
-                colourResId = R.color.darkestShadeGray;
-                secondaryColourResId = R.color.mediumShadeGray;
-                title = "ALBUM COVER ART";
+                customizeToolbar(R.color.darkestShadeGray,
+                                 R.color.darkestShadeGray,
+                                 R.color.mediumShadeGray,
+                                 "ALBUM COVER ART");
                 break;
             case AI:
-                statusBarColourResId = R.color.blackShadeOrange;
-                colourResId = R.color.darkestShadeOrange;
-                secondaryColourResId = R.color.mediumShadeOrange;
-                title = "AI GENERATED ART";
+                customizeToolbar(R.color.darkestShadeOrange,
+                                 R.color.darkestShadeOrange,
+                                 R.color.mediumShadeOrange,
+                                 "AI GENERATED ART");
                 break;
             case PAINTING:
-                statusBarColourResId = R.color.blackShadeBlue;
-                colourResId = R.color.darkestShadeBlue;
-                secondaryColourResId = R.color.mediumShadeBlue;
-                title = "PAINTINGS";
+                customizeToolbar(R.color.darkestShadeBlue,
+                                 R.color.darkestShadeBlue,
+                                 R.color.mediumShadeBlue,
+                                 "PAINTINGS");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + category);
         }
-
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, colourResId));
-        binding.secondaryTopBar.setBackgroundColor(ContextCompat.getColor(this, secondaryColourResId));
-        toolbar.setTitle(title);
     }
 
 }

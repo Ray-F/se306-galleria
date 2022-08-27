@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 
 public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -27,14 +26,14 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     ListViewLayoutMode listViewLayoutMode = ListViewLayoutMode.LIST;
 
     // Default listener which does nothing
-    OnItemClickListener itemClickListener = (id, ctg) -> {};
+    ProductClickListener itemClickListener = (id) -> {};
 
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+    public void setOnItemClickListener(ProductClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
     }
@@ -77,8 +76,7 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         holder.itemView.setOnClickListener(view -> {
             String productId = mProducts.get(holder.getAbsoluteAdapterPosition()).getId();
-            Category category = mProducts.get(holder.getAbsoluteAdapterPosition()).getCategory();
-            itemClickListener.onClick(productId, category);
+            itemClickListener.onClick(productId);
         });
     }
 
@@ -138,13 +136,6 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             specialTextGrid = inputView.findViewById(R.id.GridSpecialText);
         }
 
-    }
-
-    /**
-     * Listener for item button click.
-     */
-    public interface OnItemClickListener {
-        void onClick(String productId, Category category);
     }
 
     public static class ColumnModeItemDecoration extends RecyclerView.ItemDecoration {

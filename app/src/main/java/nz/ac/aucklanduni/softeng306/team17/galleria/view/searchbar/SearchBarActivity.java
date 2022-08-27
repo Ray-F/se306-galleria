@@ -10,10 +10,12 @@ import android.view.MenuItem;
 
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
@@ -28,19 +30,19 @@ public class SearchBarActivity extends AppCompatActivity {
 
 
     private SearchBarActivity instance;
-    public ArrayList<Intent> navigationHistory;
-    
-    private SearchView searchView;
-
-    private Boolean isNavActive;
 
     private SearchBarViewModel searchBarViewModel;
+
+    private Toolbar toolbar;
+    private RelativeLayout secondaryToolbar;
+    private SearchView searchView;
+
+    public ArrayList<Intent> navigationHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
         super.onCreate(savedInstanceState);
-        isNavActive = true;
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
     }
 
@@ -138,26 +140,16 @@ public class SearchBarActivity extends AppCompatActivity {
         });
     }
 
-    protected void loadToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(view -> {
-            if (isNavActive) {
-                System.out.println("IM CLICKING THE DUMB BACK BUTTON");
-                Intent previousIntent = resolveReturn();
-                previousIntent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(previousIntent);
-            } else {
-                Intent savedIntent = new Intent(this, SavedProductsActivity.class);
-                Intent returnIntent = new Intent(this, MainActivity.class);
-                navigationHistory.add(returnIntent);
-                savedIntent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(savedIntent);
-            }
-        });
-    }
+    protected void loadToolbar(Toolbar toolbar, RelativeLayout secondaryToolbar) {
+        this.toolbar = toolbar;
+        this.secondaryToolbar = secondaryToolbar;
 
-    protected void setIsNavActive(Boolean val) {
-        isNavActive = val;
+        setSupportActionBar(this.toolbar);
+        this.toolbar.setNavigationOnClickListener(view -> {
+            Intent previousIntent = resolveReturn();
+            previousIntent.putExtra("NAVIGATION", navigationHistory);
+            startActivity(previousIntent);
+        });
     }
 
     protected void setNavigationHistory(ArrayList<Intent> navHistory) {
@@ -172,10 +164,17 @@ public class SearchBarActivity extends AppCompatActivity {
         }
     }
 
-    protected void switchToSavedButton(Toolbar toolbar) {
-        if (isNavActive) {
-            setIsNavActive(false);
-            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.white_heart));
+    protected void customizeToolbar(int statusBarColourResId, int toolbarColourResId, String toolbarTitle) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, toolbarColourResId));
+        toolbar.setTitle(toolbarTitle);
+    }
+
+    protected void customizeToolbar(int statusBarColourResId, int toolbarColourResId, int secondaryToolbarColourResId, String toolbarTitle) {
+        customizeToolbar(statusBarColourResId, toolbarColourResId, toolbarTitle);
+
+        if (secondaryToolbar != null) {
+            secondaryToolbar.setBackgroundColor(ContextCompat.getColor(this, secondaryToolbarColourResId));
         }
     }
 }

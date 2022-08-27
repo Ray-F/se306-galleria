@@ -19,6 +19,7 @@
     <string name="info">Arto Marttinen @ Ghandruk, Nepal</string>
     <string name="login">Welcome!</string>
     <string name="loginSubtitle">Login to Galleria to continue</string>
+    <string name="no_results_found">0 results found</string>
 
 
 <!--    Strings used for dropdown -->

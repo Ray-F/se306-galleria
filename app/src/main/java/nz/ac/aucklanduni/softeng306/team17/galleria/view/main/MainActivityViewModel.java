@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.ProductUseCase;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
-public class MainActivityViewModel extends ViewModel {
+public class MainActivityViewModel extends LoadingViewModel {
 
     private final ProductUseCase productUseCase;
 
@@ -24,24 +26,32 @@ public class MainActivityViewModel extends ViewModel {
 
         mostViewedProductImages = new MutableLiveData<>();
         products = new MutableLiveData<>();
+
+        fetchFeaturedProducts();
+        fetchMostViewedProducts();
     }
 
     public void fetchFeaturedProducts() {
+        UUID id = setIsLoading();
         productUseCase.listTopRatedProducts(5).subscribe(productsFromRepo -> {
             products.setValue(productsFromRepo.stream().map(it -> (
                     new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
                             it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "", it.getCategory(), it.getViews())
             )).collect(Collectors.toList()));
+            setIsLoaded(id);
+            System.out.println("TEST IS LOADED");
         });
     }
 
     public void fetchMostViewedProducts() {
+        UUID id = setIsLoading();
         productUseCase.listAllProducts().subscribe(productsFromRepo -> {
             mostViewedProductImages.setValue(productsFromRepo.stream()
                     .limit(5)
                     .map(ProductInfoDto::convertByteToBitMap)
                     .collect(Collectors.toList())
             );
+            setIsLoaded(id);
         });
     }
 
