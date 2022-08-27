@@ -22,9 +22,9 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.PriceDescendingC
 import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewAscendingComparator;
 import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewDescendingComparator;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 
-abstract public class ListResultActivity extends SearchBarActivity {
+abstract public class ListResultActivity extends TopBarActivity {
 
     private ListResultViewModel viewModel;
     private RecyclerView recyclerView;

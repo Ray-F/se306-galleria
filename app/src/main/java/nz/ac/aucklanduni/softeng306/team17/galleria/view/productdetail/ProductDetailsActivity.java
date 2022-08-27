@@ -29,12 +29,12 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityProductDetailBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ColourTheme;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
 
-public class ProductDetailsActivity extends SearchBarActivity {
+public class ProductDetailsActivity extends TopBarActivity {
 
     ActivityProductDetailBinding binding;
 
@@ -43,6 +43,8 @@ public class ProductDetailsActivity extends SearchBarActivity {
     ProductDetailsViewModel viewModel;
 
     ImageView[] dotView;
+
+    public static String PRODUCT_ID_INTENT_KEY = "productId";
 
 
     @Override
@@ -53,15 +55,15 @@ public class ProductDetailsActivity extends SearchBarActivity {
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         Bundle allKeys = getIntent().getExtras();
+        String productId = getIntent().getExtras().getString(PRODUCT_ID_INTENT_KEY);
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
         loadToolbar(binding.topBarLayout.toolbar, null);
 
         binding.viewPagerMain.setAdapter(imageViewPageAdapter);
 
-        // Get passed in product Id from intent
-        String productId = getIntent().getExtras().getString("productId");
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 

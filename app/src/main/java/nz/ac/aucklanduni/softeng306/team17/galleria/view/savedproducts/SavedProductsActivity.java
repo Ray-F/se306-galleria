@@ -9,9 +9,9 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivitySavedProductsBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 
-public class SavedProductsActivity extends SearchBarActivity {
+public class SavedProductsActivity extends TopBarActivity {
 
     ActivitySavedProductsBinding binding;
 

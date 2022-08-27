@@ -23,13 +23,12 @@ import java.util.ArrayList;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultActivity;
 
-public class SearchBarActivity extends AppCompatActivity {
+public class TopBarActivity extends AppCompatActivity {
 
 
-    private SearchBarActivity instance;
+    private TopBarActivity instance;
 
     private SearchBarViewModel searchBarViewModel;
 
@@ -108,7 +107,7 @@ public class SearchBarActivity extends AppCompatActivity {
 
                 // Construct intent to go to Search Result Activity
                 Intent intent = new Intent(instance, SearchResultActivity.class);
-                intent.putExtra("searchTerm", term);
+                intent.putExtra(SearchResultActivity.SEARCH_TERM_INTENT_KEY, term);
                 intent.putExtra("NAVIGATION", navigationHistory);
                 startActivity(intent);
                 return false;
