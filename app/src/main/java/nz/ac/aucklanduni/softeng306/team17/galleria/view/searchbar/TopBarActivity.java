@@ -1,5 +1,6 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public abstract class TopBarActivity extends AppCompatActivity {
     }
 
     private void setUpSearchBarAutocompleteClickListener() {
+        Context context = this;
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionSelect(int position) {
@@ -92,17 +94,18 @@ public abstract class TopBarActivity extends AppCompatActivity {
                 cursor.close();
 
                 // Construct intent to go to Search Result Activity
-                new NavFactory(getApplicationContext()).startSearchResult(term);
+                new NavFactory(context).startSearchResult(term);
                 return false;
             }
         });
     }
 
     private void setUpSearchBarQueryListener() {
+        Context context = this;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String term) {
-                new NavFactory(getApplicationContext()).startSearchResult(term);
+                new NavFactory(context).startSearchResult(term);
                 searchView.setIconified(true);
                 return false;
             }
