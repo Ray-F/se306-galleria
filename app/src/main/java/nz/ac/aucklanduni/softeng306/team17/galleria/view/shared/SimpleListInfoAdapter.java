@@ -26,14 +26,14 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     ListViewLayoutMode listViewLayoutMode = ListViewLayoutMode.LIST;
 
     // Default listener which does nothing
-    OnItemClickListener itemClickListener = (id) -> {};
+    ProductClickListener itemClickListener = (id) -> {};
 
     public void setProducts(List<ProductInfoDto> products) {
         this.mProducts = products;
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+    public void setOnItemClickListener(ProductClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
         notifyDataSetChanged();
     }
@@ -136,13 +136,6 @@ public class SimpleListInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             specialTextGrid = inputView.findViewById(R.id.GridSpecialText);
         }
 
-    }
-
-    /**
-     * Listener for item button click.
-     */
-    public interface OnItemClickListener {
-        void onClick(String productId);
     }
 
     public static class ColumnModeItemDecoration extends RecyclerView.ItemDecoration {

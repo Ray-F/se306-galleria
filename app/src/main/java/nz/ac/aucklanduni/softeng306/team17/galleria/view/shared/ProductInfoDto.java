@@ -5,7 +5,12 @@ import android.graphics.BitmapFactory;
 
 import java.util.Locale;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AIArt;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.AlbumArt;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PaintingArt;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.PhotographicArt;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.product.Product;
 
 public class ProductInfoDto {
@@ -18,17 +23,19 @@ public class ProductInfoDto {
     private final String priceAsString;
     private final Bitmap heroImage;
     private final String specialText;
-    private boolean isSaved;
+    private final Category category;
+    private final int views;
 
-    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, String specialText) {
+    public ProductInfoDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, String specialText, Category category, int views) {
         this.id = id;
         this.name = name;
         this.tagline = tagline;
         this.price = String.format(Locale.ENGLISH, "$%.0f", price);
         this.currency = currencyCode.toString();
         this.priceAsString = String.format(Locale.UK, "%.0f", price) + " " + currencyCode;
-        this.isSaved = isSaved;
         this.specialText = specialText;
+        this.category = category;
+        this.views = views;
 
         this.heroImage = BitmapFactory.decodeByteArray(heroImage, 0, heroImage.length);
     }
@@ -57,12 +64,13 @@ public class ProductInfoDto {
         return this.specialText;
     }
 
-    public static Bitmap convertByteToBitMap(Product product) {
-        return BitmapFactory.decodeByteArray(product.getHeroImage(), 0, product.getHeroImage().length);
+    public Category getCategory() {
+        return this.category;
     }
 
-    public boolean getIsSaved() { return this.isSaved; }
-    public void setIsSaved(boolean isSaved) { this.isSaved = isSaved; }
+    public int getViews() {
+        return this.views;
+    }
 
     public String getPrice() {
         return price;
@@ -70,5 +78,12 @@ public class ProductInfoDto {
 
     public String getCurrency() {
         return currency;
+    }
+
+
+    public static ProductInfoDto fromModel(Product product) {
+        return new ProductInfoDto(product.getId(), product.getName(), product.getTagline(),
+                                  product.getCurrency(), product.getPrice(), product.getHeroImage(),
+                                  product.getSpecialField(), product.getCategory(), product.getViews());
     }
 }

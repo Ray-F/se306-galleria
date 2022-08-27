@@ -18,6 +18,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDe
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultViewModel;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListResultViewModel;
 
 /**
  * Dependency injection container for providing prebuilt classes.
@@ -34,11 +35,13 @@ public class DIProvider {
     private SearchUseCase searchUseCase = new SearchUseCase(searchRepo, productRepo);
 
     /** Define {@link ViewModel}'s below here. */
-    public CategoryResultViewModel categoryResultViewModel = new CategoryResultViewModel(productUseCase);
     public SavedProductsViewModel savedProductsViewModel = new SavedProductsViewModel(productUseCase);
     public ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel(productUseCase);
     public SearchBarViewModel searchBarViewModel = new SearchBarViewModel(searchUseCase);
     public MainActivityViewModel mainActivityViewModel = new MainActivityViewModel(productUseCase);
+
+    public ListResultViewModel listResultViewModel = new ListResultViewModel();
+    public CategoryResultViewModel categoryResultViewModel = new CategoryResultViewModel(productUseCase);
     public SearchResultViewModel searchResultViewModel = new SearchResultViewModel(searchUseCase);
 
 }

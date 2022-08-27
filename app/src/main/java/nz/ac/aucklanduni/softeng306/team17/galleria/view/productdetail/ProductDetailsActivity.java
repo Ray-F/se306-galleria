@@ -2,20 +2,16 @@ package nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-import android.content.Intent;
+import static nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory.PRODUCT_ID_INTENT_KEY;
+
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,27 +24,20 @@ import nl.dionsegijn.konfetti.core.Party;
 import nl.dionsegijn.konfetti.core.PartyFactory;
 import nl.dionsegijn.konfetti.core.emitter.Emitter;
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
-import nl.dionsegijn.konfetti.core.models.Shape;
 import nl.dionsegijn.konfetti.core.models.Size;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityProductDetailBinding;
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ColourTheme;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
 
 
-public class ProductDetailsActivity extends SearchBarActivity {
+public class ProductDetailsActivity extends TopBarActivity {
 
-    // Links to XML elements
-    ViewPager imageViewPage;
-    TextView productDetailsName;
-    TextView productDetailsPrice;
-    TextView productReviewInfo;
-    TextView productDetailsTagline;
-    TextView productDetailDescription;
-    TextView productDetailsStock;
-    Button saveProductButton;
-    LinearLayout buttonsSlide;
+    ActivityProductDetailBinding binding;
 
     // Activity state / information
     ViewPagerAdapter imageViewPageAdapter;
@@ -60,45 +49,23 @@ public class ProductDetailsActivity extends SearchBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        linkElements();
-
-        Bundle allKeys = getIntent().getExtras();
-        navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
-
-        Toolbar toolbar = (Toolbar) ((AppBarLayout) findViewById(R.id.topBarLayout)).getChildAt(0);
-        loadToolbar(toolbar);
-
-        imageViewPage.setAdapter(imageViewPageAdapter);
-
-        // Get passed in product Id from intent
-        String productId = getIntent().getExtras().getString("productId");
+        binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         viewModel = ((GalleriaApplication) getApplication()).diProvider.productDetailsViewModel;
 
+        String productId = getIntent().getStringExtra(PRODUCT_ID_INTENT_KEY);
+
+        loadToolbar(binding.topBarLayout.toolbar, null);
+
         imageViewPageAdapter = new ViewPagerAdapter(ProductDetailsActivity.this, new ArrayList<>(),
                 R.layout.product_details_slideview, R.id.imageViewMain);
-        imageViewPage.setAdapter(imageViewPageAdapter);
+        binding.viewPagerMain.setAdapter(imageViewPageAdapter);
 
-
-        viewModel.setProductId(productId);
+        viewModel.fetchProduct(productId);
         loadViewModelData();
 
         initListeners();
-    }
-
-    private void linkElements() {
-        // Link XML elements with code
-        setContentView(R.layout.activity_product_detail);
-
-        imageViewPage = findViewById(R.id.viewPagerMain);
-        productDetailsName = findViewById(R.id.productDetailName);
-        productDetailsPrice = findViewById(R.id.detailsItemPrice);
-        productReviewInfo = findViewById(R.id.theReviewOfTheProduct);
-        productDetailDescription = findViewById(R.id.productDetailDescription);
-        productDetailsTagline = findViewById(R.id.productDetailsArtist);
-        saveProductButton = findViewById(R.id.saveProductButton);
-        productDetailsStock = findViewById(R.id.productDetailsStock);
-        buttonsSlide = findViewById(R.id.threeDots);
     }
 
     private void loadViewModelData() {
@@ -111,20 +78,25 @@ public class ProductDetailsActivity extends SearchBarActivity {
                     imageViewPageAdapter.setImages(imagesInCarousel);
                     createDots(imagesInCarousel.size());
 
-                    productReviewInfo.setText(data.getReviewString());
-                    productDetailsName.setText(data.getName());
-                    productDetailsPrice.setText(data.getDisplayPrice());
-                    productDetailDescription.setText(data.getDescription());
-                    productDetailsTagline.setText(data.getTagline());
-                    productDetailsStock.setText(data.isInStock() ? "In Stock" : "Out of Stock");
+                    binding.theReviewOfTheProduct.setText(data.getReviewString());
+                    binding.productDetailName.setText(data.getName());
+                    binding.detailsItemPrice.setText(data.getDisplayPrice());
+                    binding.productDetailDescription.setText(data.getDescription());
+                    binding.productDetailsArtist.setText(data.getTagline());
+                    binding.productDetailsStock.setText(data.isInStock() ? "In Stock" : "Out of Stock");
 
+                    customizeToolbarWithCategory(data.getCategory());
                 }
         );
 
         viewModel.isSavedProduct().observe(
                 this, data -> {
-                    saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : R.color.darkestShadeGreen)));
-                    saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
+                    viewModel.getProduct().observe(this, prod -> {
+                        int buttonColour = ColourTheme.getThemeByCategory(prod.getCategory()).normal;
+                        binding.saveProductButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, data ? R.color.darkestShadeGray : buttonColour)));
+                    });
+
+                    binding.saveProductButton.setText(data ? "Saved! (Click again to unsave)" : "SAVE Product");
                 }
         );
     }
@@ -136,10 +108,10 @@ public class ProductDetailsActivity extends SearchBarActivity {
         LinearLayout.LayoutParams parameters = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         parameters.setMargins(4, 0, 4, 0);
 
-        buttonsSlide.removeAllViews();
+        binding.threeDots.removeAllViews();
         for (int i = 0; i < nImages; i++) {
             dotView[i] = new ImageView(this);
-            buttonsSlide.addView(dotView[i], parameters);
+            binding.threeDots.addView(dotView[i], parameters);
         }
 
         resetDotsWithActiveNumber(0);
@@ -152,10 +124,14 @@ public class ProductDetailsActivity extends SearchBarActivity {
         dotView[currentPosition].setImageResource(R.drawable.dot_for_viewpager_selected);
     }
 
-    private void initListeners() {
+    public void customizeToolbarWithCategory(Category category) {
+        ColourTheme theme = ColourTheme.getThemeByCategory(category);
+        customizeToolbar(theme.dark, theme.normal, "Viewing Product Details");
+    }
 
+    private void initListeners() {
         // Add image scroll listener
-        imageViewPage.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        binding.viewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 resetDotsWithActiveNumber(position);
@@ -163,8 +139,8 @@ public class ProductDetailsActivity extends SearchBarActivity {
         });
 
         // Add saved product click button listener
-        saveProductButton.setOnClickListener(view -> {
-            if (saveProductButton.getText().toString().toLowerCase(Locale.ROOT).equals("save product")) {
+        binding.saveProductButton.setOnClickListener(view -> {
+            if (binding.saveProductButton.getText().toString().toLowerCase(Locale.ROOT).equals("save product")) {
                 EmitterConfig emitterConfig = new Emitter(2L, TimeUnit.SECONDS).perSecond(200);
                 Party party = new PartyFactory(emitterConfig)
                         .angle(Angle.TOP)

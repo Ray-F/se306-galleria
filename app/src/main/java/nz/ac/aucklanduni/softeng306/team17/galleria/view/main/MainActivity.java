@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,22 +22,23 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityMainBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.TopBarActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ViewPagerAdapter;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.categoryresult.CategoryResultActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 
 
-public class MainActivity extends SearchBarActivity {
+public class MainActivity extends TopBarActivity {
 
     ActivityMainBinding binding;
+    MainActivityViewModel viewModel;
+
     SimpleListInfoAdapter featuredListViewAdapter;
     ViewPagerAdapter mViewPageAdapter;
-    MainActivityViewModel viewModel;
+
     ImageView[] dotView;
-    private Toolbar toolbar;
 
     Timer timer;
     int currentPage = 0;
@@ -53,33 +53,29 @@ public class MainActivity extends SearchBarActivity {
 
         // Link XML elements with code
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-
-        // Don't recreate/replace stack if we have returned back to a new instance of Main Activity.
-        if (navigationHistory == null) {
-            navigationHistory = new ArrayList<>();
-        }
-        setNavigationHistory(navigationHistory);
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
 
         setContentView(binding.getRoot());
 
-        toolbar = (Toolbar) binding.topBarLayout.getRoot().getChildAt(0);
-        loadToolbar(toolbar);
-        customizeToolbar(toolbar);
+        Toolbar toolbar = binding.topBarLayout.toolbar;
+        loadToolbar(toolbar, null);
+        // Show "Saved Products" button on home page
+        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.white_heart, null));
+        toolbar.setNavigationOnClickListener(view -> {
+            Intent savedIntent = new Intent(this, SavedProductsActivity.class);
+            startActivity(savedIntent);
+        });
 
-        /*
-         * Set up categories
-         */
+        /* Set up category click listeners */
         initCategoryListeners();
 
 
-        /*
-         * Set up "Most viewed products"
-         */
+        /* Set up "Most viewed products" */
         mViewPageAdapter = new ViewPagerAdapter(this, new ArrayList<>(),
                                                 R.layout.main_activity_slideview, R.id.mainViewPagerMain);
         binding.mainViewPagerMain.setAdapter(mViewPageAdapter);
         initScrollTimer();
-        viewModel.fetchMostViewedProducts();
         viewModel.getMostViewedProductImages().observe(this, data -> {
             mViewPageAdapter.setImages(data);
             mViewPageAdapter.notifyDataSetChanged();
@@ -92,26 +88,14 @@ public class MainActivity extends SearchBarActivity {
             }
         });
 
-        /*
-         * Set up "featured products"
-         */
+        /* Set up "featured products" */
         featuredListViewAdapter = new SimpleListInfoAdapter();
         binding.FeaturedRecyclerView.setAdapter(featuredListViewAdapter);
-        binding.FeaturedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Add spacing between main items
         binding.FeaturedRecyclerView.addItemDecoration(new ListModeItemDecoration(this, 16));
-        viewModel.fetchFeaturedProducts();
+
         viewModel.getProducts().observe(this, featuredListViewAdapter::setProducts);
-        featuredListViewAdapter.setOnItemClickListener((productId) -> {
-            Intent returnIntent = new Intent(this, MainActivity.class);
-            navigationHistory.add(returnIntent);
-
-            Intent productIntent = new Intent(this, ProductDetailsActivity.class);
-            productIntent.putExtra("productId", productId);
-            productIntent.putExtra("NAVIGATION", navigationHistory);
-
-            startActivity(productIntent);
-        });
+        featuredListViewAdapter.setOnItemClickListener((productId) -> new NavFactory(this).startProductDetail(productId));
     }
 
     private void initScrollTimer() {
@@ -135,27 +119,18 @@ public class MainActivity extends SearchBarActivity {
 
     private void initCategoryListeners() {
         // Map each image to its related category
-        Map<ImageView, Category> categoryIconMap = new HashMap<>();
-        categoryIconMap.put(binding.aiGeneratedIcon, Category.AI);
-        categoryIconMap.put(binding.albumsIcon, Category.ALBUM);
-        categoryIconMap.put(binding.photographicIcon, Category.PHOTOGRAPHIC);
-        categoryIconMap.put(binding.paintingsIcon, Category.PAINTING);
+        Map<ImageView, Category> categoryIconMap = Map.of(
+                binding.aiGeneratedIcon, Category.AI,
+                binding.albumsIcon, Category.ALBUM,
+                binding.photographicIcon, Category.PHOTOGRAPHIC,
+                binding.paintingsIcon, Category.PAINTING
+        );
 
         // For each image, when it is clicked on, open the relevant category result view
-        categoryIconMap.forEach((icon, category) -> {
-            icon.setOnClickListener((view) -> {
-                navigationHistory.add(new Intent(this, MainActivity.class));
-
-                Intent categoryIntent = new Intent(this, CategoryResultActivity.class);
-                categoryIntent.putExtra("CATEGORY", category);
-                categoryIntent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(categoryIntent);
-            });
-        });
-    }
-
-    private void customizeToolbar(Toolbar toolbar) {
-        switchToSavedButton(toolbar);
+        categoryIconMap.forEach((icon, category) -> icon.setOnClickListener((view) -> {
+            NavFactory factory = new NavFactory(this);
+            factory.startCategoryResult(category);
+        }));
     }
 
     private void createDots(int nImages) {

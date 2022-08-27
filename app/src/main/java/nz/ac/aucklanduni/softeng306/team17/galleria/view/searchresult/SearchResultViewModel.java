@@ -4,22 +4,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.usecase.SearchUseCase;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ListViewLayoutMode;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.LoadingViewModel;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
-public class SearchResultViewModel extends ViewModel {
+public class SearchResultViewModel extends LoadingViewModel {
 
     private final SearchUseCase searchUseCase;
 
     private final MutableLiveData<List<ProductInfoDto>> products = new MutableLiveData<>();
 
+    private final MutableLiveData<Boolean> isSearchResultsEmpty = new MutableLiveData<>();
 
-    // Default view should be list
-    private final MutableLiveData<ListViewLayoutMode> layoutMode = new MutableLiveData<>(ListViewLayoutMode.LIST);
 
     public SearchResultViewModel(SearchUseCase searchUseCase) {
         this.searchUseCase = searchUseCase;
@@ -29,26 +31,17 @@ public class SearchResultViewModel extends ViewModel {
         return products;
     }
 
+    public LiveData<Boolean> isSearchResultsEmpty() {
+        return isSearchResultsEmpty;
+    }
+
     public void enterSearch(String searchTerm) {
+        UUID id = setIsLoading();
         searchUseCase.makeSearch(searchTerm, -1, "").subscribe(repoProducts -> {
-            products.setValue(repoProducts.stream().map(it -> (
-                    new ProductInfoDto(it.getId(), it.getName(), it.getTagline(),
-                                       // TODO: Somehow get whether this product is saved by user or not
-                                       it.getCurrency(), it.getPrice(), it.getHeroImage(), false, "")
-                    )).collect(Collectors.toList()));
+            isSearchResultsEmpty.setValue(repoProducts.isEmpty());
+            products.setValue(repoProducts.stream().map(ProductInfoDto::fromModel).collect(Collectors.toList()));
+            setIsLoaded(id);
         });
-    }
-
-    public void toggleLayoutMode() {
-        if (this.layoutMode.getValue() == ListViewLayoutMode.LIST) {
-            this.layoutMode.setValue(ListViewLayoutMode.GRID);
-        } else {
-            this.layoutMode.setValue(ListViewLayoutMode.LIST);
-        }
-    }
-
-    public MutableLiveData<ListViewLayoutMode> getLayoutMode() {
-        return layoutMode;
     }
 
 }

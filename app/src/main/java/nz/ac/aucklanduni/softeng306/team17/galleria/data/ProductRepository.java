@@ -1,8 +1,11 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.data;
 
+import static com.google.firebase.firestore.Query.Direction.DESCENDING;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,15 +33,33 @@ public class ProductRepository extends CachedRepository<Product> implements IPro
     }
 
     @Override
-    public Single<List<Product>> listSortByRating(int limit) {
+    public Single<List<Product>> listSortByView(int limit) {
         return Single.create(emitter -> {
-            productsCollection.orderBy(ProductDbo.RATING_KEY).limit(limit).get()
+            productsCollection.orderBy(ProductDbo.VIEW_KEY, DESCENDING).limit(limit).get()
                     .addOnSuccessListener((res) -> {
-                        System.out.println("Grabbed data by rating");
                         List<Product> products = res.getDocuments().stream()
                                 .map((it) -> Objects.requireNonNull(it.toObject(ProductDbo.class)).toModel())
                                 .collect(Collectors.toList());
                         emitter.onSuccess(products);
+
+                        products.forEach(product -> addToCache(product.getId(), product));
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
+    }
+
+    @Override
+    public Single<List<Product>> listSortByRating(int limit) {
+        return Single.create(emitter -> {
+            productsCollection.orderBy(ProductDbo.RATING_KEY, DESCENDING).limit(limit).get()
+                    .addOnSuccessListener((res) -> {
+                        List<Product> products = res.getDocuments().stream()
+                                .map((it) -> Objects.requireNonNull(it.toObject(ProductDbo.class)).toModel())
+                                .collect(Collectors.toList());
+                        emitter.onSuccess(products);
+
+                        // Add list view to cache as well
+                        products.forEach(product -> addToCache(product.getId(), product));
                     })
                     .addOnFailureListener(emitter::onError);
         });

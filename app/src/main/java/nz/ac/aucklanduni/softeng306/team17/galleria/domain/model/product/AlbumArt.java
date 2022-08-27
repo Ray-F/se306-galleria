@@ -24,4 +24,9 @@ public class AlbumArt extends Product {
     public String getCreator() {
         return creator;
     }
+
+    @Override
+    public String getSpecialField() {
+        return getCreator();
+    }
 }

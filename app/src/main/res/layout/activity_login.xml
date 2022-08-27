@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/GreenPalette"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -76,7 +75,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Sign in"
-                    android:backgroundTint="@color/darkestShadeBlue"
+                    android:backgroundTint="@color/mediumShadeGreen"
                     />
 
                 <TextView
@@ -93,7 +92,7 @@
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Continue anonymously"
-                    android:backgroundTint="@color/darkGrey"
+                    android:backgroundTint="@color/darkestShadeGray"
                     />
 
             </LinearLayout>

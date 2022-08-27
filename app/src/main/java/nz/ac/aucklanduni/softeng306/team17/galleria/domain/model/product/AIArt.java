@@ -24,4 +24,9 @@ public class AIArt extends Product {
     public String getGenerationPhrase() {
         return generationPhrase;
     }
+
+    @Override
+    public String getSpecialField() {
+        return getGenerationPhrase();
+    }
 }

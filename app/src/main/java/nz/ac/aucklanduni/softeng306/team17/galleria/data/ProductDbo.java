@@ -16,6 +16,7 @@ public class ProductDbo {
 
     public static final String CATEGORY_KEY = "category";
     public static final String RATING_KEY = "rating";
+    public static final String VIEW_KEY = "views";
 
 
     public String id;

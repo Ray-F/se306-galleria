@@ -24,4 +24,9 @@ public class PaintingArt extends Product {
     public String getArtist() {
         return artist;
     }
+
+    @Override
+    public String getSpecialField() {
+        return getArtist();
+    }
 }

@@ -1,46 +1,36 @@
 package nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
-
-import java.util.ArrayList;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.main.MainActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.savedproducts.SavedProductsActivity;
-import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchresult.SearchResultActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.navigation.NavFactory;
 
-public class SearchBarActivity extends AppCompatActivity {
-
-
-    private SearchBarActivity instance;
-    public ArrayList<Intent> navigationHistory;
-    
-    private SearchView searchView;
-
-    private Boolean isNavActive;
+public abstract class TopBarActivity extends AppCompatActivity {
 
     private SearchBarViewModel searchBarViewModel;
 
+    private Toolbar toolbar;
+    private RelativeLayout secondaryToolbar;
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance = this;
         super.onCreate(savedInstanceState);
-        isNavActive = true;
         searchBarViewModel = ((GalleriaApplication) getApplication()).diProvider.searchBarViewModel;
     }
 
@@ -101,14 +91,8 @@ public class SearchBarActivity extends AppCompatActivity {
                 String term = cursor.getString(index);
                 cursor.close();
 
-                Intent returnIntent = getIntent();
-                navigationHistory.add(returnIntent);
-
                 // Construct intent to go to Search Result Activity
-                Intent intent = new Intent(instance, SearchResultActivity.class);
-                intent.putExtra("searchTerm", term);
-                intent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(intent);
+                new NavFactory(getApplicationContext()).startSearchResult(term);
                 return false;
             }
         });
@@ -117,17 +101,10 @@ public class SearchBarActivity extends AppCompatActivity {
     private void setUpSearchBarQueryListener() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                Intent returnIntent = getIntent();
-                navigationHistory.add(returnIntent);
-
-                // Redirect user to SearchResultActivity with query.
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("searchTerm", s);
-                intent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(intent);
-
-                return true;
+            public boolean onQueryTextSubmit(String term) {
+                new NavFactory(getApplicationContext()).startSearchResult(term);
+                searchView.setIconified(true);
+                return false;
             }
 
             @Override
@@ -138,44 +115,25 @@ public class SearchBarActivity extends AppCompatActivity {
         });
     }
 
-    protected void loadToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(view -> {
-            if (isNavActive) {
-                System.out.println("IM CLICKING THE DUMB BACK BUTTON");
-                Intent previousIntent = resolveReturn();
-                previousIntent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(previousIntent);
-            } else {
-                Intent savedIntent = new Intent(this, SavedProductsActivity.class);
-                Intent returnIntent = new Intent(this, MainActivity.class);
-                navigationHistory.add(returnIntent);
-                savedIntent.putExtra("NAVIGATION", navigationHistory);
-                startActivity(savedIntent);
-            }
-        });
+    protected void loadToolbar(Toolbar toolbar, RelativeLayout secondaryToolbar) {
+        this.toolbar = toolbar;
+        this.secondaryToolbar = secondaryToolbar;
+
+        setSupportActionBar(this.toolbar);
+        this.toolbar.setNavigationOnClickListener(view -> finish());
     }
 
-    protected void setIsNavActive(Boolean val) {
-        isNavActive = val;
+    protected void customizeToolbar(int statusBarColourResId, int toolbarColourResId, String toolbarTitle) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, statusBarColourResId));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, toolbarColourResId));
+        toolbar.setTitle(toolbarTitle);
     }
 
-    protected void setNavigationHistory(ArrayList<Intent> navHistory) {
-        navigationHistory = navHistory;
-    }
+    protected void customizeToolbar(int statusBarColourResId, int toolbarColourResId, int secondaryToolbarColourResId, String toolbarTitle) {
+        customizeToolbar(statusBarColourResId, toolbarColourResId, toolbarTitle);
 
-    private Intent resolveReturn() {
-        if (navigationHistory.isEmpty()) {
-            return new Intent(this, MainActivity.class);
-        } else {
-            return navigationHistory.remove(navigationHistory.size()-1);
-        }
-    }
-
-    protected void switchToSavedButton(Toolbar toolbar) {
-        if (isNavActive) {
-            setIsNavActive(false);
-            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.white_heart));
+        if (secondaryToolbar != null) {
+            secondaryToolbar.setBackgroundColor(ContextCompat.getColor(this, secondaryToolbarColourResId));
         }
     }
 }

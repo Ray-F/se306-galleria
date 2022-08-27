@@ -24,4 +24,9 @@ public class PhotographicArt extends Product {
     public String getCameraUsed() {
         return cameraUsed;
     }
+
+    @Override
+    public String getSpecialField() {
+        return getCameraUsed();
+    }
 }

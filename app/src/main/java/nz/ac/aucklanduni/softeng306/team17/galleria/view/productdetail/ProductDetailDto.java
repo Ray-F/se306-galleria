@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.CurrencyCode;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ProductInfoDto;
 
@@ -21,8 +22,8 @@ public class ProductDetailDto extends ProductInfoDto {
     private boolean isInStock;
     private int totalReviews;
 
-    public ProductDetailDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, List<byte[]> otherImages, String description, String backgroundColor, float rating, int views, boolean isInStock, int totalReviews, String specialText) {
-        super(id, name, tagline, currencyCode, price, heroImage, isSaved, specialText);
+    public ProductDetailDto(String id, String name, String tagline, CurrencyCode currencyCode, float price, byte[] heroImage, boolean isSaved, List<byte[]> otherImages, String description, String backgroundColor, float rating, int views, boolean isInStock, int totalReviews, String specialText, Category category) {
+        super(id, name, tagline, currencyCode, price, heroImage, specialText, category, views);
         this.allImages = otherImages.stream()
                 .map((it) ->  BitmapFactory.decodeByteArray(it, 0, it.length))
                 .collect(Collectors.toList());
