@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import nz.ac.aucklanduni.softeng306.team17.galleria.GalleriaApplication;
 import nz.ac.aucklanduni.softeng306.team17.galleria.R;
@@ -26,6 +27,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResu
 import nz.ac.aucklanduni.softeng306.team17.galleria.domain.model.Category;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.productdetail.ProductDetailsActivity;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
+import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.ColourTheme;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.shared.SimpleListInfoAdapter.ListModeItemDecoration;
 
@@ -56,9 +58,11 @@ public class CategoryResultActivity extends SearchBarActivity {
         category = (Category) allKeys.get("CATEGORY");
         navigationHistory = (ArrayList<Intent>) allKeys.get("NAVIGATION");
 
+        // Load and customize the toolbar
         Toolbar toolbar = binding.topBarLayout.toolbar;
         loadToolbar(toolbar, binding.secondaryToolbar);
-        customizeToolbarByCategory(category);
+        ColourTheme theme = ColourTheme.getThemeByCategory(category);
+        customizeToolbar(theme.dark, theme.normal, theme.light, category.displayName);
 
         viewModel.fetchCategoryProducts(category);
         viewModel.getProducts().observe(this, listViewAdapter::setProducts);
@@ -85,7 +89,6 @@ public class CategoryResultActivity extends SearchBarActivity {
         int defaultPosition = spinnerAdapter.getPosition("Alphabetical");
         binding.sortSpinner.setSelection(defaultPosition);
         listViewAdapter.setProducts(viewModel.sortByComparator(new NameDescendingComparator()));
-
 
         // TODO: We need to extract this code out from Search and Category Result activity
         viewModel.getLayoutMode().observe(this, mode -> {
@@ -163,37 +166,6 @@ public class CategoryResultActivity extends SearchBarActivity {
         });
 
         binding.ViewLayoutIcon.setOnClickListener(view -> viewModel.toggleLayoutMode());
-    }
-
-    private void customizeToolbarByCategory(Category category) {
-        switch (category) {
-            case PHOTOGRAPHIC:
-                customizeToolbar(R.color.darkestShadeGreen,
-                                 R.color.darkestShadeGreen,
-                                 R.color.mediumShadeGreen,
-                                 "PHOTOGRAPHIC ART");
-                break;
-            case ALBUM:
-                customizeToolbar(R.color.darkestShadeGray,
-                                 R.color.darkestShadeGray,
-                                 R.color.mediumShadeGray,
-                                 "ALBUM COVER ART");
-                break;
-            case AI:
-                customizeToolbar(R.color.darkestShadeOrange,
-                                 R.color.darkestShadeOrange,
-                                 R.color.mediumShadeOrange,
-                                 "AI GENERATED ART");
-                break;
-            case PAINTING:
-                customizeToolbar(R.color.darkestShadeBlue,
-                                 R.color.darkestShadeBlue,
-                                 R.color.mediumShadeBlue,
-                                 "PAINTINGS");
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + category);
-        }
     }
 
 }

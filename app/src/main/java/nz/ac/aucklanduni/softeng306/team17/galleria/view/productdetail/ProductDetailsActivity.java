@@ -132,13 +132,11 @@ public class ProductDetailsActivity extends SearchBarActivity {
     }
 
     public void customizeToolbarWithCategory(Category category) {
-        String title = "Viewing Product Details";
         ColourTheme theme = ColourTheme.getThemeByCategory(category);
-        customizeToolbar(theme.dark, theme.normal, title);
+        customizeToolbar(theme.dark, theme.normal, "Viewing Product Details");
     }
 
     private void initListeners() {
-
         // Add image scroll listener
         binding.viewPagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
