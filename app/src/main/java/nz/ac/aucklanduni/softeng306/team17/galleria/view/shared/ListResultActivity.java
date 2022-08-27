@@ -24,7 +24,7 @@ import nz.ac.aucklanduni.softeng306.team17.galleria.comparators.ViewDescendingCo
 import nz.ac.aucklanduni.softeng306.team17.galleria.databinding.ActivityListResultBinding;
 import nz.ac.aucklanduni.softeng306.team17.galleria.view.searchbar.SearchBarActivity;
 
-public class ListResultActivity extends SearchBarActivity {
+abstract public class ListResultActivity extends SearchBarActivity {
 
     private ListResultViewModel viewModel;
     private RecyclerView recyclerView;
