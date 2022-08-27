@@ -31,13 +31,6 @@ public class ProductUseCase {
     }
 
     /**
-     * @return all the products.
-     */
-    public Single<List<Product>> listAllProducts() {
-         return productRepo.listAll();
-    }
-
-    /**
      * @return product by category.
      */
     public Single<List<Product>> listProductsByCategory(Category category) {
@@ -45,17 +38,17 @@ public class ProductUseCase {
     }
 
     /**
-     * @return product by search term..
-     */
-    public Single<List<Product>> listBySearchString(String searchString) {
-        return productRepo.listSortByNameMatch(searchString);
-    }
-
-    /**
-     * @return the top rated product.
+     * @return top rated products.
      */
     public Single<List<Product>> listTopRatedProducts(int limit) {
         return productRepo.listSortByRating(limit);
+    }
+
+    /**
+     * @return most viewed products.
+     */
+    public Single<List<Product>> listTopViewedProducts(int limit) {
+        return productRepo.listSortByView(limit);
     }
 
     /**

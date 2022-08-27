@@ -41,12 +41,11 @@ public class MainActivityViewModel extends LoadingViewModel {
 
     public void fetchMostViewedProducts() {
         UUID id = setIsLoading();
-        productUseCase.listAllProducts().subscribe(productsFromRepo -> {
+        productUseCase.listTopViewedProducts(5).subscribe(productsFromRepo -> {
             mostViewedProductImages.setValue(productsFromRepo.stream()
-                    .limit(5)
-                    .map(ProductInfoDto::convertByteToBitMap)
-                    .collect(Collectors.toList())
-            );
+                                                     .map(ProductInfoDto::fromModel)
+                                                     .map(ProductInfoDto::getHeroImage)
+                                                     .collect(Collectors.toList()));
             setIsLoaded(id);
         });
     }

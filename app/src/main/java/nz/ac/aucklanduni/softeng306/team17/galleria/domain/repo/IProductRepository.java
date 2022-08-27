@@ -24,6 +24,11 @@ public interface IProductRepository extends IRepository<Product> {
     Single<List<Product>> listSortByRating(int limit);
 
     /**
+     * List the top "limit" elements sorted by their view count (high to low).
+     */
+    Single<List<Product>> listSortByView(int limit);
+
+    /**
      * List all products that belong to a category.
      */
     Single<List<Product>> listByCategory(Category category);

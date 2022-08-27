@@ -72,10 +72,6 @@ public class ProductInfoDto {
         return this.views;
     }
 
-    public static Bitmap convertByteToBitMap(Product product) {
-        return BitmapFactory.decodeByteArray(product.getHeroImage(), 0, product.getHeroImage().length);
-    }
-
     public String getPrice() {
         return price;
     }
